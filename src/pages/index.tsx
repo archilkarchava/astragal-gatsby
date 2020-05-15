@@ -1,7 +1,7 @@
 import { Link } from "gatsby"
 import React from "react"
-import Image from "../components/Image"
 import Layout from "../components/Layout"
+import ProductList from "../components/ProductList"
 import SEO from "../components/SEO"
 
 const IndexPage: React.FC = () => {
@@ -14,7 +14,7 @@ const IndexPage: React.FC = () => {
         <p>Покупайте!</p>
       </div>
       <div className="max-w-md mb-6">
-        <Image />
+        <ProductList />
       </div>
       <Link to="/page-2/">Перейти на вторую страницу</Link>
     </Layout>

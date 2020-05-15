@@ -19,24 +19,4 @@ const Header: React.FC<Props> = ({ siteTitle = "" }) => {
   )
 }
 
-// const OuterContainer = styled.header`
-//   background: rebeccapurple;
-//   margin-bottom: 1.45rem;
-// `
-
-// const InnerContainer = styled.div`
-//   margin: 0 auto;
-//   max-width: 960px;
-//   padding: 1.45rem 1.0875rem;
-// `
-
-// const HeaderText = styled.h1`
-//   margin: 0;
-// `
-
-// const StyledLink = styled(Link)`
-//   color: #fff;
-//   text-decoration: none;
-// `
-
 export default Header
