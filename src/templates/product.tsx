@@ -1,40 +1,36 @@
-import { graphql, Link } from "gatsby"
+import { graphql } from "gatsby"
 import Image from "gatsby-image"
 import React from "react"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
+import formatPrice from "../utils/formatPrice"
 
-export const query = graphql`
+export const pageQuery = graphql`
   query Post($slug: String) {
-    sanityPost(slug: { current: { eq: $slug } }) {
+    sanityProduct(slug: { current: { eq: $slug } }) {
       title
-      author {
-        name
-        picture {
-          asset {
-            localFile {
-              childImageSharp {
-                fluid(webpQuality: 90, maxWidth: 100) {
-                  ...GatsbyImageSharpFluid_withWebp_tracedSVG
-                }
-              }
-            }
-          }
-        }
+      price
+      oldPrice
+      sizes {
+        depth
+        height
+        length
       }
-      coverImage {
+      materials {
+        title
+      }
+      images {
         asset {
-          localFile(width: 2000, height: 1000) {
+          localFile {
             childImageSharp {
               fluid(webpQuality: 90) {
-                ...GatsbyImageSharpFluid_withWebp_tracedSVG
+                ...GatsbyImageSharpFluid_withWebp
               }
             }
           }
         }
       }
-      date
-      _rawContent(resolveReferences: { maxDepth: 5 })
+      _rawBody(resolveReferences: { maxDepth: 5 })
     }
   }
 `
@@ -43,17 +39,36 @@ interface Props {
   data: GatsbyTypes.PostQuery
 }
 
-const ProductTemplate: React.FC<Props> = ({ data: { sanityPost } }) => {
+const ProductTemplate: React.FC<Props> = ({ data: { sanityProduct } }) => {
+  if (!sanityProduct) {
+    throw new Error("Did not receive any data.")
+  }
   return (
     <Layout>
-      <Image
-        fluid={sanityPost?.coverImage?.asset?.localFile?.childImageSharp?.fluid}
-        alt={sanityPost?.title}
-      />
-      <h1>{sanityPost?.title}</h1>
-      <p>{sanityPost?.date}</p>
-      <ProductBody content={sanityPost?._rawContent} />
-      <Link to="/">Back to home</Link>
+      {sanityProduct.images.length &&
+        sanityProduct.images[0].asset.localFile && (
+          <Image
+            fluid={
+              sanityProduct.images[0]?.asset?.localFile?.childImageSharp?.fluid
+            }
+            alt={sanityProduct.title}
+          />
+        )}
+      <h1>{sanityProduct.title}</h1>
+      {sanityProduct.price > 0 && (
+        <p>
+          {/* ₽
+            {sanityProduct.defaultProductVariant.price.toLocaleString("ru", {
+              style: "currency",
+              currency: "RUB",
+            })} */}
+          {formatPrice(sanityProduct.price)}
+        </p>
+      )}
+      {sanityProduct._rawBody && (
+        <ProductBody content={sanityProduct._rawBody} />
+      )}
+      {/* <Link to="/">Вернуться на главную</Link> */}
     </Layout>
   )
 }

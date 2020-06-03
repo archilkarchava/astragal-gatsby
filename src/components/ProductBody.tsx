@@ -9,7 +9,19 @@ const markdownStyles = css`
   ul,
   ol,
   blockquote {
-    @apply my-6;
+    @apply my-4;
+  }
+  ul,
+  ol {
+    @apply ml-8;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  li {
+    @apply list-decimal;
   }
 
   h2 {
@@ -22,14 +34,15 @@ const markdownStyles = css`
 `
 
 interface Props {
-  content: any
+  content: object | object[]
 }
 
 const ProductBody: React.FC<Props> = ({ content }) => {
   return (
-    <div className="max-w-2xl mx-auto">
-      <BlockContent blocks={content} className={markdownStyles} />
-    </div>
+    <BlockContent blocks={content} className={markdownStyles} />
+    // <div className="max-w-2xl mx-auto">
+    //   <BlockContent blocks={content} className={markdownStyles} />
+    // </div>
   )
 }
 export default ProductBody

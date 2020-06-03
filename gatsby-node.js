@@ -1,10 +1,11 @@
+const path = require("path")
+
 const createProductPages = async (graphql, actions) => {
   const result = await graphql(`
     query Posts {
-      allSanityPost(filter: { slug: { current: { ne: null } } }) {
+      allSanityProduct(filter: { slug: { current: { ne: null } } }) {
         edges {
           node {
-            id
             slug {
               current
             }
@@ -16,14 +17,19 @@ const createProductPages = async (graphql, actions) => {
 
   if (result.errors) throw result.errors
 
-  const postNodes = result.data.allSanityPost.edges.map(({ node }) => node)
+  const productNodes = result.data.allSanityProduct.edges.map(
+    ({ node }) => node
+  )
 
-  postNodes.forEach((post) => {
+  productNodes.forEach((product) => {
+    // const slug = slugify(product.title)
+    // console.log(slug)
+    const slug = product.slug.current
     actions.createPage({
-      path: `/products/${post.slug.current}`,
-      component: require.resolve("./src/templates/product.tsx"),
+      path: `/products/${slug}`,
+      component: path.resolve("./src/templates/product.tsx"),
       context: {
-        slug: post.slug.current,
+        slug,
       },
     })
   })

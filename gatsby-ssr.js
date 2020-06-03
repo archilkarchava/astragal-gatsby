@@ -1,7 +1,11 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/ssr-apis/
- */
+const React = require("react")
+const { YMaps } = require("react-yandex-maps")
+const { StoreContextProvider } = require("./src/contexts/siteContext")
 
-// You can delete this file if you're not using it
+export const wrapRootElement = ({ element }) => {
+  return (
+    <StoreContextProvider>
+      <YMaps>{element}</YMaps>
+    </StoreContextProvider>
+  )
+}

@@ -1,10 +1,17 @@
 require("dotenv").config()
 
+const overlayDrafts =
+  process.env.OVERLAY_DRAFTS !== null &&
+  process.env.OVERLAY_DRAFTS !== undefined
+    ? !!Number(process.env.OVERLAY_DRAFTS)
+    : process.env.NODE_ENV !== `production`
+
+const watchMode =
+  process.env.WATCH_MODE !== null && process.env.WATCH_MODE !== undefined
+    ? !!Number(process.env.WATCH_MODE)
+    : process.env.NODE_ENV !== `production`
+
 module.exports = {
-  siteMetadata: {
-    title: `Астрагал`,
-    description: `Онлайн магазин мебели, изготовление мебели на заказ.`,
-  },
   plugins: [
     // gatsby-plugin-preact breaks hot reloading in development
     ...(process.env.NODE_ENV === `production` ? [`gatsby-plugin-preact`] : []),
@@ -16,12 +23,32 @@ module.exports = {
         emitSchema: {
           "src/__generated__/gatsby-schema.graphql": true,
         },
+        // Workaround: temporarily disable graphql fragment generation, since it outputs duplicates
         emitPluginDocuments: {
           "src/__generated__/gatsby-plugin-documents.graphql": true,
         },
       },
     },
-    // Css block start
+    {
+      resolve: `gatsby-plugin-webfonts`,
+      options: {
+        fonts: {
+          google: [
+            {
+              family: `Playfair Display`,
+              subsets: [`cyrillic`],
+              variants: [`600`],
+            },
+            {
+              family: `Source Sans Pro`,
+              subsets: [`latin`, `cyrillic`],
+              variants: [`400`, `600`, `700`],
+            },
+          ],
+        },
+      },
+    },
+    `gatsby-plugin-react-svg`,
     `gatsby-plugin-postcss`,
     `gatsby-plugin-linaria`,
     `gatsby-plugin-eslint`,
@@ -37,8 +64,10 @@ module.exports = {
       resolve: `gatsby-source-sanity`,
       options: {
         projectId: process.env.SANITY_PROJECT_ID,
-        dataset: `production`,
+        dataset: process.env.SANITY_DATASET,
         token: process.env.SANITY_TOKEN,
+        overlayDrafts: overlayDrafts,
+        watchMode: watchMode,
       },
     },
     `gatsby-source-sanity-transform-images`,

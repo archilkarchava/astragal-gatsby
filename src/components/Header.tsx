@@ -1,5 +1,6 @@
-import { Link } from "gatsby"
 import React from "react"
+import Logo from "./Logo"
+import Nav from "./Nav"
 
 interface Props {
   siteTitle?: string
@@ -7,15 +8,16 @@ interface Props {
 
 const Header: React.FC<Props> = ({ siteTitle = "" }) => {
   return (
-    <header className="mb-6 bg-purple-700">
-      <div className="max-w-3xl p-10 px-4 py-6 mx-auto my-0">
-        <h1 className="m-0">
-          <Link to="/" className="text-white no-underline">
-            {siteTitle}
-          </Link>
-        </h1>
-      </div>
-    </header>
+    <>
+      <header className="fixed top-0 z-20 w-full bg-white border-2 border-black rounded-none md:py-3">
+        <div className="flex flex-row justify-between mx-4 md:mx-10">
+          <Logo siteTitle={siteTitle} />
+          <Nav />
+        </div>
+        {/* <div className="max-w-3xl p-10 px-4 py-6 mx-auto my-0">
+      </div> */}
+      </header>
+    </>
   )
 }
 

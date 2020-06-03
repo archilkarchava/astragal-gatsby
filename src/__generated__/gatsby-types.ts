@@ -385,6 +385,7 @@ type File = Node & {
   readonly birthtimeMs: Maybe<Scalars['Float']>;
   readonly blksize: Maybe<Scalars['Int']>;
   readonly blocks: Maybe<Scalars['Int']>;
+  readonly url: Maybe<Scalars['String']>;
   /** Copy file to static directory and return public url to it */
   readonly publicURL: Maybe<Scalars['String']>;
   readonly childImageSharp: Maybe<ImageSharp>;
@@ -511,6 +512,7 @@ enum FileFieldsEnum {
   birthtimeMs = 'birthtimeMs',
   blksize = 'blksize',
   blocks = 'blocks',
+  url = 'url',
   publicURL = 'publicURL',
   childImageSharp___fixed___base64 = 'childImageSharp.fixed.base64',
   childImageSharp___fixed___tracedSVG = 'childImageSharp.fixed.tracedSVG',
@@ -725,6 +727,7 @@ type FileFilterInput = {
   readonly birthtimeMs: Maybe<FloatQueryOperatorInput>;
   readonly blksize: Maybe<IntQueryOperatorInput>;
   readonly blocks: Maybe<IntQueryOperatorInput>;
+  readonly url: Maybe<StringQueryOperatorInput>;
   readonly publicURL: Maybe<StringQueryOperatorInput>;
   readonly childImageSharp: Maybe<ImageSharpFilterInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
@@ -1328,6 +1331,7 @@ type PageInfo = {
   readonly itemCount: Scalars['Int'];
   readonly pageCount: Scalars['Int'];
   readonly perPage: Maybe<Scalars['Int']>;
+  readonly totalCount: Scalars['Int'];
 };
 
 type Potrace = {
@@ -1362,14 +1366,18 @@ type Query = {
   readonly allSite: SiteConnection;
   readonly imageSharp: Maybe<ImageSharp>;
   readonly allImageSharp: ImageSharpConnection;
-  readonly sanityAuthor: Maybe<SanityAuthor>;
-  readonly allSanityAuthor: SanityAuthorConnection;
-  readonly sanityPost: Maybe<SanityPost>;
-  readonly allSanityPost: SanityPostConnection;
+  readonly sanityCategory: Maybe<SanityCategory>;
+  readonly allSanityCategory: SanityCategoryConnection;
+  readonly sanityMaterial: Maybe<SanityMaterial>;
+  readonly allSanityMaterial: SanityMaterialConnection;
+  readonly sanityProduct: Maybe<SanityProduct>;
+  readonly allSanityProduct: SanityProductConnection;
   readonly sanityFileAsset: Maybe<SanityFileAsset>;
   readonly allSanityFileAsset: SanityFileAssetConnection;
   readonly sanityImageAsset: Maybe<SanityImageAsset>;
   readonly allSanityImageAsset: SanityImageAssetConnection;
+  readonly sanitySiteSettings: Maybe<SanitySiteSettings>;
+  readonly allSanitySiteSettings: SanitySiteSettingsConnection;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
   readonly sitePlugin: Maybe<SitePlugin>;
@@ -1411,6 +1419,7 @@ type Query_fileArgs = {
   birthtimeMs: Maybe<FloatQueryOperatorInput>;
   blksize: Maybe<IntQueryOperatorInput>;
   blocks: Maybe<IntQueryOperatorInput>;
+  url: Maybe<StringQueryOperatorInput>;
   publicURL: Maybe<StringQueryOperatorInput>;
   childImageSharp: Maybe<ImageSharpFilterInput>;
   id: Maybe<StringQueryOperatorInput>;
@@ -1483,15 +1492,15 @@ type Query_sitePageArgs = {
   internalComponentName: Maybe<StringQueryOperatorInput>;
   componentChunkName: Maybe<StringQueryOperatorInput>;
   matchPath: Maybe<StringQueryOperatorInput>;
-  id: Maybe<StringQueryOperatorInput>;
-  parent: Maybe<NodeFilterInput>;
-  children: Maybe<NodeFilterListInput>;
-  internal: Maybe<InternalFilterInput>;
   isCreatedByStatefulCreatePages: Maybe<BooleanQueryOperatorInput>;
   context: Maybe<SitePageContextFilterInput>;
   pluginCreator: Maybe<SitePluginFilterInput>;
   pluginCreatorId: Maybe<StringQueryOperatorInput>;
   componentPath: Maybe<StringQueryOperatorInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
 };
 
 
@@ -1505,8 +1514,7 @@ type Query_allSitePageArgs = {
 
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
-  siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  port: Maybe<IntQueryOperatorInput>;
+  port: Maybe<DateQueryOperatorInput>;
   host: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
@@ -1547,32 +1555,7 @@ type Query_allImageSharpArgs = {
 };
 
 
-type Query_sanityAuthorArgs = {
-  _id: Maybe<StringQueryOperatorInput>;
-  _type: Maybe<StringQueryOperatorInput>;
-  _createdAt: Maybe<DateQueryOperatorInput>;
-  _updatedAt: Maybe<DateQueryOperatorInput>;
-  _rev: Maybe<StringQueryOperatorInput>;
-  _key: Maybe<StringQueryOperatorInput>;
-  name: Maybe<StringQueryOperatorInput>;
-  picture: Maybe<SanityImageFilterInput>;
-  _rawPicture: Maybe<JSONQueryOperatorInput>;
-  id: Maybe<StringQueryOperatorInput>;
-  parent: Maybe<NodeFilterInput>;
-  children: Maybe<NodeFilterListInput>;
-  internal: Maybe<InternalFilterInput>;
-};
-
-
-type Query_allSanityAuthorArgs = {
-  filter: Maybe<SanityAuthorFilterInput>;
-  sort: Maybe<SanityAuthorSortInput>;
-  skip: Maybe<Scalars['Int']>;
-  limit: Maybe<Scalars['Int']>;
-};
-
-
-type Query_sanityPostArgs = {
+type Query_sanityCategoryArgs = {
   _id: Maybe<StringQueryOperatorInput>;
   _type: Maybe<StringQueryOperatorInput>;
   _createdAt: Maybe<DateQueryOperatorInput>;
@@ -1580,16 +1563,13 @@ type Query_sanityPostArgs = {
   _rev: Maybe<StringQueryOperatorInput>;
   _key: Maybe<StringQueryOperatorInput>;
   title: Maybe<StringQueryOperatorInput>;
-  excerpt: Maybe<StringQueryOperatorInput>;
-  coverImage: Maybe<SanityImageFilterInput>;
-  date: Maybe<DateQueryOperatorInput>;
-  author: Maybe<SanityAuthorFilterInput>;
   slug: Maybe<SanitySlugFilterInput>;
-  content: Maybe<SanityBlockFilterListInput>;
-  _rawContent: Maybe<JSONQueryOperatorInput>;
-  _rawCoverImage: Maybe<JSONQueryOperatorInput>;
-  _rawAuthor: Maybe<JSONQueryOperatorInput>;
+  description: Maybe<StringQueryOperatorInput>;
+  parents: Maybe<SanityCategoryFilterListInput>;
+  image: Maybe<SanityImageFilterInput>;
   _rawSlug: Maybe<JSONQueryOperatorInput>;
+  _rawParents: Maybe<JSONQueryOperatorInput>;
+  _rawImage: Maybe<JSONQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
   parent: Maybe<NodeFilterInput>;
   children: Maybe<NodeFilterListInput>;
@@ -1597,9 +1577,69 @@ type Query_sanityPostArgs = {
 };
 
 
-type Query_allSanityPostArgs = {
-  filter: Maybe<SanityPostFilterInput>;
-  sort: Maybe<SanityPostSortInput>;
+type Query_allSanityCategoryArgs = {
+  filter: Maybe<SanityCategoryFilterInput>;
+  sort: Maybe<SanityCategorySortInput>;
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+
+type Query_sanityMaterialArgs = {
+  _id: Maybe<StringQueryOperatorInput>;
+  _type: Maybe<StringQueryOperatorInput>;
+  _createdAt: Maybe<DateQueryOperatorInput>;
+  _updatedAt: Maybe<DateQueryOperatorInput>;
+  _rev: Maybe<StringQueryOperatorInput>;
+  _key: Maybe<StringQueryOperatorInput>;
+  title: Maybe<StringQueryOperatorInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
+};
+
+
+type Query_allSanityMaterialArgs = {
+  filter: Maybe<SanityMaterialFilterInput>;
+  sort: Maybe<SanityMaterialSortInput>;
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+
+type Query_sanityProductArgs = {
+  _id: Maybe<StringQueryOperatorInput>;
+  _type: Maybe<StringQueryOperatorInput>;
+  _createdAt: Maybe<DateQueryOperatorInput>;
+  _updatedAt: Maybe<DateQueryOperatorInput>;
+  _rev: Maybe<StringQueryOperatorInput>;
+  _key: Maybe<StringQueryOperatorInput>;
+  title: Maybe<StringQueryOperatorInput>;
+  slug: Maybe<SanitySlugFilterInput>;
+  price: Maybe<FloatQueryOperatorInput>;
+  oldPrice: Maybe<FloatQueryOperatorInput>;
+  images: Maybe<SanityImageFilterListInput>;
+  sizes: Maybe<SanityProductSizesFilterInput>;
+  materials: Maybe<SanityMaterialFilterListInput>;
+  categories: Maybe<SanityCategoryFilterListInput>;
+  body: Maybe<SanityBlockFilterListInput>;
+  _rawSlug: Maybe<JSONQueryOperatorInput>;
+  _rawImages: Maybe<JSONQueryOperatorInput>;
+  _rawSizes: Maybe<JSONQueryOperatorInput>;
+  _rawMaterials: Maybe<JSONQueryOperatorInput>;
+  _rawCategories: Maybe<JSONQueryOperatorInput>;
+  _rawBody: Maybe<JSONQueryOperatorInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
+};
+
+
+type Query_allSanityProductArgs = {
+  filter: Maybe<SanityProductFilterInput>;
+  sort: Maybe<SanityProductSortInput>;
   skip: Maybe<Scalars['Int']>;
   limit: Maybe<Scalars['Int']>;
 };
@@ -1681,6 +1721,35 @@ type Query_allSanityImageAssetArgs = {
 };
 
 
+type Query_sanitySiteSettingsArgs = {
+  _id: Maybe<StringQueryOperatorInput>;
+  _type: Maybe<StringQueryOperatorInput>;
+  _createdAt: Maybe<DateQueryOperatorInput>;
+  _updatedAt: Maybe<DateQueryOperatorInput>;
+  _rev: Maybe<StringQueryOperatorInput>;
+  _key: Maybe<StringQueryOperatorInput>;
+  title: Maybe<StringQueryOperatorInput>;
+  description: Maybe<StringQueryOperatorInput>;
+  keywords: Maybe<StringQueryOperatorInput>;
+  emails: Maybe<StringQueryOperatorInput>;
+  phoneNumbers: Maybe<StringQueryOperatorInput>;
+  addresses: Maybe<SanityAddressFilterListInput>;
+  _rawAddresses: Maybe<JSONQueryOperatorInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
+};
+
+
+type Query_allSanitySiteSettingsArgs = {
+  filter: Maybe<SanitySiteSettingsFilterInput>;
+  sort: Maybe<SanitySiteSettingsSortInput>;
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+
 type Query_siteBuildMetadataArgs = {
   id: Maybe<StringQueryOperatorInput>;
   parent: Maybe<NodeFilterInput>;
@@ -1722,6 +1791,28 @@ type Query_allSitePluginArgs = {
   limit: Maybe<Scalars['Int']>;
 };
 
+type SanityAddress = {
+  readonly _key: Maybe<Scalars['String']>;
+  readonly _type: Maybe<Scalars['String']>;
+  readonly street: Maybe<Scalars['String']>;
+  readonly streetNo: Maybe<Scalars['String']>;
+  readonly city: Maybe<Scalars['String']>;
+  readonly location: Maybe<SanityGeopoint>;
+};
+
+type SanityAddressFilterInput = {
+  readonly _key: Maybe<StringQueryOperatorInput>;
+  readonly _type: Maybe<StringQueryOperatorInput>;
+  readonly street: Maybe<StringQueryOperatorInput>;
+  readonly streetNo: Maybe<StringQueryOperatorInput>;
+  readonly city: Maybe<StringQueryOperatorInput>;
+  readonly location: Maybe<SanityGeopointFilterInput>;
+};
+
+type SanityAddressFilterListInput = {
+  readonly elemMatch: Maybe<SanityAddressFilterInput>;
+};
+
 type SanityAssetSourceData = {
   readonly _key: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
@@ -1738,16 +1829,43 @@ type SanityAssetSourceDataFilterInput = {
   readonly url: Maybe<StringQueryOperatorInput>;
 };
 
-type SanityAuthor = SanityDocument & Node & {
+type SanityBlock = {
+  readonly _key: Maybe<Scalars['String']>;
+  readonly _type: Maybe<Scalars['String']>;
+  readonly sanityChildren: Maybe<ReadonlyArray<Maybe<SanitySpan>>>;
+  readonly style: Maybe<Scalars['String']>;
+  readonly list: Maybe<Scalars['String']>;
+};
+
+type SanityBlockFilterInput = {
+  readonly _key: Maybe<StringQueryOperatorInput>;
+  readonly _type: Maybe<StringQueryOperatorInput>;
+  readonly sanityChildren: Maybe<SanitySpanFilterListInput>;
+  readonly style: Maybe<StringQueryOperatorInput>;
+  readonly list: Maybe<StringQueryOperatorInput>;
+};
+
+type SanityBlockFilterListInput = {
+  readonly elemMatch: Maybe<SanityBlockFilterInput>;
+};
+
+type SanityBlockOrImage = SanityBlock | SanityImage;
+
+type SanityCategory = SanityDocument & Node & {
   readonly _id: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
   readonly _createdAt: Maybe<Scalars['Date']>;
   readonly _updatedAt: Maybe<Scalars['Date']>;
   readonly _rev: Maybe<Scalars['String']>;
   readonly _key: Maybe<Scalars['String']>;
-  readonly name: Maybe<Scalars['String']>;
-  readonly picture: Maybe<SanityImage>;
-  readonly _rawPicture: Maybe<Scalars['JSON']>;
+  readonly title: Maybe<Scalars['String']>;
+  readonly slug: Maybe<SanitySlug>;
+  readonly description: Maybe<Scalars['String']>;
+  readonly parents: Maybe<ReadonlyArray<Maybe<SanityCategory>>>;
+  readonly image: Maybe<SanityImage>;
+  readonly _rawSlug: Maybe<Scalars['JSON']>;
+  readonly _rawParents: Maybe<Scalars['JSON']>;
+  readonly _rawImage: Maybe<Scalars['JSON']>;
   readonly id: Scalars['ID'];
   readonly parent: Maybe<Node>;
   readonly children: ReadonlyArray<Node>;
@@ -1755,7 +1873,7 @@ type SanityAuthor = SanityDocument & Node & {
 };
 
 
-type SanityAuthor__createdAtArgs = {
+type SanityCategory__createdAtArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -1763,7 +1881,7 @@ type SanityAuthor__createdAtArgs = {
 };
 
 
-type SanityAuthor__updatedAtArgs = {
+type SanityCategory__updatedAtArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -1771,156 +1889,307 @@ type SanityAuthor__updatedAtArgs = {
 };
 
 
-type SanityAuthor__rawPictureArgs = {
+type SanityCategory__rawSlugArgs = {
   resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
-type SanityAuthorConnection = {
+
+type SanityCategory__rawParentsArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityCategory__rawImageArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+type SanityCategoryConnection = {
   readonly totalCount: Scalars['Int'];
-  readonly edges: ReadonlyArray<SanityAuthorEdge>;
-  readonly nodes: ReadonlyArray<SanityAuthor>;
+  readonly edges: ReadonlyArray<SanityCategoryEdge>;
+  readonly nodes: ReadonlyArray<SanityCategory>;
   readonly pageInfo: PageInfo;
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly group: ReadonlyArray<SanityAuthorGroupConnection>;
+  readonly group: ReadonlyArray<SanityCategoryGroupConnection>;
 };
 
 
-type SanityAuthorConnection_distinctArgs = {
-  field: SanityAuthorFieldsEnum;
+type SanityCategoryConnection_distinctArgs = {
+  field: SanityCategoryFieldsEnum;
 };
 
 
-type SanityAuthorConnection_groupArgs = {
+type SanityCategoryConnection_groupArgs = {
   skip: Maybe<Scalars['Int']>;
   limit: Maybe<Scalars['Int']>;
-  field: SanityAuthorFieldsEnum;
+  field: SanityCategoryFieldsEnum;
 };
 
-type SanityAuthorEdge = {
-  readonly next: Maybe<SanityAuthor>;
-  readonly node: SanityAuthor;
-  readonly previous: Maybe<SanityAuthor>;
+type SanityCategoryEdge = {
+  readonly next: Maybe<SanityCategory>;
+  readonly node: SanityCategory;
+  readonly previous: Maybe<SanityCategory>;
 };
 
-enum SanityAuthorFieldsEnum {
+enum SanityCategoryFieldsEnum {
   _id = '_id',
   _type = '_type',
   _createdAt = '_createdAt',
   _updatedAt = '_updatedAt',
   _rev = '_rev',
   _key = '_key',
-  name = 'name',
-  picture____key = 'picture._key',
-  picture____type = 'picture._type',
-  picture___asset____id = 'picture.asset._id',
-  picture___asset____type = 'picture.asset._type',
-  picture___asset____createdAt = 'picture.asset._createdAt',
-  picture___asset____updatedAt = 'picture.asset._updatedAt',
-  picture___asset____rev = 'picture.asset._rev',
-  picture___asset____key = 'picture.asset._key',
-  picture___asset___originalFilename = 'picture.asset.originalFilename',
-  picture___asset___label = 'picture.asset.label',
-  picture___asset___title = 'picture.asset.title',
-  picture___asset___description = 'picture.asset.description',
-  picture___asset___sha1hash = 'picture.asset.sha1hash',
-  picture___asset___extension = 'picture.asset.extension',
-  picture___asset___mimeType = 'picture.asset.mimeType',
-  picture___asset___size = 'picture.asset.size',
-  picture___asset___assetId = 'picture.asset.assetId',
-  picture___asset___path = 'picture.asset.path',
-  picture___asset___url = 'picture.asset.url',
-  picture___asset___metadata____key = 'picture.asset.metadata._key',
-  picture___asset___metadata____type = 'picture.asset.metadata._type',
-  picture___asset___metadata___lqip = 'picture.asset.metadata.lqip',
-  picture___asset___metadata___hasAlpha = 'picture.asset.metadata.hasAlpha',
-  picture___asset___metadata___isOpaque = 'picture.asset.metadata.isOpaque',
-  picture___asset___source____key = 'picture.asset.source._key',
-  picture___asset___source____type = 'picture.asset.source._type',
-  picture___asset___source___name = 'picture.asset.source.name',
-  picture___asset___source___sanityId = 'picture.asset.source.sanityId',
-  picture___asset___source___url = 'picture.asset.source.url',
-  picture___asset___fixed___base64 = 'picture.asset.fixed.base64',
-  picture___asset___fixed___aspectRatio = 'picture.asset.fixed.aspectRatio',
-  picture___asset___fixed___width = 'picture.asset.fixed.width',
-  picture___asset___fixed___height = 'picture.asset.fixed.height',
-  picture___asset___fixed___src = 'picture.asset.fixed.src',
-  picture___asset___fixed___srcSet = 'picture.asset.fixed.srcSet',
-  picture___asset___fixed___srcWebp = 'picture.asset.fixed.srcWebp',
-  picture___asset___fixed___srcSetWebp = 'picture.asset.fixed.srcSetWebp',
-  picture___asset___fluid___base64 = 'picture.asset.fluid.base64',
-  picture___asset___fluid___aspectRatio = 'picture.asset.fluid.aspectRatio',
-  picture___asset___fluid___src = 'picture.asset.fluid.src',
-  picture___asset___fluid___srcSet = 'picture.asset.fluid.srcSet',
-  picture___asset___fluid___srcWebp = 'picture.asset.fluid.srcWebp',
-  picture___asset___fluid___srcSetWebp = 'picture.asset.fluid.srcSetWebp',
-  picture___asset___fluid___sizes = 'picture.asset.fluid.sizes',
-  picture___asset____rawMetadata = 'picture.asset._rawMetadata',
-  picture___asset____rawSource = 'picture.asset._rawSource',
-  picture___asset___localFile___sourceInstanceName = 'picture.asset.localFile.sourceInstanceName',
-  picture___asset___localFile___absolutePath = 'picture.asset.localFile.absolutePath',
-  picture___asset___localFile___relativePath = 'picture.asset.localFile.relativePath',
-  picture___asset___localFile___extension = 'picture.asset.localFile.extension',
-  picture___asset___localFile___size = 'picture.asset.localFile.size',
-  picture___asset___localFile___prettySize = 'picture.asset.localFile.prettySize',
-  picture___asset___localFile___modifiedTime = 'picture.asset.localFile.modifiedTime',
-  picture___asset___localFile___accessTime = 'picture.asset.localFile.accessTime',
-  picture___asset___localFile___changeTime = 'picture.asset.localFile.changeTime',
-  picture___asset___localFile___birthTime = 'picture.asset.localFile.birthTime',
-  picture___asset___localFile___root = 'picture.asset.localFile.root',
-  picture___asset___localFile___dir = 'picture.asset.localFile.dir',
-  picture___asset___localFile___base = 'picture.asset.localFile.base',
-  picture___asset___localFile___ext = 'picture.asset.localFile.ext',
-  picture___asset___localFile___name = 'picture.asset.localFile.name',
-  picture___asset___localFile___relativeDirectory = 'picture.asset.localFile.relativeDirectory',
-  picture___asset___localFile___dev = 'picture.asset.localFile.dev',
-  picture___asset___localFile___mode = 'picture.asset.localFile.mode',
-  picture___asset___localFile___nlink = 'picture.asset.localFile.nlink',
-  picture___asset___localFile___uid = 'picture.asset.localFile.uid',
-  picture___asset___localFile___gid = 'picture.asset.localFile.gid',
-  picture___asset___localFile___rdev = 'picture.asset.localFile.rdev',
-  picture___asset___localFile___ino = 'picture.asset.localFile.ino',
-  picture___asset___localFile___atimeMs = 'picture.asset.localFile.atimeMs',
-  picture___asset___localFile___mtimeMs = 'picture.asset.localFile.mtimeMs',
-  picture___asset___localFile___ctimeMs = 'picture.asset.localFile.ctimeMs',
-  picture___asset___localFile___atime = 'picture.asset.localFile.atime',
-  picture___asset___localFile___mtime = 'picture.asset.localFile.mtime',
-  picture___asset___localFile___ctime = 'picture.asset.localFile.ctime',
-  picture___asset___localFile___birthtime = 'picture.asset.localFile.birthtime',
-  picture___asset___localFile___birthtimeMs = 'picture.asset.localFile.birthtimeMs',
-  picture___asset___localFile___blksize = 'picture.asset.localFile.blksize',
-  picture___asset___localFile___blocks = 'picture.asset.localFile.blocks',
-  picture___asset___localFile___publicURL = 'picture.asset.localFile.publicURL',
-  picture___asset___localFile___id = 'picture.asset.localFile.id',
-  picture___asset___localFile___children = 'picture.asset.localFile.children',
-  picture___asset___id = 'picture.asset.id',
-  picture___asset___parent___id = 'picture.asset.parent.id',
-  picture___asset___parent___children = 'picture.asset.parent.children',
-  picture___asset___children = 'picture.asset.children',
-  picture___asset___children___id = 'picture.asset.children.id',
-  picture___asset___children___children = 'picture.asset.children.children',
-  picture___asset___internal___content = 'picture.asset.internal.content',
-  picture___asset___internal___contentDigest = 'picture.asset.internal.contentDigest',
-  picture___asset___internal___description = 'picture.asset.internal.description',
-  picture___asset___internal___fieldOwners = 'picture.asset.internal.fieldOwners',
-  picture___asset___internal___ignoreType = 'picture.asset.internal.ignoreType',
-  picture___asset___internal___mediaType = 'picture.asset.internal.mediaType',
-  picture___asset___internal___owner = 'picture.asset.internal.owner',
-  picture___asset___internal___type = 'picture.asset.internal.type',
-  picture___asset___childImageSharp___id = 'picture.asset.childImageSharp.id',
-  picture___asset___childImageSharp___children = 'picture.asset.childImageSharp.children',
-  picture___hotspot____key = 'picture.hotspot._key',
-  picture___hotspot____type = 'picture.hotspot._type',
-  picture___hotspot___x = 'picture.hotspot.x',
-  picture___hotspot___y = 'picture.hotspot.y',
-  picture___hotspot___height = 'picture.hotspot.height',
-  picture___hotspot___width = 'picture.hotspot.width',
-  picture___crop____key = 'picture.crop._key',
-  picture___crop____type = 'picture.crop._type',
-  picture___crop___top = 'picture.crop.top',
-  picture___crop___bottom = 'picture.crop.bottom',
-  picture___crop___left = 'picture.crop.left',
-  picture___crop___right = 'picture.crop.right',
-  _rawPicture = '_rawPicture',
+  title = 'title',
+  slug____key = 'slug._key',
+  slug____type = 'slug._type',
+  slug___current = 'slug.current',
+  description = 'description',
+  parents = 'parents',
+  parents____id = 'parents._id',
+  parents____type = 'parents._type',
+  parents____createdAt = 'parents._createdAt',
+  parents____updatedAt = 'parents._updatedAt',
+  parents____rev = 'parents._rev',
+  parents____key = 'parents._key',
+  parents___title = 'parents.title',
+  parents___slug____key = 'parents.slug._key',
+  parents___slug____type = 'parents.slug._type',
+  parents___slug___current = 'parents.slug.current',
+  parents___description = 'parents.description',
+  parents___parents = 'parents.parents',
+  parents___parents____id = 'parents.parents._id',
+  parents___parents____type = 'parents.parents._type',
+  parents___parents____createdAt = 'parents.parents._createdAt',
+  parents___parents____updatedAt = 'parents.parents._updatedAt',
+  parents___parents____rev = 'parents.parents._rev',
+  parents___parents____key = 'parents.parents._key',
+  parents___parents___title = 'parents.parents.title',
+  parents___parents___slug____key = 'parents.parents.slug._key',
+  parents___parents___slug____type = 'parents.parents.slug._type',
+  parents___parents___slug___current = 'parents.parents.slug.current',
+  parents___parents___description = 'parents.parents.description',
+  parents___parents___parents = 'parents.parents.parents',
+  parents___parents___parents____id = 'parents.parents.parents._id',
+  parents___parents___parents____type = 'parents.parents.parents._type',
+  parents___parents___parents____createdAt = 'parents.parents.parents._createdAt',
+  parents___parents___parents____updatedAt = 'parents.parents.parents._updatedAt',
+  parents___parents___parents____rev = 'parents.parents.parents._rev',
+  parents___parents___parents____key = 'parents.parents.parents._key',
+  parents___parents___parents___title = 'parents.parents.parents.title',
+  parents___parents___parents___description = 'parents.parents.parents.description',
+  parents___parents___parents___parents = 'parents.parents.parents.parents',
+  parents___parents___parents____rawSlug = 'parents.parents.parents._rawSlug',
+  parents___parents___parents____rawParents = 'parents.parents.parents._rawParents',
+  parents___parents___parents____rawImage = 'parents.parents.parents._rawImage',
+  parents___parents___parents___id = 'parents.parents.parents.id',
+  parents___parents___parents___children = 'parents.parents.parents.children',
+  parents___parents___image____key = 'parents.parents.image._key',
+  parents___parents___image____type = 'parents.parents.image._type',
+  parents___parents____rawSlug = 'parents.parents._rawSlug',
+  parents___parents____rawParents = 'parents.parents._rawParents',
+  parents___parents____rawImage = 'parents.parents._rawImage',
+  parents___parents___id = 'parents.parents.id',
+  parents___parents___parent___id = 'parents.parents.parent.id',
+  parents___parents___parent___children = 'parents.parents.parent.children',
+  parents___parents___children = 'parents.parents.children',
+  parents___parents___children___id = 'parents.parents.children.id',
+  parents___parents___children___children = 'parents.parents.children.children',
+  parents___parents___internal___content = 'parents.parents.internal.content',
+  parents___parents___internal___contentDigest = 'parents.parents.internal.contentDigest',
+  parents___parents___internal___description = 'parents.parents.internal.description',
+  parents___parents___internal___fieldOwners = 'parents.parents.internal.fieldOwners',
+  parents___parents___internal___ignoreType = 'parents.parents.internal.ignoreType',
+  parents___parents___internal___mediaType = 'parents.parents.internal.mediaType',
+  parents___parents___internal___owner = 'parents.parents.internal.owner',
+  parents___parents___internal___type = 'parents.parents.internal.type',
+  parents___image____key = 'parents.image._key',
+  parents___image____type = 'parents.image._type',
+  parents___image___asset____id = 'parents.image.asset._id',
+  parents___image___asset____type = 'parents.image.asset._type',
+  parents___image___asset____createdAt = 'parents.image.asset._createdAt',
+  parents___image___asset____updatedAt = 'parents.image.asset._updatedAt',
+  parents___image___asset____rev = 'parents.image.asset._rev',
+  parents___image___asset____key = 'parents.image.asset._key',
+  parents___image___asset___originalFilename = 'parents.image.asset.originalFilename',
+  parents___image___asset___label = 'parents.image.asset.label',
+  parents___image___asset___title = 'parents.image.asset.title',
+  parents___image___asset___description = 'parents.image.asset.description',
+  parents___image___asset___sha1hash = 'parents.image.asset.sha1hash',
+  parents___image___asset___extension = 'parents.image.asset.extension',
+  parents___image___asset___mimeType = 'parents.image.asset.mimeType',
+  parents___image___asset___size = 'parents.image.asset.size',
+  parents___image___asset___assetId = 'parents.image.asset.assetId',
+  parents___image___asset___path = 'parents.image.asset.path',
+  parents___image___asset___url = 'parents.image.asset.url',
+  parents___image___asset____rawMetadata = 'parents.image.asset._rawMetadata',
+  parents___image___asset____rawSource = 'parents.image.asset._rawSource',
+  parents___image___asset___id = 'parents.image.asset.id',
+  parents___image___asset___children = 'parents.image.asset.children',
+  parents___image___hotspot____key = 'parents.image.hotspot._key',
+  parents___image___hotspot____type = 'parents.image.hotspot._type',
+  parents___image___hotspot___x = 'parents.image.hotspot.x',
+  parents___image___hotspot___y = 'parents.image.hotspot.y',
+  parents___image___hotspot___height = 'parents.image.hotspot.height',
+  parents___image___hotspot___width = 'parents.image.hotspot.width',
+  parents___image___crop____key = 'parents.image.crop._key',
+  parents___image___crop____type = 'parents.image.crop._type',
+  parents___image___crop___top = 'parents.image.crop.top',
+  parents___image___crop___bottom = 'parents.image.crop.bottom',
+  parents___image___crop___left = 'parents.image.crop.left',
+  parents___image___crop___right = 'parents.image.crop.right',
+  parents____rawSlug = 'parents._rawSlug',
+  parents____rawParents = 'parents._rawParents',
+  parents____rawImage = 'parents._rawImage',
+  parents___id = 'parents.id',
+  parents___parent___id = 'parents.parent.id',
+  parents___parent___parent___id = 'parents.parent.parent.id',
+  parents___parent___parent___children = 'parents.parent.parent.children',
+  parents___parent___children = 'parents.parent.children',
+  parents___parent___children___id = 'parents.parent.children.id',
+  parents___parent___children___children = 'parents.parent.children.children',
+  parents___parent___internal___content = 'parents.parent.internal.content',
+  parents___parent___internal___contentDigest = 'parents.parent.internal.contentDigest',
+  parents___parent___internal___description = 'parents.parent.internal.description',
+  parents___parent___internal___fieldOwners = 'parents.parent.internal.fieldOwners',
+  parents___parent___internal___ignoreType = 'parents.parent.internal.ignoreType',
+  parents___parent___internal___mediaType = 'parents.parent.internal.mediaType',
+  parents___parent___internal___owner = 'parents.parent.internal.owner',
+  parents___parent___internal___type = 'parents.parent.internal.type',
+  parents___children = 'parents.children',
+  parents___children___id = 'parents.children.id',
+  parents___children___parent___id = 'parents.children.parent.id',
+  parents___children___parent___children = 'parents.children.parent.children',
+  parents___children___children = 'parents.children.children',
+  parents___children___children___id = 'parents.children.children.id',
+  parents___children___children___children = 'parents.children.children.children',
+  parents___children___internal___content = 'parents.children.internal.content',
+  parents___children___internal___contentDigest = 'parents.children.internal.contentDigest',
+  parents___children___internal___description = 'parents.children.internal.description',
+  parents___children___internal___fieldOwners = 'parents.children.internal.fieldOwners',
+  parents___children___internal___ignoreType = 'parents.children.internal.ignoreType',
+  parents___children___internal___mediaType = 'parents.children.internal.mediaType',
+  parents___children___internal___owner = 'parents.children.internal.owner',
+  parents___children___internal___type = 'parents.children.internal.type',
+  parents___internal___content = 'parents.internal.content',
+  parents___internal___contentDigest = 'parents.internal.contentDigest',
+  parents___internal___description = 'parents.internal.description',
+  parents___internal___fieldOwners = 'parents.internal.fieldOwners',
+  parents___internal___ignoreType = 'parents.internal.ignoreType',
+  parents___internal___mediaType = 'parents.internal.mediaType',
+  parents___internal___owner = 'parents.internal.owner',
+  parents___internal___type = 'parents.internal.type',
+  image____key = 'image._key',
+  image____type = 'image._type',
+  image___asset____id = 'image.asset._id',
+  image___asset____type = 'image.asset._type',
+  image___asset____createdAt = 'image.asset._createdAt',
+  image___asset____updatedAt = 'image.asset._updatedAt',
+  image___asset____rev = 'image.asset._rev',
+  image___asset____key = 'image.asset._key',
+  image___asset___originalFilename = 'image.asset.originalFilename',
+  image___asset___label = 'image.asset.label',
+  image___asset___title = 'image.asset.title',
+  image___asset___description = 'image.asset.description',
+  image___asset___sha1hash = 'image.asset.sha1hash',
+  image___asset___extension = 'image.asset.extension',
+  image___asset___mimeType = 'image.asset.mimeType',
+  image___asset___size = 'image.asset.size',
+  image___asset___assetId = 'image.asset.assetId',
+  image___asset___path = 'image.asset.path',
+  image___asset___url = 'image.asset.url',
+  image___asset___metadata____key = 'image.asset.metadata._key',
+  image___asset___metadata____type = 'image.asset.metadata._type',
+  image___asset___metadata___lqip = 'image.asset.metadata.lqip',
+  image___asset___metadata___hasAlpha = 'image.asset.metadata.hasAlpha',
+  image___asset___metadata___isOpaque = 'image.asset.metadata.isOpaque',
+  image___asset___source____key = 'image.asset.source._key',
+  image___asset___source____type = 'image.asset.source._type',
+  image___asset___source___name = 'image.asset.source.name',
+  image___asset___source___sanityId = 'image.asset.source.sanityId',
+  image___asset___source___url = 'image.asset.source.url',
+  image___asset___fixed___base64 = 'image.asset.fixed.base64',
+  image___asset___fixed___aspectRatio = 'image.asset.fixed.aspectRatio',
+  image___asset___fixed___width = 'image.asset.fixed.width',
+  image___asset___fixed___height = 'image.asset.fixed.height',
+  image___asset___fixed___src = 'image.asset.fixed.src',
+  image___asset___fixed___srcSet = 'image.asset.fixed.srcSet',
+  image___asset___fixed___srcWebp = 'image.asset.fixed.srcWebp',
+  image___asset___fixed___srcSetWebp = 'image.asset.fixed.srcSetWebp',
+  image___asset___fluid___base64 = 'image.asset.fluid.base64',
+  image___asset___fluid___aspectRatio = 'image.asset.fluid.aspectRatio',
+  image___asset___fluid___src = 'image.asset.fluid.src',
+  image___asset___fluid___srcSet = 'image.asset.fluid.srcSet',
+  image___asset___fluid___srcWebp = 'image.asset.fluid.srcWebp',
+  image___asset___fluid___srcSetWebp = 'image.asset.fluid.srcSetWebp',
+  image___asset___fluid___sizes = 'image.asset.fluid.sizes',
+  image___asset____rawMetadata = 'image.asset._rawMetadata',
+  image___asset____rawSource = 'image.asset._rawSource',
+  image___asset___localFile___sourceInstanceName = 'image.asset.localFile.sourceInstanceName',
+  image___asset___localFile___absolutePath = 'image.asset.localFile.absolutePath',
+  image___asset___localFile___relativePath = 'image.asset.localFile.relativePath',
+  image___asset___localFile___extension = 'image.asset.localFile.extension',
+  image___asset___localFile___size = 'image.asset.localFile.size',
+  image___asset___localFile___prettySize = 'image.asset.localFile.prettySize',
+  image___asset___localFile___modifiedTime = 'image.asset.localFile.modifiedTime',
+  image___asset___localFile___accessTime = 'image.asset.localFile.accessTime',
+  image___asset___localFile___changeTime = 'image.asset.localFile.changeTime',
+  image___asset___localFile___birthTime = 'image.asset.localFile.birthTime',
+  image___asset___localFile___root = 'image.asset.localFile.root',
+  image___asset___localFile___dir = 'image.asset.localFile.dir',
+  image___asset___localFile___base = 'image.asset.localFile.base',
+  image___asset___localFile___ext = 'image.asset.localFile.ext',
+  image___asset___localFile___name = 'image.asset.localFile.name',
+  image___asset___localFile___relativeDirectory = 'image.asset.localFile.relativeDirectory',
+  image___asset___localFile___dev = 'image.asset.localFile.dev',
+  image___asset___localFile___mode = 'image.asset.localFile.mode',
+  image___asset___localFile___nlink = 'image.asset.localFile.nlink',
+  image___asset___localFile___uid = 'image.asset.localFile.uid',
+  image___asset___localFile___gid = 'image.asset.localFile.gid',
+  image___asset___localFile___rdev = 'image.asset.localFile.rdev',
+  image___asset___localFile___ino = 'image.asset.localFile.ino',
+  image___asset___localFile___atimeMs = 'image.asset.localFile.atimeMs',
+  image___asset___localFile___mtimeMs = 'image.asset.localFile.mtimeMs',
+  image___asset___localFile___ctimeMs = 'image.asset.localFile.ctimeMs',
+  image___asset___localFile___atime = 'image.asset.localFile.atime',
+  image___asset___localFile___mtime = 'image.asset.localFile.mtime',
+  image___asset___localFile___ctime = 'image.asset.localFile.ctime',
+  image___asset___localFile___birthtime = 'image.asset.localFile.birthtime',
+  image___asset___localFile___birthtimeMs = 'image.asset.localFile.birthtimeMs',
+  image___asset___localFile___blksize = 'image.asset.localFile.blksize',
+  image___asset___localFile___blocks = 'image.asset.localFile.blocks',
+  image___asset___localFile___url = 'image.asset.localFile.url',
+  image___asset___localFile___publicURL = 'image.asset.localFile.publicURL',
+  image___asset___localFile___id = 'image.asset.localFile.id',
+  image___asset___localFile___children = 'image.asset.localFile.children',
+  image___asset___id = 'image.asset.id',
+  image___asset___parent___id = 'image.asset.parent.id',
+  image___asset___parent___children = 'image.asset.parent.children',
+  image___asset___children = 'image.asset.children',
+  image___asset___children___id = 'image.asset.children.id',
+  image___asset___children___children = 'image.asset.children.children',
+  image___asset___internal___content = 'image.asset.internal.content',
+  image___asset___internal___contentDigest = 'image.asset.internal.contentDigest',
+  image___asset___internal___description = 'image.asset.internal.description',
+  image___asset___internal___fieldOwners = 'image.asset.internal.fieldOwners',
+  image___asset___internal___ignoreType = 'image.asset.internal.ignoreType',
+  image___asset___internal___mediaType = 'image.asset.internal.mediaType',
+  image___asset___internal___owner = 'image.asset.internal.owner',
+  image___asset___internal___type = 'image.asset.internal.type',
+  image___asset___childImageSharp___id = 'image.asset.childImageSharp.id',
+  image___asset___childImageSharp___children = 'image.asset.childImageSharp.children',
+  image___hotspot____key = 'image.hotspot._key',
+  image___hotspot____type = 'image.hotspot._type',
+  image___hotspot___x = 'image.hotspot.x',
+  image___hotspot___y = 'image.hotspot.y',
+  image___hotspot___height = 'image.hotspot.height',
+  image___hotspot___width = 'image.hotspot.width',
+  image___crop____key = 'image.crop._key',
+  image___crop____type = 'image.crop._type',
+  image___crop___top = 'image.crop.top',
+  image___crop___bottom = 'image.crop.bottom',
+  image___crop___left = 'image.crop.left',
+  image___crop___right = 'image.crop.right',
+  _rawSlug = '_rawSlug',
+  _rawParents = '_rawParents',
+  _rawImage = '_rawImage',
   id = 'id',
   parent___id = 'parent.id',
   parent___parent___id = 'parent.parent.id',
@@ -2009,61 +2278,43 @@ enum SanityAuthorFieldsEnum {
   internal___type = 'internal.type'
 }
 
-type SanityAuthorFilterInput = {
+type SanityCategoryFilterInput = {
   readonly _id: Maybe<StringQueryOperatorInput>;
   readonly _type: Maybe<StringQueryOperatorInput>;
   readonly _createdAt: Maybe<DateQueryOperatorInput>;
   readonly _updatedAt: Maybe<DateQueryOperatorInput>;
   readonly _rev: Maybe<StringQueryOperatorInput>;
   readonly _key: Maybe<StringQueryOperatorInput>;
-  readonly name: Maybe<StringQueryOperatorInput>;
-  readonly picture: Maybe<SanityImageFilterInput>;
-  readonly _rawPicture: Maybe<JSONQueryOperatorInput>;
+  readonly title: Maybe<StringQueryOperatorInput>;
+  readonly slug: Maybe<SanitySlugFilterInput>;
+  readonly description: Maybe<StringQueryOperatorInput>;
+  readonly parents: Maybe<SanityCategoryFilterListInput>;
+  readonly image: Maybe<SanityImageFilterInput>;
+  readonly _rawSlug: Maybe<JSONQueryOperatorInput>;
+  readonly _rawParents: Maybe<JSONQueryOperatorInput>;
+  readonly _rawImage: Maybe<JSONQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly parent: Maybe<NodeFilterInput>;
   readonly children: Maybe<NodeFilterListInput>;
   readonly internal: Maybe<InternalFilterInput>;
 };
 
-type SanityAuthorGroupConnection = {
+type SanityCategoryFilterListInput = {
+  readonly elemMatch: Maybe<SanityCategoryFilterInput>;
+};
+
+type SanityCategoryGroupConnection = {
   readonly totalCount: Scalars['Int'];
-  readonly edges: ReadonlyArray<SanityAuthorEdge>;
-  readonly nodes: ReadonlyArray<SanityAuthor>;
+  readonly edges: ReadonlyArray<SanityCategoryEdge>;
+  readonly nodes: ReadonlyArray<SanityCategory>;
   readonly pageInfo: PageInfo;
   readonly field: Scalars['String'];
   readonly fieldValue: Maybe<Scalars['String']>;
 };
 
-type SanityAuthorSortInput = {
-  readonly fields: Maybe<ReadonlyArray<Maybe<SanityAuthorFieldsEnum>>>;
+type SanityCategorySortInput = {
+  readonly fields: Maybe<ReadonlyArray<Maybe<SanityCategoryFieldsEnum>>>;
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
-};
-
-type SanityBarcode = {
-  readonly _key: Maybe<Scalars['String']>;
-  readonly _type: Maybe<Scalars['String']>;
-  readonly barcode: Maybe<Scalars['String']>;
-  readonly format: Maybe<Scalars['String']>;
-};
-
-type SanityBlock = {
-  readonly _key: Maybe<Scalars['String']>;
-  readonly _type: Maybe<Scalars['String']>;
-  readonly sanityChildren: Maybe<ReadonlyArray<Maybe<SanitySpan>>>;
-  readonly style: Maybe<Scalars['String']>;
-  readonly list: Maybe<Scalars['String']>;
-};
-
-type SanityBlockFilterInput = {
-  readonly _key: Maybe<StringQueryOperatorInput>;
-  readonly _type: Maybe<StringQueryOperatorInput>;
-  readonly sanityChildren: Maybe<SanitySpanFilterListInput>;
-  readonly style: Maybe<StringQueryOperatorInput>;
-  readonly list: Maybe<StringQueryOperatorInput>;
-};
-
-type SanityBlockFilterListInput = {
-  readonly elemMatch: Maybe<SanityBlockFilterInput>;
 };
 
 /** A Sanity document */
@@ -2571,6 +2822,7 @@ enum SanityImageAssetFieldsEnum {
   localFile___birthtimeMs = 'localFile.birthtimeMs',
   localFile___blksize = 'localFile.blksize',
   localFile___blocks = 'localFile.blocks',
+  localFile___url = 'localFile.url',
   localFile___publicURL = 'localFile.publicURL',
   localFile___childImageSharp___fixed___base64 = 'localFile.childImageSharp.fixed.base64',
   localFile___childImageSharp___fixed___tracedSVG = 'localFile.childImageSharp.fixed.tracedSVG',
@@ -2944,6 +3196,10 @@ type SanityImageFilterInput = {
   readonly crop: Maybe<SanityImageCropFilterInput>;
 };
 
+type SanityImageFilterListInput = {
+  readonly elemMatch: Maybe<SanityImageFilterInput>;
+};
+
 type SanityImageFixed = {
   readonly base64: Maybe<Scalars['String']>;
   readonly aspectRatio: Maybe<Scalars['Float']>;
@@ -3075,7 +3331,7 @@ type SanityImagePaletteSwatchFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
 };
 
-type SanityPost = SanityDocument & Node & {
+type SanityMaterial = SanityDocument & Node & {
   readonly _id: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
   readonly _createdAt: Maybe<Scalars['Date']>;
@@ -3083,16 +3339,6 @@ type SanityPost = SanityDocument & Node & {
   readonly _rev: Maybe<Scalars['String']>;
   readonly _key: Maybe<Scalars['String']>;
   readonly title: Maybe<Scalars['String']>;
-  readonly excerpt: Maybe<Scalars['String']>;
-  readonly coverImage: Maybe<SanityImage>;
-  readonly date: Maybe<Scalars['Date']>;
-  readonly author: Maybe<SanityAuthor>;
-  readonly slug: Maybe<SanitySlug>;
-  readonly content: Maybe<ReadonlyArray<Maybe<SanityBlock>>>;
-  readonly _rawContent: Maybe<Scalars['JSON']>;
-  readonly _rawCoverImage: Maybe<Scalars['JSON']>;
-  readonly _rawAuthor: Maybe<Scalars['JSON']>;
-  readonly _rawSlug: Maybe<Scalars['JSON']>;
   readonly id: Scalars['ID'];
   readonly parent: Maybe<Node>;
   readonly children: ReadonlyArray<Node>;
@@ -3100,7 +3346,7 @@ type SanityPost = SanityDocument & Node & {
 };
 
 
-type SanityPost__createdAtArgs = {
+type SanityMaterial__createdAtArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -3108,69 +3354,41 @@ type SanityPost__createdAtArgs = {
 };
 
 
-type SanityPost__updatedAtArgs = {
+type SanityMaterial__updatedAtArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
   locale: Maybe<Scalars['String']>;
 };
 
-
-type SanityPost_dateArgs = {
-  formatString: Maybe<Scalars['String']>;
-  fromNow: Maybe<Scalars['Boolean']>;
-  difference: Maybe<Scalars['String']>;
-  locale: Maybe<Scalars['String']>;
-};
-
-
-type SanityPost__rawContentArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
-};
-
-
-type SanityPost__rawCoverImageArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
-};
-
-
-type SanityPost__rawAuthorArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
-};
-
-
-type SanityPost__rawSlugArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
-};
-
-type SanityPostConnection = {
+type SanityMaterialConnection = {
   readonly totalCount: Scalars['Int'];
-  readonly edges: ReadonlyArray<SanityPostEdge>;
-  readonly nodes: ReadonlyArray<SanityPost>;
+  readonly edges: ReadonlyArray<SanityMaterialEdge>;
+  readonly nodes: ReadonlyArray<SanityMaterial>;
   readonly pageInfo: PageInfo;
   readonly distinct: ReadonlyArray<Scalars['String']>;
-  readonly group: ReadonlyArray<SanityPostGroupConnection>;
+  readonly group: ReadonlyArray<SanityMaterialGroupConnection>;
 };
 
 
-type SanityPostConnection_distinctArgs = {
-  field: SanityPostFieldsEnum;
+type SanityMaterialConnection_distinctArgs = {
+  field: SanityMaterialFieldsEnum;
 };
 
 
-type SanityPostConnection_groupArgs = {
+type SanityMaterialConnection_groupArgs = {
   skip: Maybe<Scalars['Int']>;
   limit: Maybe<Scalars['Int']>;
-  field: SanityPostFieldsEnum;
+  field: SanityMaterialFieldsEnum;
 };
 
-type SanityPostEdge = {
-  readonly next: Maybe<SanityPost>;
-  readonly node: SanityPost;
-  readonly previous: Maybe<SanityPost>;
+type SanityMaterialEdge = {
+  readonly next: Maybe<SanityMaterial>;
+  readonly node: SanityMaterial;
+  readonly previous: Maybe<SanityMaterial>;
 };
 
-enum SanityPostFieldsEnum {
+enum SanityMaterialFieldsEnum {
   _id = '_id',
   _type = '_type',
   _createdAt = '_createdAt',
@@ -3178,216 +3396,6 @@ enum SanityPostFieldsEnum {
   _rev = '_rev',
   _key = '_key',
   title = 'title',
-  excerpt = 'excerpt',
-  coverImage____key = 'coverImage._key',
-  coverImage____type = 'coverImage._type',
-  coverImage___asset____id = 'coverImage.asset._id',
-  coverImage___asset____type = 'coverImage.asset._type',
-  coverImage___asset____createdAt = 'coverImage.asset._createdAt',
-  coverImage___asset____updatedAt = 'coverImage.asset._updatedAt',
-  coverImage___asset____rev = 'coverImage.asset._rev',
-  coverImage___asset____key = 'coverImage.asset._key',
-  coverImage___asset___originalFilename = 'coverImage.asset.originalFilename',
-  coverImage___asset___label = 'coverImage.asset.label',
-  coverImage___asset___title = 'coverImage.asset.title',
-  coverImage___asset___description = 'coverImage.asset.description',
-  coverImage___asset___sha1hash = 'coverImage.asset.sha1hash',
-  coverImage___asset___extension = 'coverImage.asset.extension',
-  coverImage___asset___mimeType = 'coverImage.asset.mimeType',
-  coverImage___asset___size = 'coverImage.asset.size',
-  coverImage___asset___assetId = 'coverImage.asset.assetId',
-  coverImage___asset___path = 'coverImage.asset.path',
-  coverImage___asset___url = 'coverImage.asset.url',
-  coverImage___asset___metadata____key = 'coverImage.asset.metadata._key',
-  coverImage___asset___metadata____type = 'coverImage.asset.metadata._type',
-  coverImage___asset___metadata___lqip = 'coverImage.asset.metadata.lqip',
-  coverImage___asset___metadata___hasAlpha = 'coverImage.asset.metadata.hasAlpha',
-  coverImage___asset___metadata___isOpaque = 'coverImage.asset.metadata.isOpaque',
-  coverImage___asset___source____key = 'coverImage.asset.source._key',
-  coverImage___asset___source____type = 'coverImage.asset.source._type',
-  coverImage___asset___source___name = 'coverImage.asset.source.name',
-  coverImage___asset___source___sanityId = 'coverImage.asset.source.sanityId',
-  coverImage___asset___source___url = 'coverImage.asset.source.url',
-  coverImage___asset___fixed___base64 = 'coverImage.asset.fixed.base64',
-  coverImage___asset___fixed___aspectRatio = 'coverImage.asset.fixed.aspectRatio',
-  coverImage___asset___fixed___width = 'coverImage.asset.fixed.width',
-  coverImage___asset___fixed___height = 'coverImage.asset.fixed.height',
-  coverImage___asset___fixed___src = 'coverImage.asset.fixed.src',
-  coverImage___asset___fixed___srcSet = 'coverImage.asset.fixed.srcSet',
-  coverImage___asset___fixed___srcWebp = 'coverImage.asset.fixed.srcWebp',
-  coverImage___asset___fixed___srcSetWebp = 'coverImage.asset.fixed.srcSetWebp',
-  coverImage___asset___fluid___base64 = 'coverImage.asset.fluid.base64',
-  coverImage___asset___fluid___aspectRatio = 'coverImage.asset.fluid.aspectRatio',
-  coverImage___asset___fluid___src = 'coverImage.asset.fluid.src',
-  coverImage___asset___fluid___srcSet = 'coverImage.asset.fluid.srcSet',
-  coverImage___asset___fluid___srcWebp = 'coverImage.asset.fluid.srcWebp',
-  coverImage___asset___fluid___srcSetWebp = 'coverImage.asset.fluid.srcSetWebp',
-  coverImage___asset___fluid___sizes = 'coverImage.asset.fluid.sizes',
-  coverImage___asset____rawMetadata = 'coverImage.asset._rawMetadata',
-  coverImage___asset____rawSource = 'coverImage.asset._rawSource',
-  coverImage___asset___localFile___sourceInstanceName = 'coverImage.asset.localFile.sourceInstanceName',
-  coverImage___asset___localFile___absolutePath = 'coverImage.asset.localFile.absolutePath',
-  coverImage___asset___localFile___relativePath = 'coverImage.asset.localFile.relativePath',
-  coverImage___asset___localFile___extension = 'coverImage.asset.localFile.extension',
-  coverImage___asset___localFile___size = 'coverImage.asset.localFile.size',
-  coverImage___asset___localFile___prettySize = 'coverImage.asset.localFile.prettySize',
-  coverImage___asset___localFile___modifiedTime = 'coverImage.asset.localFile.modifiedTime',
-  coverImage___asset___localFile___accessTime = 'coverImage.asset.localFile.accessTime',
-  coverImage___asset___localFile___changeTime = 'coverImage.asset.localFile.changeTime',
-  coverImage___asset___localFile___birthTime = 'coverImage.asset.localFile.birthTime',
-  coverImage___asset___localFile___root = 'coverImage.asset.localFile.root',
-  coverImage___asset___localFile___dir = 'coverImage.asset.localFile.dir',
-  coverImage___asset___localFile___base = 'coverImage.asset.localFile.base',
-  coverImage___asset___localFile___ext = 'coverImage.asset.localFile.ext',
-  coverImage___asset___localFile___name = 'coverImage.asset.localFile.name',
-  coverImage___asset___localFile___relativeDirectory = 'coverImage.asset.localFile.relativeDirectory',
-  coverImage___asset___localFile___dev = 'coverImage.asset.localFile.dev',
-  coverImage___asset___localFile___mode = 'coverImage.asset.localFile.mode',
-  coverImage___asset___localFile___nlink = 'coverImage.asset.localFile.nlink',
-  coverImage___asset___localFile___uid = 'coverImage.asset.localFile.uid',
-  coverImage___asset___localFile___gid = 'coverImage.asset.localFile.gid',
-  coverImage___asset___localFile___rdev = 'coverImage.asset.localFile.rdev',
-  coverImage___asset___localFile___ino = 'coverImage.asset.localFile.ino',
-  coverImage___asset___localFile___atimeMs = 'coverImage.asset.localFile.atimeMs',
-  coverImage___asset___localFile___mtimeMs = 'coverImage.asset.localFile.mtimeMs',
-  coverImage___asset___localFile___ctimeMs = 'coverImage.asset.localFile.ctimeMs',
-  coverImage___asset___localFile___atime = 'coverImage.asset.localFile.atime',
-  coverImage___asset___localFile___mtime = 'coverImage.asset.localFile.mtime',
-  coverImage___asset___localFile___ctime = 'coverImage.asset.localFile.ctime',
-  coverImage___asset___localFile___birthtime = 'coverImage.asset.localFile.birthtime',
-  coverImage___asset___localFile___birthtimeMs = 'coverImage.asset.localFile.birthtimeMs',
-  coverImage___asset___localFile___blksize = 'coverImage.asset.localFile.blksize',
-  coverImage___asset___localFile___blocks = 'coverImage.asset.localFile.blocks',
-  coverImage___asset___localFile___publicURL = 'coverImage.asset.localFile.publicURL',
-  coverImage___asset___localFile___id = 'coverImage.asset.localFile.id',
-  coverImage___asset___localFile___children = 'coverImage.asset.localFile.children',
-  coverImage___asset___id = 'coverImage.asset.id',
-  coverImage___asset___parent___id = 'coverImage.asset.parent.id',
-  coverImage___asset___parent___children = 'coverImage.asset.parent.children',
-  coverImage___asset___children = 'coverImage.asset.children',
-  coverImage___asset___children___id = 'coverImage.asset.children.id',
-  coverImage___asset___children___children = 'coverImage.asset.children.children',
-  coverImage___asset___internal___content = 'coverImage.asset.internal.content',
-  coverImage___asset___internal___contentDigest = 'coverImage.asset.internal.contentDigest',
-  coverImage___asset___internal___description = 'coverImage.asset.internal.description',
-  coverImage___asset___internal___fieldOwners = 'coverImage.asset.internal.fieldOwners',
-  coverImage___asset___internal___ignoreType = 'coverImage.asset.internal.ignoreType',
-  coverImage___asset___internal___mediaType = 'coverImage.asset.internal.mediaType',
-  coverImage___asset___internal___owner = 'coverImage.asset.internal.owner',
-  coverImage___asset___internal___type = 'coverImage.asset.internal.type',
-  coverImage___asset___childImageSharp___id = 'coverImage.asset.childImageSharp.id',
-  coverImage___asset___childImageSharp___children = 'coverImage.asset.childImageSharp.children',
-  coverImage___hotspot____key = 'coverImage.hotspot._key',
-  coverImage___hotspot____type = 'coverImage.hotspot._type',
-  coverImage___hotspot___x = 'coverImage.hotspot.x',
-  coverImage___hotspot___y = 'coverImage.hotspot.y',
-  coverImage___hotspot___height = 'coverImage.hotspot.height',
-  coverImage___hotspot___width = 'coverImage.hotspot.width',
-  coverImage___crop____key = 'coverImage.crop._key',
-  coverImage___crop____type = 'coverImage.crop._type',
-  coverImage___crop___top = 'coverImage.crop.top',
-  coverImage___crop___bottom = 'coverImage.crop.bottom',
-  coverImage___crop___left = 'coverImage.crop.left',
-  coverImage___crop___right = 'coverImage.crop.right',
-  date = 'date',
-  author____id = 'author._id',
-  author____type = 'author._type',
-  author____createdAt = 'author._createdAt',
-  author____updatedAt = 'author._updatedAt',
-  author____rev = 'author._rev',
-  author____key = 'author._key',
-  author___name = 'author.name',
-  author___picture____key = 'author.picture._key',
-  author___picture____type = 'author.picture._type',
-  author___picture___asset____id = 'author.picture.asset._id',
-  author___picture___asset____type = 'author.picture.asset._type',
-  author___picture___asset____createdAt = 'author.picture.asset._createdAt',
-  author___picture___asset____updatedAt = 'author.picture.asset._updatedAt',
-  author___picture___asset____rev = 'author.picture.asset._rev',
-  author___picture___asset____key = 'author.picture.asset._key',
-  author___picture___asset___originalFilename = 'author.picture.asset.originalFilename',
-  author___picture___asset___label = 'author.picture.asset.label',
-  author___picture___asset___title = 'author.picture.asset.title',
-  author___picture___asset___description = 'author.picture.asset.description',
-  author___picture___asset___sha1hash = 'author.picture.asset.sha1hash',
-  author___picture___asset___extension = 'author.picture.asset.extension',
-  author___picture___asset___mimeType = 'author.picture.asset.mimeType',
-  author___picture___asset___size = 'author.picture.asset.size',
-  author___picture___asset___assetId = 'author.picture.asset.assetId',
-  author___picture___asset___path = 'author.picture.asset.path',
-  author___picture___asset___url = 'author.picture.asset.url',
-  author___picture___asset____rawMetadata = 'author.picture.asset._rawMetadata',
-  author___picture___asset____rawSource = 'author.picture.asset._rawSource',
-  author___picture___asset___id = 'author.picture.asset.id',
-  author___picture___asset___children = 'author.picture.asset.children',
-  author___picture___hotspot____key = 'author.picture.hotspot._key',
-  author___picture___hotspot____type = 'author.picture.hotspot._type',
-  author___picture___hotspot___x = 'author.picture.hotspot.x',
-  author___picture___hotspot___y = 'author.picture.hotspot.y',
-  author___picture___hotspot___height = 'author.picture.hotspot.height',
-  author___picture___hotspot___width = 'author.picture.hotspot.width',
-  author___picture___crop____key = 'author.picture.crop._key',
-  author___picture___crop____type = 'author.picture.crop._type',
-  author___picture___crop___top = 'author.picture.crop.top',
-  author___picture___crop___bottom = 'author.picture.crop.bottom',
-  author___picture___crop___left = 'author.picture.crop.left',
-  author___picture___crop___right = 'author.picture.crop.right',
-  author____rawPicture = 'author._rawPicture',
-  author___id = 'author.id',
-  author___parent___id = 'author.parent.id',
-  author___parent___parent___id = 'author.parent.parent.id',
-  author___parent___parent___children = 'author.parent.parent.children',
-  author___parent___children = 'author.parent.children',
-  author___parent___children___id = 'author.parent.children.id',
-  author___parent___children___children = 'author.parent.children.children',
-  author___parent___internal___content = 'author.parent.internal.content',
-  author___parent___internal___contentDigest = 'author.parent.internal.contentDigest',
-  author___parent___internal___description = 'author.parent.internal.description',
-  author___parent___internal___fieldOwners = 'author.parent.internal.fieldOwners',
-  author___parent___internal___ignoreType = 'author.parent.internal.ignoreType',
-  author___parent___internal___mediaType = 'author.parent.internal.mediaType',
-  author___parent___internal___owner = 'author.parent.internal.owner',
-  author___parent___internal___type = 'author.parent.internal.type',
-  author___children = 'author.children',
-  author___children___id = 'author.children.id',
-  author___children___parent___id = 'author.children.parent.id',
-  author___children___parent___children = 'author.children.parent.children',
-  author___children___children = 'author.children.children',
-  author___children___children___id = 'author.children.children.id',
-  author___children___children___children = 'author.children.children.children',
-  author___children___internal___content = 'author.children.internal.content',
-  author___children___internal___contentDigest = 'author.children.internal.contentDigest',
-  author___children___internal___description = 'author.children.internal.description',
-  author___children___internal___fieldOwners = 'author.children.internal.fieldOwners',
-  author___children___internal___ignoreType = 'author.children.internal.ignoreType',
-  author___children___internal___mediaType = 'author.children.internal.mediaType',
-  author___children___internal___owner = 'author.children.internal.owner',
-  author___children___internal___type = 'author.children.internal.type',
-  author___internal___content = 'author.internal.content',
-  author___internal___contentDigest = 'author.internal.contentDigest',
-  author___internal___description = 'author.internal.description',
-  author___internal___fieldOwners = 'author.internal.fieldOwners',
-  author___internal___ignoreType = 'author.internal.ignoreType',
-  author___internal___mediaType = 'author.internal.mediaType',
-  author___internal___owner = 'author.internal.owner',
-  author___internal___type = 'author.internal.type',
-  slug____key = 'slug._key',
-  slug____type = 'slug._type',
-  slug___current = 'slug.current',
-  content = 'content',
-  content____key = 'content._key',
-  content____type = 'content._type',
-  content___sanityChildren = 'content.sanityChildren',
-  content___sanityChildren____key = 'content.sanityChildren._key',
-  content___sanityChildren____type = 'content.sanityChildren._type',
-  content___sanityChildren___marks = 'content.sanityChildren.marks',
-  content___sanityChildren___text = 'content.sanityChildren.text',
-  content___style = 'content.style',
-  content___list = 'content.list',
-  _rawContent = '_rawContent',
-  _rawCoverImage = '_rawCoverImage',
-  _rawAuthor = '_rawAuthor',
-  _rawSlug = '_rawSlug',
   id = 'id',
   parent___id = 'parent.id',
   parent___parent___id = 'parent.parent.id',
@@ -3476,7 +3484,7 @@ enum SanityPostFieldsEnum {
   internal___type = 'internal.type'
 }
 
-type SanityPostFilterInput = {
+type SanityMaterialFilterInput = {
   readonly _id: Maybe<StringQueryOperatorInput>;
   readonly _type: Maybe<StringQueryOperatorInput>;
   readonly _createdAt: Maybe<DateQueryOperatorInput>;
@@ -3484,39 +3492,820 @@ type SanityPostFilterInput = {
   readonly _rev: Maybe<StringQueryOperatorInput>;
   readonly _key: Maybe<StringQueryOperatorInput>;
   readonly title: Maybe<StringQueryOperatorInput>;
-  readonly excerpt: Maybe<StringQueryOperatorInput>;
-  readonly coverImage: Maybe<SanityImageFilterInput>;
-  readonly date: Maybe<DateQueryOperatorInput>;
-  readonly author: Maybe<SanityAuthorFilterInput>;
-  readonly slug: Maybe<SanitySlugFilterInput>;
-  readonly content: Maybe<SanityBlockFilterListInput>;
-  readonly _rawContent: Maybe<JSONQueryOperatorInput>;
-  readonly _rawCoverImage: Maybe<JSONQueryOperatorInput>;
-  readonly _rawAuthor: Maybe<JSONQueryOperatorInput>;
-  readonly _rawSlug: Maybe<JSONQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly parent: Maybe<NodeFilterInput>;
   readonly children: Maybe<NodeFilterListInput>;
   readonly internal: Maybe<InternalFilterInput>;
 };
 
-type SanityPostGroupConnection = {
+type SanityMaterialFilterListInput = {
+  readonly elemMatch: Maybe<SanityMaterialFilterInput>;
+};
+
+type SanityMaterialGroupConnection = {
   readonly totalCount: Scalars['Int'];
-  readonly edges: ReadonlyArray<SanityPostEdge>;
-  readonly nodes: ReadonlyArray<SanityPost>;
+  readonly edges: ReadonlyArray<SanityMaterialEdge>;
+  readonly nodes: ReadonlyArray<SanityMaterial>;
   readonly pageInfo: PageInfo;
   readonly field: Scalars['String'];
   readonly fieldValue: Maybe<Scalars['String']>;
 };
 
-type SanityPostSortInput = {
-  readonly fields: Maybe<ReadonlyArray<Maybe<SanityPostFieldsEnum>>>;
+type SanityMaterialSortInput = {
+  readonly fields: Maybe<ReadonlyArray<Maybe<SanityMaterialFieldsEnum>>>;
+  readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
+};
+
+type SanityProduct = SanityDocument & Node & {
+  readonly _id: Maybe<Scalars['String']>;
+  readonly _type: Maybe<Scalars['String']>;
+  readonly _createdAt: Maybe<Scalars['Date']>;
+  readonly _updatedAt: Maybe<Scalars['Date']>;
+  readonly _rev: Maybe<Scalars['String']>;
+  readonly _key: Maybe<Scalars['String']>;
+  readonly title: Maybe<Scalars['String']>;
+  readonly slug: Maybe<SanitySlug>;
+  readonly price: Maybe<Scalars['Float']>;
+  readonly oldPrice: Maybe<Scalars['Float']>;
+  readonly images: Maybe<ReadonlyArray<Maybe<SanityImage>>>;
+  readonly sizes: Maybe<SanityProductSizes>;
+  readonly materials: Maybe<ReadonlyArray<Maybe<SanityMaterial>>>;
+  readonly categories: Maybe<ReadonlyArray<Maybe<SanityCategory>>>;
+  readonly body: Maybe<ReadonlyArray<Maybe<SanityBlock>>>;
+  readonly _rawSlug: Maybe<Scalars['JSON']>;
+  readonly _rawImages: Maybe<Scalars['JSON']>;
+  readonly _rawSizes: Maybe<Scalars['JSON']>;
+  readonly _rawMaterials: Maybe<Scalars['JSON']>;
+  readonly _rawCategories: Maybe<Scalars['JSON']>;
+  readonly _rawBody: Maybe<Scalars['JSON']>;
+  readonly id: Scalars['ID'];
+  readonly parent: Maybe<Node>;
+  readonly children: ReadonlyArray<Node>;
+  readonly internal: Internal;
+};
+
+
+type SanityProduct__createdAtArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type SanityProduct__updatedAtArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type SanityProduct__rawSlugArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityProduct__rawImagesArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityProduct__rawSizesArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityProduct__rawMaterialsArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityProduct__rawCategoriesArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityProduct__rawBodyArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+type SanityProductConnection = {
+  readonly totalCount: Scalars['Int'];
+  readonly edges: ReadonlyArray<SanityProductEdge>;
+  readonly nodes: ReadonlyArray<SanityProduct>;
+  readonly pageInfo: PageInfo;
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly group: ReadonlyArray<SanityProductGroupConnection>;
+};
+
+
+type SanityProductConnection_distinctArgs = {
+  field: SanityProductFieldsEnum;
+};
+
+
+type SanityProductConnection_groupArgs = {
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+  field: SanityProductFieldsEnum;
+};
+
+type SanityProductEdge = {
+  readonly next: Maybe<SanityProduct>;
+  readonly node: SanityProduct;
+  readonly previous: Maybe<SanityProduct>;
+};
+
+enum SanityProductFieldsEnum {
+  _id = '_id',
+  _type = '_type',
+  _createdAt = '_createdAt',
+  _updatedAt = '_updatedAt',
+  _rev = '_rev',
+  _key = '_key',
+  title = 'title',
+  slug____key = 'slug._key',
+  slug____type = 'slug._type',
+  slug___current = 'slug.current',
+  price = 'price',
+  oldPrice = 'oldPrice',
+  images = 'images',
+  images____key = 'images._key',
+  images____type = 'images._type',
+  images___asset____id = 'images.asset._id',
+  images___asset____type = 'images.asset._type',
+  images___asset____createdAt = 'images.asset._createdAt',
+  images___asset____updatedAt = 'images.asset._updatedAt',
+  images___asset____rev = 'images.asset._rev',
+  images___asset____key = 'images.asset._key',
+  images___asset___originalFilename = 'images.asset.originalFilename',
+  images___asset___label = 'images.asset.label',
+  images___asset___title = 'images.asset.title',
+  images___asset___description = 'images.asset.description',
+  images___asset___sha1hash = 'images.asset.sha1hash',
+  images___asset___extension = 'images.asset.extension',
+  images___asset___mimeType = 'images.asset.mimeType',
+  images___asset___size = 'images.asset.size',
+  images___asset___assetId = 'images.asset.assetId',
+  images___asset___path = 'images.asset.path',
+  images___asset___url = 'images.asset.url',
+  images___asset___metadata____key = 'images.asset.metadata._key',
+  images___asset___metadata____type = 'images.asset.metadata._type',
+  images___asset___metadata___lqip = 'images.asset.metadata.lqip',
+  images___asset___metadata___hasAlpha = 'images.asset.metadata.hasAlpha',
+  images___asset___metadata___isOpaque = 'images.asset.metadata.isOpaque',
+  images___asset___source____key = 'images.asset.source._key',
+  images___asset___source____type = 'images.asset.source._type',
+  images___asset___source___name = 'images.asset.source.name',
+  images___asset___source___sanityId = 'images.asset.source.sanityId',
+  images___asset___source___url = 'images.asset.source.url',
+  images___asset___fixed___base64 = 'images.asset.fixed.base64',
+  images___asset___fixed___aspectRatio = 'images.asset.fixed.aspectRatio',
+  images___asset___fixed___width = 'images.asset.fixed.width',
+  images___asset___fixed___height = 'images.asset.fixed.height',
+  images___asset___fixed___src = 'images.asset.fixed.src',
+  images___asset___fixed___srcSet = 'images.asset.fixed.srcSet',
+  images___asset___fixed___srcWebp = 'images.asset.fixed.srcWebp',
+  images___asset___fixed___srcSetWebp = 'images.asset.fixed.srcSetWebp',
+  images___asset___fluid___base64 = 'images.asset.fluid.base64',
+  images___asset___fluid___aspectRatio = 'images.asset.fluid.aspectRatio',
+  images___asset___fluid___src = 'images.asset.fluid.src',
+  images___asset___fluid___srcSet = 'images.asset.fluid.srcSet',
+  images___asset___fluid___srcWebp = 'images.asset.fluid.srcWebp',
+  images___asset___fluid___srcSetWebp = 'images.asset.fluid.srcSetWebp',
+  images___asset___fluid___sizes = 'images.asset.fluid.sizes',
+  images___asset____rawMetadata = 'images.asset._rawMetadata',
+  images___asset____rawSource = 'images.asset._rawSource',
+  images___asset___localFile___sourceInstanceName = 'images.asset.localFile.sourceInstanceName',
+  images___asset___localFile___absolutePath = 'images.asset.localFile.absolutePath',
+  images___asset___localFile___relativePath = 'images.asset.localFile.relativePath',
+  images___asset___localFile___extension = 'images.asset.localFile.extension',
+  images___asset___localFile___size = 'images.asset.localFile.size',
+  images___asset___localFile___prettySize = 'images.asset.localFile.prettySize',
+  images___asset___localFile___modifiedTime = 'images.asset.localFile.modifiedTime',
+  images___asset___localFile___accessTime = 'images.asset.localFile.accessTime',
+  images___asset___localFile___changeTime = 'images.asset.localFile.changeTime',
+  images___asset___localFile___birthTime = 'images.asset.localFile.birthTime',
+  images___asset___localFile___root = 'images.asset.localFile.root',
+  images___asset___localFile___dir = 'images.asset.localFile.dir',
+  images___asset___localFile___base = 'images.asset.localFile.base',
+  images___asset___localFile___ext = 'images.asset.localFile.ext',
+  images___asset___localFile___name = 'images.asset.localFile.name',
+  images___asset___localFile___relativeDirectory = 'images.asset.localFile.relativeDirectory',
+  images___asset___localFile___dev = 'images.asset.localFile.dev',
+  images___asset___localFile___mode = 'images.asset.localFile.mode',
+  images___asset___localFile___nlink = 'images.asset.localFile.nlink',
+  images___asset___localFile___uid = 'images.asset.localFile.uid',
+  images___asset___localFile___gid = 'images.asset.localFile.gid',
+  images___asset___localFile___rdev = 'images.asset.localFile.rdev',
+  images___asset___localFile___ino = 'images.asset.localFile.ino',
+  images___asset___localFile___atimeMs = 'images.asset.localFile.atimeMs',
+  images___asset___localFile___mtimeMs = 'images.asset.localFile.mtimeMs',
+  images___asset___localFile___ctimeMs = 'images.asset.localFile.ctimeMs',
+  images___asset___localFile___atime = 'images.asset.localFile.atime',
+  images___asset___localFile___mtime = 'images.asset.localFile.mtime',
+  images___asset___localFile___ctime = 'images.asset.localFile.ctime',
+  images___asset___localFile___birthtime = 'images.asset.localFile.birthtime',
+  images___asset___localFile___birthtimeMs = 'images.asset.localFile.birthtimeMs',
+  images___asset___localFile___blksize = 'images.asset.localFile.blksize',
+  images___asset___localFile___blocks = 'images.asset.localFile.blocks',
+  images___asset___localFile___url = 'images.asset.localFile.url',
+  images___asset___localFile___publicURL = 'images.asset.localFile.publicURL',
+  images___asset___localFile___id = 'images.asset.localFile.id',
+  images___asset___localFile___children = 'images.asset.localFile.children',
+  images___asset___id = 'images.asset.id',
+  images___asset___parent___id = 'images.asset.parent.id',
+  images___asset___parent___children = 'images.asset.parent.children',
+  images___asset___children = 'images.asset.children',
+  images___asset___children___id = 'images.asset.children.id',
+  images___asset___children___children = 'images.asset.children.children',
+  images___asset___internal___content = 'images.asset.internal.content',
+  images___asset___internal___contentDigest = 'images.asset.internal.contentDigest',
+  images___asset___internal___description = 'images.asset.internal.description',
+  images___asset___internal___fieldOwners = 'images.asset.internal.fieldOwners',
+  images___asset___internal___ignoreType = 'images.asset.internal.ignoreType',
+  images___asset___internal___mediaType = 'images.asset.internal.mediaType',
+  images___asset___internal___owner = 'images.asset.internal.owner',
+  images___asset___internal___type = 'images.asset.internal.type',
+  images___asset___childImageSharp___id = 'images.asset.childImageSharp.id',
+  images___asset___childImageSharp___children = 'images.asset.childImageSharp.children',
+  images___hotspot____key = 'images.hotspot._key',
+  images___hotspot____type = 'images.hotspot._type',
+  images___hotspot___x = 'images.hotspot.x',
+  images___hotspot___y = 'images.hotspot.y',
+  images___hotspot___height = 'images.hotspot.height',
+  images___hotspot___width = 'images.hotspot.width',
+  images___crop____key = 'images.crop._key',
+  images___crop____type = 'images.crop._type',
+  images___crop___top = 'images.crop.top',
+  images___crop___bottom = 'images.crop.bottom',
+  images___crop___left = 'images.crop.left',
+  images___crop___right = 'images.crop.right',
+  sizes____key = 'sizes._key',
+  sizes____type = 'sizes._type',
+  sizes___length = 'sizes.length',
+  sizes___depth = 'sizes.depth',
+  sizes___height = 'sizes.height',
+  materials = 'materials',
+  materials____id = 'materials._id',
+  materials____type = 'materials._type',
+  materials____createdAt = 'materials._createdAt',
+  materials____updatedAt = 'materials._updatedAt',
+  materials____rev = 'materials._rev',
+  materials____key = 'materials._key',
+  materials___title = 'materials.title',
+  materials___id = 'materials.id',
+  materials___parent___id = 'materials.parent.id',
+  materials___parent___parent___id = 'materials.parent.parent.id',
+  materials___parent___parent___children = 'materials.parent.parent.children',
+  materials___parent___children = 'materials.parent.children',
+  materials___parent___children___id = 'materials.parent.children.id',
+  materials___parent___children___children = 'materials.parent.children.children',
+  materials___parent___internal___content = 'materials.parent.internal.content',
+  materials___parent___internal___contentDigest = 'materials.parent.internal.contentDigest',
+  materials___parent___internal___description = 'materials.parent.internal.description',
+  materials___parent___internal___fieldOwners = 'materials.parent.internal.fieldOwners',
+  materials___parent___internal___ignoreType = 'materials.parent.internal.ignoreType',
+  materials___parent___internal___mediaType = 'materials.parent.internal.mediaType',
+  materials___parent___internal___owner = 'materials.parent.internal.owner',
+  materials___parent___internal___type = 'materials.parent.internal.type',
+  materials___children = 'materials.children',
+  materials___children___id = 'materials.children.id',
+  materials___children___parent___id = 'materials.children.parent.id',
+  materials___children___parent___children = 'materials.children.parent.children',
+  materials___children___children = 'materials.children.children',
+  materials___children___children___id = 'materials.children.children.id',
+  materials___children___children___children = 'materials.children.children.children',
+  materials___children___internal___content = 'materials.children.internal.content',
+  materials___children___internal___contentDigest = 'materials.children.internal.contentDigest',
+  materials___children___internal___description = 'materials.children.internal.description',
+  materials___children___internal___fieldOwners = 'materials.children.internal.fieldOwners',
+  materials___children___internal___ignoreType = 'materials.children.internal.ignoreType',
+  materials___children___internal___mediaType = 'materials.children.internal.mediaType',
+  materials___children___internal___owner = 'materials.children.internal.owner',
+  materials___children___internal___type = 'materials.children.internal.type',
+  materials___internal___content = 'materials.internal.content',
+  materials___internal___contentDigest = 'materials.internal.contentDigest',
+  materials___internal___description = 'materials.internal.description',
+  materials___internal___fieldOwners = 'materials.internal.fieldOwners',
+  materials___internal___ignoreType = 'materials.internal.ignoreType',
+  materials___internal___mediaType = 'materials.internal.mediaType',
+  materials___internal___owner = 'materials.internal.owner',
+  materials___internal___type = 'materials.internal.type',
+  categories = 'categories',
+  categories____id = 'categories._id',
+  categories____type = 'categories._type',
+  categories____createdAt = 'categories._createdAt',
+  categories____updatedAt = 'categories._updatedAt',
+  categories____rev = 'categories._rev',
+  categories____key = 'categories._key',
+  categories___title = 'categories.title',
+  categories___slug____key = 'categories.slug._key',
+  categories___slug____type = 'categories.slug._type',
+  categories___slug___current = 'categories.slug.current',
+  categories___description = 'categories.description',
+  categories___parents = 'categories.parents',
+  categories___parents____id = 'categories.parents._id',
+  categories___parents____type = 'categories.parents._type',
+  categories___parents____createdAt = 'categories.parents._createdAt',
+  categories___parents____updatedAt = 'categories.parents._updatedAt',
+  categories___parents____rev = 'categories.parents._rev',
+  categories___parents____key = 'categories.parents._key',
+  categories___parents___title = 'categories.parents.title',
+  categories___parents___slug____key = 'categories.parents.slug._key',
+  categories___parents___slug____type = 'categories.parents.slug._type',
+  categories___parents___slug___current = 'categories.parents.slug.current',
+  categories___parents___description = 'categories.parents.description',
+  categories___parents___parents = 'categories.parents.parents',
+  categories___parents___parents____id = 'categories.parents.parents._id',
+  categories___parents___parents____type = 'categories.parents.parents._type',
+  categories___parents___parents____createdAt = 'categories.parents.parents._createdAt',
+  categories___parents___parents____updatedAt = 'categories.parents.parents._updatedAt',
+  categories___parents___parents____rev = 'categories.parents.parents._rev',
+  categories___parents___parents____key = 'categories.parents.parents._key',
+  categories___parents___parents___title = 'categories.parents.parents.title',
+  categories___parents___parents___description = 'categories.parents.parents.description',
+  categories___parents___parents___parents = 'categories.parents.parents.parents',
+  categories___parents___parents____rawSlug = 'categories.parents.parents._rawSlug',
+  categories___parents___parents____rawParents = 'categories.parents.parents._rawParents',
+  categories___parents___parents____rawImage = 'categories.parents.parents._rawImage',
+  categories___parents___parents___id = 'categories.parents.parents.id',
+  categories___parents___parents___children = 'categories.parents.parents.children',
+  categories___parents___image____key = 'categories.parents.image._key',
+  categories___parents___image____type = 'categories.parents.image._type',
+  categories___parents____rawSlug = 'categories.parents._rawSlug',
+  categories___parents____rawParents = 'categories.parents._rawParents',
+  categories___parents____rawImage = 'categories.parents._rawImage',
+  categories___parents___id = 'categories.parents.id',
+  categories___parents___parent___id = 'categories.parents.parent.id',
+  categories___parents___parent___children = 'categories.parents.parent.children',
+  categories___parents___children = 'categories.parents.children',
+  categories___parents___children___id = 'categories.parents.children.id',
+  categories___parents___children___children = 'categories.parents.children.children',
+  categories___parents___internal___content = 'categories.parents.internal.content',
+  categories___parents___internal___contentDigest = 'categories.parents.internal.contentDigest',
+  categories___parents___internal___description = 'categories.parents.internal.description',
+  categories___parents___internal___fieldOwners = 'categories.parents.internal.fieldOwners',
+  categories___parents___internal___ignoreType = 'categories.parents.internal.ignoreType',
+  categories___parents___internal___mediaType = 'categories.parents.internal.mediaType',
+  categories___parents___internal___owner = 'categories.parents.internal.owner',
+  categories___parents___internal___type = 'categories.parents.internal.type',
+  categories___image____key = 'categories.image._key',
+  categories___image____type = 'categories.image._type',
+  categories___image___asset____id = 'categories.image.asset._id',
+  categories___image___asset____type = 'categories.image.asset._type',
+  categories___image___asset____createdAt = 'categories.image.asset._createdAt',
+  categories___image___asset____updatedAt = 'categories.image.asset._updatedAt',
+  categories___image___asset____rev = 'categories.image.asset._rev',
+  categories___image___asset____key = 'categories.image.asset._key',
+  categories___image___asset___originalFilename = 'categories.image.asset.originalFilename',
+  categories___image___asset___label = 'categories.image.asset.label',
+  categories___image___asset___title = 'categories.image.asset.title',
+  categories___image___asset___description = 'categories.image.asset.description',
+  categories___image___asset___sha1hash = 'categories.image.asset.sha1hash',
+  categories___image___asset___extension = 'categories.image.asset.extension',
+  categories___image___asset___mimeType = 'categories.image.asset.mimeType',
+  categories___image___asset___size = 'categories.image.asset.size',
+  categories___image___asset___assetId = 'categories.image.asset.assetId',
+  categories___image___asset___path = 'categories.image.asset.path',
+  categories___image___asset___url = 'categories.image.asset.url',
+  categories___image___asset____rawMetadata = 'categories.image.asset._rawMetadata',
+  categories___image___asset____rawSource = 'categories.image.asset._rawSource',
+  categories___image___asset___id = 'categories.image.asset.id',
+  categories___image___asset___children = 'categories.image.asset.children',
+  categories___image___hotspot____key = 'categories.image.hotspot._key',
+  categories___image___hotspot____type = 'categories.image.hotspot._type',
+  categories___image___hotspot___x = 'categories.image.hotspot.x',
+  categories___image___hotspot___y = 'categories.image.hotspot.y',
+  categories___image___hotspot___height = 'categories.image.hotspot.height',
+  categories___image___hotspot___width = 'categories.image.hotspot.width',
+  categories___image___crop____key = 'categories.image.crop._key',
+  categories___image___crop____type = 'categories.image.crop._type',
+  categories___image___crop___top = 'categories.image.crop.top',
+  categories___image___crop___bottom = 'categories.image.crop.bottom',
+  categories___image___crop___left = 'categories.image.crop.left',
+  categories___image___crop___right = 'categories.image.crop.right',
+  categories____rawSlug = 'categories._rawSlug',
+  categories____rawParents = 'categories._rawParents',
+  categories____rawImage = 'categories._rawImage',
+  categories___id = 'categories.id',
+  categories___parent___id = 'categories.parent.id',
+  categories___parent___parent___id = 'categories.parent.parent.id',
+  categories___parent___parent___children = 'categories.parent.parent.children',
+  categories___parent___children = 'categories.parent.children',
+  categories___parent___children___id = 'categories.parent.children.id',
+  categories___parent___children___children = 'categories.parent.children.children',
+  categories___parent___internal___content = 'categories.parent.internal.content',
+  categories___parent___internal___contentDigest = 'categories.parent.internal.contentDigest',
+  categories___parent___internal___description = 'categories.parent.internal.description',
+  categories___parent___internal___fieldOwners = 'categories.parent.internal.fieldOwners',
+  categories___parent___internal___ignoreType = 'categories.parent.internal.ignoreType',
+  categories___parent___internal___mediaType = 'categories.parent.internal.mediaType',
+  categories___parent___internal___owner = 'categories.parent.internal.owner',
+  categories___parent___internal___type = 'categories.parent.internal.type',
+  categories___children = 'categories.children',
+  categories___children___id = 'categories.children.id',
+  categories___children___parent___id = 'categories.children.parent.id',
+  categories___children___parent___children = 'categories.children.parent.children',
+  categories___children___children = 'categories.children.children',
+  categories___children___children___id = 'categories.children.children.id',
+  categories___children___children___children = 'categories.children.children.children',
+  categories___children___internal___content = 'categories.children.internal.content',
+  categories___children___internal___contentDigest = 'categories.children.internal.contentDigest',
+  categories___children___internal___description = 'categories.children.internal.description',
+  categories___children___internal___fieldOwners = 'categories.children.internal.fieldOwners',
+  categories___children___internal___ignoreType = 'categories.children.internal.ignoreType',
+  categories___children___internal___mediaType = 'categories.children.internal.mediaType',
+  categories___children___internal___owner = 'categories.children.internal.owner',
+  categories___children___internal___type = 'categories.children.internal.type',
+  categories___internal___content = 'categories.internal.content',
+  categories___internal___contentDigest = 'categories.internal.contentDigest',
+  categories___internal___description = 'categories.internal.description',
+  categories___internal___fieldOwners = 'categories.internal.fieldOwners',
+  categories___internal___ignoreType = 'categories.internal.ignoreType',
+  categories___internal___mediaType = 'categories.internal.mediaType',
+  categories___internal___owner = 'categories.internal.owner',
+  categories___internal___type = 'categories.internal.type',
+  body = 'body',
+  body____key = 'body._key',
+  body____type = 'body._type',
+  body___sanityChildren = 'body.sanityChildren',
+  body___sanityChildren____key = 'body.sanityChildren._key',
+  body___sanityChildren____type = 'body.sanityChildren._type',
+  body___sanityChildren___marks = 'body.sanityChildren.marks',
+  body___sanityChildren___text = 'body.sanityChildren.text',
+  body___style = 'body.style',
+  body___list = 'body.list',
+  _rawSlug = '_rawSlug',
+  _rawImages = '_rawImages',
+  _rawSizes = '_rawSizes',
+  _rawMaterials = '_rawMaterials',
+  _rawCategories = '_rawCategories',
+  _rawBody = '_rawBody',
+  id = 'id',
+  parent___id = 'parent.id',
+  parent___parent___id = 'parent.parent.id',
+  parent___parent___parent___id = 'parent.parent.parent.id',
+  parent___parent___parent___children = 'parent.parent.parent.children',
+  parent___parent___children = 'parent.parent.children',
+  parent___parent___children___id = 'parent.parent.children.id',
+  parent___parent___children___children = 'parent.parent.children.children',
+  parent___parent___internal___content = 'parent.parent.internal.content',
+  parent___parent___internal___contentDigest = 'parent.parent.internal.contentDigest',
+  parent___parent___internal___description = 'parent.parent.internal.description',
+  parent___parent___internal___fieldOwners = 'parent.parent.internal.fieldOwners',
+  parent___parent___internal___ignoreType = 'parent.parent.internal.ignoreType',
+  parent___parent___internal___mediaType = 'parent.parent.internal.mediaType',
+  parent___parent___internal___owner = 'parent.parent.internal.owner',
+  parent___parent___internal___type = 'parent.parent.internal.type',
+  parent___children = 'parent.children',
+  parent___children___id = 'parent.children.id',
+  parent___children___parent___id = 'parent.children.parent.id',
+  parent___children___parent___children = 'parent.children.parent.children',
+  parent___children___children = 'parent.children.children',
+  parent___children___children___id = 'parent.children.children.id',
+  parent___children___children___children = 'parent.children.children.children',
+  parent___children___internal___content = 'parent.children.internal.content',
+  parent___children___internal___contentDigest = 'parent.children.internal.contentDigest',
+  parent___children___internal___description = 'parent.children.internal.description',
+  parent___children___internal___fieldOwners = 'parent.children.internal.fieldOwners',
+  parent___children___internal___ignoreType = 'parent.children.internal.ignoreType',
+  parent___children___internal___mediaType = 'parent.children.internal.mediaType',
+  parent___children___internal___owner = 'parent.children.internal.owner',
+  parent___children___internal___type = 'parent.children.internal.type',
+  parent___internal___content = 'parent.internal.content',
+  parent___internal___contentDigest = 'parent.internal.contentDigest',
+  parent___internal___description = 'parent.internal.description',
+  parent___internal___fieldOwners = 'parent.internal.fieldOwners',
+  parent___internal___ignoreType = 'parent.internal.ignoreType',
+  parent___internal___mediaType = 'parent.internal.mediaType',
+  parent___internal___owner = 'parent.internal.owner',
+  parent___internal___type = 'parent.internal.type',
+  children = 'children',
+  children___id = 'children.id',
+  children___parent___id = 'children.parent.id',
+  children___parent___parent___id = 'children.parent.parent.id',
+  children___parent___parent___children = 'children.parent.parent.children',
+  children___parent___children = 'children.parent.children',
+  children___parent___children___id = 'children.parent.children.id',
+  children___parent___children___children = 'children.parent.children.children',
+  children___parent___internal___content = 'children.parent.internal.content',
+  children___parent___internal___contentDigest = 'children.parent.internal.contentDigest',
+  children___parent___internal___description = 'children.parent.internal.description',
+  children___parent___internal___fieldOwners = 'children.parent.internal.fieldOwners',
+  children___parent___internal___ignoreType = 'children.parent.internal.ignoreType',
+  children___parent___internal___mediaType = 'children.parent.internal.mediaType',
+  children___parent___internal___owner = 'children.parent.internal.owner',
+  children___parent___internal___type = 'children.parent.internal.type',
+  children___children = 'children.children',
+  children___children___id = 'children.children.id',
+  children___children___parent___id = 'children.children.parent.id',
+  children___children___parent___children = 'children.children.parent.children',
+  children___children___children = 'children.children.children',
+  children___children___children___id = 'children.children.children.id',
+  children___children___children___children = 'children.children.children.children',
+  children___children___internal___content = 'children.children.internal.content',
+  children___children___internal___contentDigest = 'children.children.internal.contentDigest',
+  children___children___internal___description = 'children.children.internal.description',
+  children___children___internal___fieldOwners = 'children.children.internal.fieldOwners',
+  children___children___internal___ignoreType = 'children.children.internal.ignoreType',
+  children___children___internal___mediaType = 'children.children.internal.mediaType',
+  children___children___internal___owner = 'children.children.internal.owner',
+  children___children___internal___type = 'children.children.internal.type',
+  children___internal___content = 'children.internal.content',
+  children___internal___contentDigest = 'children.internal.contentDigest',
+  children___internal___description = 'children.internal.description',
+  children___internal___fieldOwners = 'children.internal.fieldOwners',
+  children___internal___ignoreType = 'children.internal.ignoreType',
+  children___internal___mediaType = 'children.internal.mediaType',
+  children___internal___owner = 'children.internal.owner',
+  children___internal___type = 'children.internal.type',
+  internal___content = 'internal.content',
+  internal___contentDigest = 'internal.contentDigest',
+  internal___description = 'internal.description',
+  internal___fieldOwners = 'internal.fieldOwners',
+  internal___ignoreType = 'internal.ignoreType',
+  internal___mediaType = 'internal.mediaType',
+  internal___owner = 'internal.owner',
+  internal___type = 'internal.type'
+}
+
+type SanityProductFilterInput = {
+  readonly _id: Maybe<StringQueryOperatorInput>;
+  readonly _type: Maybe<StringQueryOperatorInput>;
+  readonly _createdAt: Maybe<DateQueryOperatorInput>;
+  readonly _updatedAt: Maybe<DateQueryOperatorInput>;
+  readonly _rev: Maybe<StringQueryOperatorInput>;
+  readonly _key: Maybe<StringQueryOperatorInput>;
+  readonly title: Maybe<StringQueryOperatorInput>;
+  readonly slug: Maybe<SanitySlugFilterInput>;
+  readonly price: Maybe<FloatQueryOperatorInput>;
+  readonly oldPrice: Maybe<FloatQueryOperatorInput>;
+  readonly images: Maybe<SanityImageFilterListInput>;
+  readonly sizes: Maybe<SanityProductSizesFilterInput>;
+  readonly materials: Maybe<SanityMaterialFilterListInput>;
+  readonly categories: Maybe<SanityCategoryFilterListInput>;
+  readonly body: Maybe<SanityBlockFilterListInput>;
+  readonly _rawSlug: Maybe<JSONQueryOperatorInput>;
+  readonly _rawImages: Maybe<JSONQueryOperatorInput>;
+  readonly _rawSizes: Maybe<JSONQueryOperatorInput>;
+  readonly _rawMaterials: Maybe<JSONQueryOperatorInput>;
+  readonly _rawCategories: Maybe<JSONQueryOperatorInput>;
+  readonly _rawBody: Maybe<JSONQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
+  readonly parent: Maybe<NodeFilterInput>;
+  readonly children: Maybe<NodeFilterListInput>;
+  readonly internal: Maybe<InternalFilterInput>;
+};
+
+type SanityProductGroupConnection = {
+  readonly totalCount: Scalars['Int'];
+  readonly edges: ReadonlyArray<SanityProductEdge>;
+  readonly nodes: ReadonlyArray<SanityProduct>;
+  readonly pageInfo: PageInfo;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+};
+
+type SanityProductSizes = {
+  readonly _key: Maybe<Scalars['String']>;
+  readonly _type: Maybe<Scalars['String']>;
+  readonly length: Maybe<Scalars['Float']>;
+  readonly depth: Maybe<Scalars['Float']>;
+  readonly height: Maybe<Scalars['Float']>;
+};
+
+type SanityProductSizesFilterInput = {
+  readonly _key: Maybe<StringQueryOperatorInput>;
+  readonly _type: Maybe<StringQueryOperatorInput>;
+  readonly length: Maybe<FloatQueryOperatorInput>;
+  readonly depth: Maybe<FloatQueryOperatorInput>;
+  readonly height: Maybe<FloatQueryOperatorInput>;
+};
+
+type SanityProductSortInput = {
+  readonly fields: Maybe<ReadonlyArray<Maybe<SanityProductFieldsEnum>>>;
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
 type SanityResolveReferencesConfiguration = {
   /** Max depth to resolve references to */
   readonly maxDepth: Scalars['Int'];
+};
+
+type SanitySiteSettings = SanityDocument & Node & {
+  readonly _id: Maybe<Scalars['String']>;
+  readonly _type: Maybe<Scalars['String']>;
+  readonly _createdAt: Maybe<Scalars['Date']>;
+  readonly _updatedAt: Maybe<Scalars['Date']>;
+  readonly _rev: Maybe<Scalars['String']>;
+  readonly _key: Maybe<Scalars['String']>;
+  readonly title: Maybe<Scalars['String']>;
+  readonly description: Maybe<Scalars['String']>;
+  readonly keywords: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly emails: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly phoneNumbers: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly addresses: Maybe<ReadonlyArray<Maybe<SanityAddress>>>;
+  readonly _rawAddresses: Maybe<Scalars['JSON']>;
+  readonly id: Scalars['ID'];
+  readonly parent: Maybe<Node>;
+  readonly children: ReadonlyArray<Node>;
+  readonly internal: Internal;
+};
+
+
+type SanitySiteSettings__createdAtArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type SanitySiteSettings__updatedAtArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type SanitySiteSettings__rawAddressesArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+type SanitySiteSettingsConnection = {
+  readonly totalCount: Scalars['Int'];
+  readonly edges: ReadonlyArray<SanitySiteSettingsEdge>;
+  readonly nodes: ReadonlyArray<SanitySiteSettings>;
+  readonly pageInfo: PageInfo;
+  readonly distinct: ReadonlyArray<Scalars['String']>;
+  readonly group: ReadonlyArray<SanitySiteSettingsGroupConnection>;
+};
+
+
+type SanitySiteSettingsConnection_distinctArgs = {
+  field: SanitySiteSettingsFieldsEnum;
+};
+
+
+type SanitySiteSettingsConnection_groupArgs = {
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+  field: SanitySiteSettingsFieldsEnum;
+};
+
+type SanitySiteSettingsEdge = {
+  readonly next: Maybe<SanitySiteSettings>;
+  readonly node: SanitySiteSettings;
+  readonly previous: Maybe<SanitySiteSettings>;
+};
+
+enum SanitySiteSettingsFieldsEnum {
+  _id = '_id',
+  _type = '_type',
+  _createdAt = '_createdAt',
+  _updatedAt = '_updatedAt',
+  _rev = '_rev',
+  _key = '_key',
+  title = 'title',
+  description = 'description',
+  keywords = 'keywords',
+  emails = 'emails',
+  phoneNumbers = 'phoneNumbers',
+  addresses = 'addresses',
+  addresses____key = 'addresses._key',
+  addresses____type = 'addresses._type',
+  addresses___street = 'addresses.street',
+  addresses___streetNo = 'addresses.streetNo',
+  addresses___city = 'addresses.city',
+  addresses___location____key = 'addresses.location._key',
+  addresses___location____type = 'addresses.location._type',
+  addresses___location___lat = 'addresses.location.lat',
+  addresses___location___lng = 'addresses.location.lng',
+  addresses___location___alt = 'addresses.location.alt',
+  _rawAddresses = '_rawAddresses',
+  id = 'id',
+  parent___id = 'parent.id',
+  parent___parent___id = 'parent.parent.id',
+  parent___parent___parent___id = 'parent.parent.parent.id',
+  parent___parent___parent___children = 'parent.parent.parent.children',
+  parent___parent___children = 'parent.parent.children',
+  parent___parent___children___id = 'parent.parent.children.id',
+  parent___parent___children___children = 'parent.parent.children.children',
+  parent___parent___internal___content = 'parent.parent.internal.content',
+  parent___parent___internal___contentDigest = 'parent.parent.internal.contentDigest',
+  parent___parent___internal___description = 'parent.parent.internal.description',
+  parent___parent___internal___fieldOwners = 'parent.parent.internal.fieldOwners',
+  parent___parent___internal___ignoreType = 'parent.parent.internal.ignoreType',
+  parent___parent___internal___mediaType = 'parent.parent.internal.mediaType',
+  parent___parent___internal___owner = 'parent.parent.internal.owner',
+  parent___parent___internal___type = 'parent.parent.internal.type',
+  parent___children = 'parent.children',
+  parent___children___id = 'parent.children.id',
+  parent___children___parent___id = 'parent.children.parent.id',
+  parent___children___parent___children = 'parent.children.parent.children',
+  parent___children___children = 'parent.children.children',
+  parent___children___children___id = 'parent.children.children.id',
+  parent___children___children___children = 'parent.children.children.children',
+  parent___children___internal___content = 'parent.children.internal.content',
+  parent___children___internal___contentDigest = 'parent.children.internal.contentDigest',
+  parent___children___internal___description = 'parent.children.internal.description',
+  parent___children___internal___fieldOwners = 'parent.children.internal.fieldOwners',
+  parent___children___internal___ignoreType = 'parent.children.internal.ignoreType',
+  parent___children___internal___mediaType = 'parent.children.internal.mediaType',
+  parent___children___internal___owner = 'parent.children.internal.owner',
+  parent___children___internal___type = 'parent.children.internal.type',
+  parent___internal___content = 'parent.internal.content',
+  parent___internal___contentDigest = 'parent.internal.contentDigest',
+  parent___internal___description = 'parent.internal.description',
+  parent___internal___fieldOwners = 'parent.internal.fieldOwners',
+  parent___internal___ignoreType = 'parent.internal.ignoreType',
+  parent___internal___mediaType = 'parent.internal.mediaType',
+  parent___internal___owner = 'parent.internal.owner',
+  parent___internal___type = 'parent.internal.type',
+  children = 'children',
+  children___id = 'children.id',
+  children___parent___id = 'children.parent.id',
+  children___parent___parent___id = 'children.parent.parent.id',
+  children___parent___parent___children = 'children.parent.parent.children',
+  children___parent___children = 'children.parent.children',
+  children___parent___children___id = 'children.parent.children.id',
+  children___parent___children___children = 'children.parent.children.children',
+  children___parent___internal___content = 'children.parent.internal.content',
+  children___parent___internal___contentDigest = 'children.parent.internal.contentDigest',
+  children___parent___internal___description = 'children.parent.internal.description',
+  children___parent___internal___fieldOwners = 'children.parent.internal.fieldOwners',
+  children___parent___internal___ignoreType = 'children.parent.internal.ignoreType',
+  children___parent___internal___mediaType = 'children.parent.internal.mediaType',
+  children___parent___internal___owner = 'children.parent.internal.owner',
+  children___parent___internal___type = 'children.parent.internal.type',
+  children___children = 'children.children',
+  children___children___id = 'children.children.id',
+  children___children___parent___id = 'children.children.parent.id',
+  children___children___parent___children = 'children.children.parent.children',
+  children___children___children = 'children.children.children',
+  children___children___children___id = 'children.children.children.id',
+  children___children___children___children = 'children.children.children.children',
+  children___children___internal___content = 'children.children.internal.content',
+  children___children___internal___contentDigest = 'children.children.internal.contentDigest',
+  children___children___internal___description = 'children.children.internal.description',
+  children___children___internal___fieldOwners = 'children.children.internal.fieldOwners',
+  children___children___internal___ignoreType = 'children.children.internal.ignoreType',
+  children___children___internal___mediaType = 'children.children.internal.mediaType',
+  children___children___internal___owner = 'children.children.internal.owner',
+  children___children___internal___type = 'children.children.internal.type',
+  children___internal___content = 'children.internal.content',
+  children___internal___contentDigest = 'children.internal.contentDigest',
+  children___internal___description = 'children.internal.description',
+  children___internal___fieldOwners = 'children.internal.fieldOwners',
+  children___internal___ignoreType = 'children.internal.ignoreType',
+  children___internal___mediaType = 'children.internal.mediaType',
+  children___internal___owner = 'children.internal.owner',
+  children___internal___type = 'children.internal.type',
+  internal___content = 'internal.content',
+  internal___contentDigest = 'internal.contentDigest',
+  internal___description = 'internal.description',
+  internal___fieldOwners = 'internal.fieldOwners',
+  internal___ignoreType = 'internal.ignoreType',
+  internal___mediaType = 'internal.mediaType',
+  internal___owner = 'internal.owner',
+  internal___type = 'internal.type'
+}
+
+type SanitySiteSettingsFilterInput = {
+  readonly _id: Maybe<StringQueryOperatorInput>;
+  readonly _type: Maybe<StringQueryOperatorInput>;
+  readonly _createdAt: Maybe<DateQueryOperatorInput>;
+  readonly _updatedAt: Maybe<DateQueryOperatorInput>;
+  readonly _rev: Maybe<StringQueryOperatorInput>;
+  readonly _key: Maybe<StringQueryOperatorInput>;
+  readonly title: Maybe<StringQueryOperatorInput>;
+  readonly description: Maybe<StringQueryOperatorInput>;
+  readonly keywords: Maybe<StringQueryOperatorInput>;
+  readonly emails: Maybe<StringQueryOperatorInput>;
+  readonly phoneNumbers: Maybe<StringQueryOperatorInput>;
+  readonly addresses: Maybe<SanityAddressFilterListInput>;
+  readonly _rawAddresses: Maybe<JSONQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
+  readonly parent: Maybe<NodeFilterInput>;
+  readonly children: Maybe<NodeFilterListInput>;
+  readonly internal: Maybe<InternalFilterInput>;
+};
+
+type SanitySiteSettingsGroupConnection = {
+  readonly totalCount: Scalars['Int'];
+  readonly edges: ReadonlyArray<SanitySiteSettingsEdge>;
+  readonly nodes: ReadonlyArray<SanitySiteSettings>;
+  readonly pageInfo: PageInfo;
+  readonly field: Scalars['String'];
+  readonly fieldValue: Maybe<Scalars['String']>;
+};
+
+type SanitySiteSettingsSortInput = {
+  readonly fields: Maybe<ReadonlyArray<Maybe<SanitySiteSettingsFieldsEnum>>>;
+  readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
 };
 
 type SanitySlug = {
@@ -3558,8 +4347,7 @@ enum SanityTransformImagesImageFormat {
 
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
-  readonly siteMetadata: Maybe<SiteSiteMetadata>;
-  readonly port: Maybe<Scalars['Int']>;
+  readonly port: Maybe<Scalars['Date']>;
   readonly host: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
@@ -3571,6 +4359,14 @@ type Site = Node & {
 
 
 type Site_buildTimeArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type Site_portArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -3761,8 +4557,6 @@ type SiteEdge = {
 
 enum SiteFieldsEnum {
   buildTime = 'buildTime',
-  siteMetadata___title = 'siteMetadata.title',
-  siteMetadata___description = 'siteMetadata.description',
   port = 'port',
   host = 'host',
   polyfill = 'polyfill',
@@ -3857,8 +4651,7 @@ enum SiteFieldsEnum {
 
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
-  readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  readonly port: Maybe<IntQueryOperatorInput>;
+  readonly port: Maybe<DateQueryOperatorInput>;
   readonly host: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
@@ -3883,15 +4676,15 @@ type SitePage = Node & {
   readonly internalComponentName: Scalars['String'];
   readonly componentChunkName: Scalars['String'];
   readonly matchPath: Maybe<Scalars['String']>;
-  readonly id: Scalars['ID'];
-  readonly parent: Maybe<Node>;
-  readonly children: ReadonlyArray<Node>;
-  readonly internal: Internal;
   readonly isCreatedByStatefulCreatePages: Maybe<Scalars['Boolean']>;
   readonly context: Maybe<SitePageContext>;
   readonly pluginCreator: Maybe<SitePlugin>;
   readonly pluginCreatorId: Maybe<Scalars['String']>;
   readonly componentPath: Maybe<Scalars['String']>;
+  readonly id: Scalars['ID'];
+  readonly parent: Maybe<Node>;
+  readonly children: ReadonlyArray<Node>;
+  readonly internal: Internal;
 };
 
 type SitePageConnection = {
@@ -3935,6 +4728,92 @@ enum SitePageFieldsEnum {
   internalComponentName = 'internalComponentName',
   componentChunkName = 'componentChunkName',
   matchPath = 'matchPath',
+  isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
+  context___slug = 'context.slug',
+  pluginCreator___id = 'pluginCreator.id',
+  pluginCreator___parent___id = 'pluginCreator.parent.id',
+  pluginCreator___parent___parent___id = 'pluginCreator.parent.parent.id',
+  pluginCreator___parent___parent___children = 'pluginCreator.parent.parent.children',
+  pluginCreator___parent___children = 'pluginCreator.parent.children',
+  pluginCreator___parent___children___id = 'pluginCreator.parent.children.id',
+  pluginCreator___parent___children___children = 'pluginCreator.parent.children.children',
+  pluginCreator___parent___internal___content = 'pluginCreator.parent.internal.content',
+  pluginCreator___parent___internal___contentDigest = 'pluginCreator.parent.internal.contentDigest',
+  pluginCreator___parent___internal___description = 'pluginCreator.parent.internal.description',
+  pluginCreator___parent___internal___fieldOwners = 'pluginCreator.parent.internal.fieldOwners',
+  pluginCreator___parent___internal___ignoreType = 'pluginCreator.parent.internal.ignoreType',
+  pluginCreator___parent___internal___mediaType = 'pluginCreator.parent.internal.mediaType',
+  pluginCreator___parent___internal___owner = 'pluginCreator.parent.internal.owner',
+  pluginCreator___parent___internal___type = 'pluginCreator.parent.internal.type',
+  pluginCreator___children = 'pluginCreator.children',
+  pluginCreator___children___id = 'pluginCreator.children.id',
+  pluginCreator___children___parent___id = 'pluginCreator.children.parent.id',
+  pluginCreator___children___parent___children = 'pluginCreator.children.parent.children',
+  pluginCreator___children___children = 'pluginCreator.children.children',
+  pluginCreator___children___children___id = 'pluginCreator.children.children.id',
+  pluginCreator___children___children___children = 'pluginCreator.children.children.children',
+  pluginCreator___children___internal___content = 'pluginCreator.children.internal.content',
+  pluginCreator___children___internal___contentDigest = 'pluginCreator.children.internal.contentDigest',
+  pluginCreator___children___internal___description = 'pluginCreator.children.internal.description',
+  pluginCreator___children___internal___fieldOwners = 'pluginCreator.children.internal.fieldOwners',
+  pluginCreator___children___internal___ignoreType = 'pluginCreator.children.internal.ignoreType',
+  pluginCreator___children___internal___mediaType = 'pluginCreator.children.internal.mediaType',
+  pluginCreator___children___internal___owner = 'pluginCreator.children.internal.owner',
+  pluginCreator___children___internal___type = 'pluginCreator.children.internal.type',
+  pluginCreator___internal___content = 'pluginCreator.internal.content',
+  pluginCreator___internal___contentDigest = 'pluginCreator.internal.contentDigest',
+  pluginCreator___internal___description = 'pluginCreator.internal.description',
+  pluginCreator___internal___fieldOwners = 'pluginCreator.internal.fieldOwners',
+  pluginCreator___internal___ignoreType = 'pluginCreator.internal.ignoreType',
+  pluginCreator___internal___mediaType = 'pluginCreator.internal.mediaType',
+  pluginCreator___internal___owner = 'pluginCreator.internal.owner',
+  pluginCreator___internal___type = 'pluginCreator.internal.type',
+  pluginCreator___resolve = 'pluginCreator.resolve',
+  pluginCreator___name = 'pluginCreator.name',
+  pluginCreator___version = 'pluginCreator.version',
+  pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql = 'pluginCreator.pluginOptions.emitSchema.src___generated___gatsby_schema_graphql',
+  pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql = 'pluginCreator.pluginOptions.emitPluginDocuments.src___generated___gatsby_plugin_documents_graphql',
+  pluginCreator___pluginOptions___fonts___google = 'pluginCreator.pluginOptions.fonts.google',
+  pluginCreator___pluginOptions___name = 'pluginCreator.pluginOptions.name',
+  pluginCreator___pluginOptions___path = 'pluginCreator.pluginOptions.path',
+  pluginCreator___pluginOptions___projectId = 'pluginCreator.pluginOptions.projectId',
+  pluginCreator___pluginOptions___dataset = 'pluginCreator.pluginOptions.dataset',
+  pluginCreator___pluginOptions___token = 'pluginCreator.pluginOptions.token',
+  pluginCreator___pluginOptions___overlayDrafts = 'pluginCreator.pluginOptions.overlayDrafts',
+  pluginCreator___pluginOptions___watchMode = 'pluginCreator.pluginOptions.watchMode',
+  pluginCreator___pluginOptions___short_name = 'pluginCreator.pluginOptions.short_name',
+  pluginCreator___pluginOptions___start_url = 'pluginCreator.pluginOptions.start_url',
+  pluginCreator___pluginOptions___background_color = 'pluginCreator.pluginOptions.background_color',
+  pluginCreator___pluginOptions___theme_color = 'pluginCreator.pluginOptions.theme_color',
+  pluginCreator___pluginOptions___display = 'pluginCreator.pluginOptions.display',
+  pluginCreator___pluginOptions___icon = 'pluginCreator.pluginOptions.icon',
+  pluginCreator___pluginOptions___cache_busting_mode = 'pluginCreator.pluginOptions.cache_busting_mode',
+  pluginCreator___pluginOptions___include_favicon = 'pluginCreator.pluginOptions.include_favicon',
+  pluginCreator___pluginOptions___legacy = 'pluginCreator.pluginOptions.legacy',
+  pluginCreator___pluginOptions___theme_color_in_head = 'pluginCreator.pluginOptions.theme_color_in_head',
+  pluginCreator___pluginOptions___cacheDigest = 'pluginCreator.pluginOptions.cacheDigest',
+  pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
+  pluginCreator___nodeAPIs = 'pluginCreator.nodeAPIs',
+  pluginCreator___browserAPIs = 'pluginCreator.browserAPIs',
+  pluginCreator___ssrAPIs = 'pluginCreator.ssrAPIs',
+  pluginCreator___pluginFilepath = 'pluginCreator.pluginFilepath',
+  pluginCreator___packageJson___name = 'pluginCreator.packageJson.name',
+  pluginCreator___packageJson___description = 'pluginCreator.packageJson.description',
+  pluginCreator___packageJson___version = 'pluginCreator.packageJson.version',
+  pluginCreator___packageJson___main = 'pluginCreator.packageJson.main',
+  pluginCreator___packageJson___license = 'pluginCreator.packageJson.license',
+  pluginCreator___packageJson___dependencies = 'pluginCreator.packageJson.dependencies',
+  pluginCreator___packageJson___dependencies___name = 'pluginCreator.packageJson.dependencies.name',
+  pluginCreator___packageJson___dependencies___version = 'pluginCreator.packageJson.dependencies.version',
+  pluginCreator___packageJson___devDependencies = 'pluginCreator.packageJson.devDependencies',
+  pluginCreator___packageJson___devDependencies___name = 'pluginCreator.packageJson.devDependencies.name',
+  pluginCreator___packageJson___devDependencies___version = 'pluginCreator.packageJson.devDependencies.version',
+  pluginCreator___packageJson___peerDependencies = 'pluginCreator.packageJson.peerDependencies',
+  pluginCreator___packageJson___peerDependencies___name = 'pluginCreator.packageJson.peerDependencies.name',
+  pluginCreator___packageJson___peerDependencies___version = 'pluginCreator.packageJson.peerDependencies.version',
+  pluginCreator___packageJson___keywords = 'pluginCreator.packageJson.keywords',
+  pluginCreatorId = 'pluginCreatorId',
+  componentPath = 'componentPath',
   id = 'id',
   parent___id = 'parent.id',
   parent___parent___id = 'parent.parent.id',
@@ -4020,85 +4899,7 @@ enum SitePageFieldsEnum {
   internal___ignoreType = 'internal.ignoreType',
   internal___mediaType = 'internal.mediaType',
   internal___owner = 'internal.owner',
-  internal___type = 'internal.type',
-  isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
-  context___slug = 'context.slug',
-  pluginCreator___id = 'pluginCreator.id',
-  pluginCreator___parent___id = 'pluginCreator.parent.id',
-  pluginCreator___parent___parent___id = 'pluginCreator.parent.parent.id',
-  pluginCreator___parent___parent___children = 'pluginCreator.parent.parent.children',
-  pluginCreator___parent___children = 'pluginCreator.parent.children',
-  pluginCreator___parent___children___id = 'pluginCreator.parent.children.id',
-  pluginCreator___parent___children___children = 'pluginCreator.parent.children.children',
-  pluginCreator___parent___internal___content = 'pluginCreator.parent.internal.content',
-  pluginCreator___parent___internal___contentDigest = 'pluginCreator.parent.internal.contentDigest',
-  pluginCreator___parent___internal___description = 'pluginCreator.parent.internal.description',
-  pluginCreator___parent___internal___fieldOwners = 'pluginCreator.parent.internal.fieldOwners',
-  pluginCreator___parent___internal___ignoreType = 'pluginCreator.parent.internal.ignoreType',
-  pluginCreator___parent___internal___mediaType = 'pluginCreator.parent.internal.mediaType',
-  pluginCreator___parent___internal___owner = 'pluginCreator.parent.internal.owner',
-  pluginCreator___parent___internal___type = 'pluginCreator.parent.internal.type',
-  pluginCreator___children = 'pluginCreator.children',
-  pluginCreator___children___id = 'pluginCreator.children.id',
-  pluginCreator___children___parent___id = 'pluginCreator.children.parent.id',
-  pluginCreator___children___parent___children = 'pluginCreator.children.parent.children',
-  pluginCreator___children___children = 'pluginCreator.children.children',
-  pluginCreator___children___children___id = 'pluginCreator.children.children.id',
-  pluginCreator___children___children___children = 'pluginCreator.children.children.children',
-  pluginCreator___children___internal___content = 'pluginCreator.children.internal.content',
-  pluginCreator___children___internal___contentDigest = 'pluginCreator.children.internal.contentDigest',
-  pluginCreator___children___internal___description = 'pluginCreator.children.internal.description',
-  pluginCreator___children___internal___fieldOwners = 'pluginCreator.children.internal.fieldOwners',
-  pluginCreator___children___internal___ignoreType = 'pluginCreator.children.internal.ignoreType',
-  pluginCreator___children___internal___mediaType = 'pluginCreator.children.internal.mediaType',
-  pluginCreator___children___internal___owner = 'pluginCreator.children.internal.owner',
-  pluginCreator___children___internal___type = 'pluginCreator.children.internal.type',
-  pluginCreator___internal___content = 'pluginCreator.internal.content',
-  pluginCreator___internal___contentDigest = 'pluginCreator.internal.contentDigest',
-  pluginCreator___internal___description = 'pluginCreator.internal.description',
-  pluginCreator___internal___fieldOwners = 'pluginCreator.internal.fieldOwners',
-  pluginCreator___internal___ignoreType = 'pluginCreator.internal.ignoreType',
-  pluginCreator___internal___mediaType = 'pluginCreator.internal.mediaType',
-  pluginCreator___internal___owner = 'pluginCreator.internal.owner',
-  pluginCreator___internal___type = 'pluginCreator.internal.type',
-  pluginCreator___resolve = 'pluginCreator.resolve',
-  pluginCreator___name = 'pluginCreator.name',
-  pluginCreator___version = 'pluginCreator.version',
-  pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql = 'pluginCreator.pluginOptions.emitSchema.src___generated___gatsby_schema_graphql',
-  pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql = 'pluginCreator.pluginOptions.emitPluginDocuments.src___generated___gatsby_plugin_documents_graphql',
-  pluginCreator___pluginOptions___name = 'pluginCreator.pluginOptions.name',
-  pluginCreator___pluginOptions___path = 'pluginCreator.pluginOptions.path',
-  pluginCreator___pluginOptions___projectId = 'pluginCreator.pluginOptions.projectId',
-  pluginCreator___pluginOptions___dataset = 'pluginCreator.pluginOptions.dataset',
-  pluginCreator___pluginOptions___token = 'pluginCreator.pluginOptions.token',
-  pluginCreator___pluginOptions___short_name = 'pluginCreator.pluginOptions.short_name',
-  pluginCreator___pluginOptions___start_url = 'pluginCreator.pluginOptions.start_url',
-  pluginCreator___pluginOptions___background_color = 'pluginCreator.pluginOptions.background_color',
-  pluginCreator___pluginOptions___theme_color = 'pluginCreator.pluginOptions.theme_color',
-  pluginCreator___pluginOptions___display = 'pluginCreator.pluginOptions.display',
-  pluginCreator___pluginOptions___icon = 'pluginCreator.pluginOptions.icon',
-  pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
-  pluginCreator___nodeAPIs = 'pluginCreator.nodeAPIs',
-  pluginCreator___browserAPIs = 'pluginCreator.browserAPIs',
-  pluginCreator___ssrAPIs = 'pluginCreator.ssrAPIs',
-  pluginCreator___pluginFilepath = 'pluginCreator.pluginFilepath',
-  pluginCreator___packageJson___name = 'pluginCreator.packageJson.name',
-  pluginCreator___packageJson___description = 'pluginCreator.packageJson.description',
-  pluginCreator___packageJson___version = 'pluginCreator.packageJson.version',
-  pluginCreator___packageJson___main = 'pluginCreator.packageJson.main',
-  pluginCreator___packageJson___license = 'pluginCreator.packageJson.license',
-  pluginCreator___packageJson___dependencies = 'pluginCreator.packageJson.dependencies',
-  pluginCreator___packageJson___dependencies___name = 'pluginCreator.packageJson.dependencies.name',
-  pluginCreator___packageJson___dependencies___version = 'pluginCreator.packageJson.dependencies.version',
-  pluginCreator___packageJson___devDependencies = 'pluginCreator.packageJson.devDependencies',
-  pluginCreator___packageJson___devDependencies___name = 'pluginCreator.packageJson.devDependencies.name',
-  pluginCreator___packageJson___devDependencies___version = 'pluginCreator.packageJson.devDependencies.version',
-  pluginCreator___packageJson___peerDependencies = 'pluginCreator.packageJson.peerDependencies',
-  pluginCreator___packageJson___peerDependencies___name = 'pluginCreator.packageJson.peerDependencies.name',
-  pluginCreator___packageJson___peerDependencies___version = 'pluginCreator.packageJson.peerDependencies.version',
-  pluginCreator___packageJson___keywords = 'pluginCreator.packageJson.keywords',
-  pluginCreatorId = 'pluginCreatorId',
-  componentPath = 'componentPath'
+  internal___type = 'internal.type'
 }
 
 type SitePageFilterInput = {
@@ -4107,15 +4908,15 @@ type SitePageFilterInput = {
   readonly internalComponentName: Maybe<StringQueryOperatorInput>;
   readonly componentChunkName: Maybe<StringQueryOperatorInput>;
   readonly matchPath: Maybe<StringQueryOperatorInput>;
-  readonly id: Maybe<StringQueryOperatorInput>;
-  readonly parent: Maybe<NodeFilterInput>;
-  readonly children: Maybe<NodeFilterListInput>;
-  readonly internal: Maybe<InternalFilterInput>;
   readonly isCreatedByStatefulCreatePages: Maybe<BooleanQueryOperatorInput>;
   readonly context: Maybe<SitePageContextFilterInput>;
   readonly pluginCreator: Maybe<SitePluginFilterInput>;
   readonly pluginCreatorId: Maybe<StringQueryOperatorInput>;
   readonly componentPath: Maybe<StringQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
+  readonly parent: Maybe<NodeFilterInput>;
+  readonly children: Maybe<NodeFilterListInput>;
+  readonly internal: Maybe<InternalFilterInput>;
 };
 
 type SitePageGroupConnection = {
@@ -4267,17 +5068,28 @@ enum SitePluginFieldsEnum {
   version = 'version',
   pluginOptions___emitSchema___src___generated___gatsby_schema_graphql = 'pluginOptions.emitSchema.src___generated___gatsby_schema_graphql',
   pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql = 'pluginOptions.emitPluginDocuments.src___generated___gatsby_plugin_documents_graphql',
+  pluginOptions___fonts___google = 'pluginOptions.fonts.google',
+  pluginOptions___fonts___google___family = 'pluginOptions.fonts.google.family',
+  pluginOptions___fonts___google___subsets = 'pluginOptions.fonts.google.subsets',
+  pluginOptions___fonts___google___variants = 'pluginOptions.fonts.google.variants',
   pluginOptions___name = 'pluginOptions.name',
   pluginOptions___path = 'pluginOptions.path',
   pluginOptions___projectId = 'pluginOptions.projectId',
   pluginOptions___dataset = 'pluginOptions.dataset',
   pluginOptions___token = 'pluginOptions.token',
+  pluginOptions___overlayDrafts = 'pluginOptions.overlayDrafts',
+  pluginOptions___watchMode = 'pluginOptions.watchMode',
   pluginOptions___short_name = 'pluginOptions.short_name',
   pluginOptions___start_url = 'pluginOptions.start_url',
   pluginOptions___background_color = 'pluginOptions.background_color',
   pluginOptions___theme_color = 'pluginOptions.theme_color',
   pluginOptions___display = 'pluginOptions.display',
   pluginOptions___icon = 'pluginOptions.icon',
+  pluginOptions___cache_busting_mode = 'pluginOptions.cache_busting_mode',
+  pluginOptions___include_favicon = 'pluginOptions.include_favicon',
+  pluginOptions___legacy = 'pluginOptions.legacy',
+  pluginOptions___theme_color_in_head = 'pluginOptions.theme_color_in_head',
+  pluginOptions___cacheDigest = 'pluginOptions.cacheDigest',
   pluginOptions___pathCheck = 'pluginOptions.pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -4394,17 +5206,25 @@ type SitePluginPackageJsonPeerDependenciesFilterListInput = {
 type SitePluginPluginOptions = {
   readonly emitSchema: Maybe<SitePluginPluginOptionsEmitSchema>;
   readonly emitPluginDocuments: Maybe<SitePluginPluginOptionsEmitPluginDocuments>;
+  readonly fonts: Maybe<SitePluginPluginOptionsFonts>;
   readonly name: Maybe<Scalars['String']>;
   readonly path: Maybe<Scalars['String']>;
   readonly projectId: Maybe<Scalars['String']>;
   readonly dataset: Maybe<Scalars['String']>;
   readonly token: Maybe<Scalars['String']>;
+  readonly overlayDrafts: Maybe<Scalars['Boolean']>;
+  readonly watchMode: Maybe<Scalars['Boolean']>;
   readonly short_name: Maybe<Scalars['String']>;
   readonly start_url: Maybe<Scalars['String']>;
   readonly background_color: Maybe<Scalars['String']>;
   readonly theme_color: Maybe<Scalars['String']>;
   readonly display: Maybe<Scalars['String']>;
   readonly icon: Maybe<Scalars['String']>;
+  readonly cache_busting_mode: Maybe<Scalars['String']>;
+  readonly include_favicon: Maybe<Scalars['Boolean']>;
+  readonly legacy: Maybe<Scalars['Boolean']>;
+  readonly theme_color_in_head: Maybe<Scalars['Boolean']>;
+  readonly cacheDigest: Maybe<Scalars['String']>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
 };
 
@@ -4427,33 +5247,55 @@ type SitePluginPluginOptionsEmitSchemaFilterInput = {
 type SitePluginPluginOptionsFilterInput = {
   readonly emitSchema: Maybe<SitePluginPluginOptionsEmitSchemaFilterInput>;
   readonly emitPluginDocuments: Maybe<SitePluginPluginOptionsEmitPluginDocumentsFilterInput>;
+  readonly fonts: Maybe<SitePluginPluginOptionsFontsFilterInput>;
   readonly name: Maybe<StringQueryOperatorInput>;
   readonly path: Maybe<StringQueryOperatorInput>;
   readonly projectId: Maybe<StringQueryOperatorInput>;
   readonly dataset: Maybe<StringQueryOperatorInput>;
   readonly token: Maybe<StringQueryOperatorInput>;
+  readonly overlayDrafts: Maybe<BooleanQueryOperatorInput>;
+  readonly watchMode: Maybe<BooleanQueryOperatorInput>;
   readonly short_name: Maybe<StringQueryOperatorInput>;
   readonly start_url: Maybe<StringQueryOperatorInput>;
   readonly background_color: Maybe<StringQueryOperatorInput>;
   readonly theme_color: Maybe<StringQueryOperatorInput>;
   readonly display: Maybe<StringQueryOperatorInput>;
   readonly icon: Maybe<StringQueryOperatorInput>;
+  readonly cache_busting_mode: Maybe<StringQueryOperatorInput>;
+  readonly include_favicon: Maybe<BooleanQueryOperatorInput>;
+  readonly legacy: Maybe<BooleanQueryOperatorInput>;
+  readonly theme_color_in_head: Maybe<BooleanQueryOperatorInput>;
+  readonly cacheDigest: Maybe<StringQueryOperatorInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
+};
+
+type SitePluginPluginOptionsFonts = {
+  readonly google: Maybe<ReadonlyArray<Maybe<SitePluginPluginOptionsFontsGoogle>>>;
+};
+
+type SitePluginPluginOptionsFontsFilterInput = {
+  readonly google: Maybe<SitePluginPluginOptionsFontsGoogleFilterListInput>;
+};
+
+type SitePluginPluginOptionsFontsGoogle = {
+  readonly family: Maybe<Scalars['String']>;
+  readonly subsets: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly variants: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+};
+
+type SitePluginPluginOptionsFontsGoogleFilterInput = {
+  readonly family: Maybe<StringQueryOperatorInput>;
+  readonly subsets: Maybe<StringQueryOperatorInput>;
+  readonly variants: Maybe<StringQueryOperatorInput>;
+};
+
+type SitePluginPluginOptionsFontsGoogleFilterListInput = {
+  readonly elemMatch: Maybe<SitePluginPluginOptionsFontsGoogleFilterInput>;
 };
 
 type SitePluginSortInput = {
   readonly fields: Maybe<ReadonlyArray<Maybe<SitePluginFieldsEnum>>>;
   readonly order: Maybe<ReadonlyArray<Maybe<SortOrderEnum>>>;
-};
-
-type SiteSiteMetadata = {
-  readonly title: Maybe<Scalars['String']>;
-  readonly description: Maybe<Scalars['String']>;
-};
-
-type SiteSiteMetadataFilterInput = {
-  readonly title: Maybe<StringQueryOperatorInput>;
-  readonly description: Maybe<StringQueryOperatorInput>;
 };
 
 type SiteSortInput = {
@@ -4475,45 +5317,51 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type SiteTitleQueryVariables = {};
+type HeroQueryVariables = {};
 
 
-type SiteTitleQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title'>> }> };
+type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
-type ImageQueryVariables = {};
-
-
-type ImageQuery = { readonly placeholderImage: Maybe<{ readonly coverImage: Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<(
-          Pick<File, 'publicURL'>
-          & { readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_tracedSVGFragment> }> }
-        )> }> }> }> };
-
-type ProductListQueryVariables = {};
+type YandexMapQueryVariables = {};
 
 
-type ProductListQuery = { readonly allSanityPost: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityPost, 'title'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>> }
+type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanitySiteSettings, 'title'>
+        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
+          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
+          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng'>> }
+        )>>> }
       ) }> } };
 
-type SEOQueryVariables = {};
+type SiteMetadataQueryVariables = {};
 
 
-type SEOQuery = { readonly site: Maybe<{ readonly siteMetadata: Maybe<Pick<SiteSiteMetadata, 'title' | 'description'>> }> };
+type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanitySiteSettings, 'title' | 'description' | 'keywords' | 'emails' | 'phoneNumbers'>
+        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
+          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
+          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
+        )>>> }
+      ) }> } };
 
-type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 'tracedSVG' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, 'id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }>>> }
+      ) }> } };
+
+type GatsbyImageSharpFluid_withWebpFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type PostQueryVariables = {
   slug: Maybe<Scalars['String']>;
 };
 
 
-type PostQuery = { readonly sanityPost: Maybe<(
-    Pick<SanityPost, 'title' | 'date' | '_rawContent'>
-    & { readonly author: Maybe<(
-      Pick<SanityAuthor, 'name'>
-      & { readonly picture: Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebp_tracedSVGFragment> }> }> }> }> }
-    )>, readonly coverImage: Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebp_tracedSVGFragment> }> }> }> }> }
+type PostQuery = { readonly sanityProduct: Maybe<(
+    Pick<SanityProduct, 'title' | 'price' | 'oldPrice' | '_rawBody'>
+    & { readonly sizes: Maybe<Pick<SanityProductSizes, 'depth' | 'height' | 'length'>>, readonly materials: Maybe<ReadonlyArray<Maybe<Pick<SanityMaterial, 'title'>>>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }>>> }
   )> };
 
 type GatsbySanityImageFixedFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
@@ -4550,7 +5398,7 @@ type GatsbyImageSharpFluidLimitPresentationSizeFragment = { maxHeight: ImageShar
 
 type GatsbyImageSharpFluid_tracedSVGFragment = Pick<ImageSharpFluid, 'tracedSVG' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
-type GatsbyImageSharpFluid_withWebpFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+type GatsbyImageSharpFluid_withWebp_tracedSVGFragment = Pick<ImageSharpFluid, 'tracedSVG' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type GatsbyImageSharpFluid_noBase64Fragment = Pick<ImageSharpFluid, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
