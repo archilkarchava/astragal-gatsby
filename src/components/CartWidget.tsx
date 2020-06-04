@@ -15,7 +15,7 @@ import {
 import useProducts from "../hooks/useProducts"
 import formatPrice from "../utils/formatPrice"
 
-const CloseCartIcon: React.FC<JSX.IntrinsicElements["svg"]> = (props) => (
+const GoBackIcon: React.FC<JSX.IntrinsicElements["svg"]> = (props) => (
   <svg
     width={38}
     height={11}
@@ -77,6 +77,7 @@ const DecreaseIcon: React.FC<JSX.IntrinsicElements["svg"]> = (props) => {
       viewBox="0 0 24 24"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <path
         fillRule="evenodd"
@@ -91,7 +92,7 @@ const CartItem: React.FC<{
   id: string
 }> = ({ id }) => {
   const products = useProducts()
-  const { title, price, images } = products.get(id)
+  const { title, price, images } = products[id]
   const {
     asset: {
       localFile: {
@@ -170,7 +171,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
         className="absolute px-0.5 py-2 text-white left-6 top-4"
         onClick={() => setIsCartOpen(false)}
       >
-        <CloseCartIcon />
+        <GoBackIcon />
       </button>
       <div className="z-30 flex flex-col justify-between max-h-full min-h-full pt-14 pb-7 px-7">
         <div className="flex flex-col border-b border-white">
@@ -178,10 +179,10 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
             Ваша корзина
           </h1>
         </div>
-        {cartItems.size > 0 ? (
+        {Object.keys(cartItems).length > 0 ? (
           <>
             <div className="flex flex-col flex-grow flex-shrink overflow-y-auto">
-              {Array.from(cartItems.keys()).map((productId) => (
+              {Object.keys(cartItems).map((productId) => (
                 <CartItem key={productId} id={productId} />
               ))}
             </div>

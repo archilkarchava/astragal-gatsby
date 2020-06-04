@@ -47,12 +47,9 @@ export const useCartTotalPrice = () => {
 
   if (!cartItems) return 0
 
-  const totalPrice = Array.from(cartItems.entries()).reduce(
-    (acc, [id, item]) => {
-      return acc + products.get(id).price * item.quantity
-    },
-    0
-  )
+  const totalPrice = Object.entries(cartItems).reduce((acc, [id, item]) => {
+    return acc + products[id].price * item.quantity
+  }, 0)
 
   return totalPrice
 }
@@ -64,7 +61,7 @@ export const useCartTotalQuantity = () => {
 
   if (!cartItems) return 0
 
-  const totalQuantity = Array.from(cartItems.values()).reduce((acc, item) => {
+  const totalQuantity = Object.values(cartItems).reduce((acc, item) => {
     return acc + item.quantity
   }, 0)
 
@@ -88,12 +85,14 @@ export const useCartItemQuantity = (
   } = React.useContext(StoreContext)
 
   // const cartItem = cartItems.find((item) => item.productId === productId)
-  const qtty = cartItems.has(productId) ? cartItems.get(productId).quantity : 0
+  const qtty = productId in cartItems ? cartItems[productId].quantity : 0
 
   const setCartItemQuantity = (quantity: number) => {
     setStore((prevState) => {
       if (quantity < 1) {
-        return prevState
+        return produce(prevState, (draftState) => {
+          delete draftState.cartItems[productId]
+        })
       }
       // if (!prevState.cartItems.has(productId)) {
       //   return produce(prevState, (draftState) => {
@@ -102,7 +101,7 @@ export const useCartItemQuantity = (
       //   })
       // }
       return produce(prevState, (draftState) => {
-        draftState.cartItems.get(productId).quantity = quantity
+        draftState.cartItems[productId].quantity = quantity
       })
     })
   }
@@ -112,10 +111,10 @@ export const useCartItemQuantity = (
 
 export const useCustomer = () => {
   const {
-    store: { customerPhoneNumber, customerName, customerToken },
+    store: { customer },
   } = React.useContext(StoreContext)
 
-  return { customerPhoneNumber, customerName, customerToken }
+  return { customer }
 }
 
 export const useAddItemToCart = () => {
@@ -124,7 +123,7 @@ export const useAddItemToCart = () => {
   const addItemToCart = (productId: string, quantity: number) => {
     setStore((prevState) => {
       return produce(prevState, (draftState) => {
-        draftState.cartItems.set(productId, { quantity })
+        draftState.cartItems[productId] = { quantity }
         draftState.isCartOpen = true
       })
     })
@@ -140,7 +139,7 @@ export const useRemoveItemFromCart = () => {
     setStore((prevState) => {
       return produce(prevState, (draftState) => {
         // draftState.cartItems.filter((item) => item.productId !== productId)
-        draftState.cartItems.delete(productId)
+        delete draftState.cartItems[productId]
       })
     })
   }

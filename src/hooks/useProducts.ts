@@ -32,8 +32,11 @@ const useProducts = () => {
     }
   `)
 
-  const result = new Map(
-    allSanityProduct.edges.map(({ node: { id, ...rest } }) => [id, rest])
+  const result: {
+    [id: string]: Omit<GatsbyTypes.SanityProduct, "id">
+  } = allSanityProduct.edges.reduce(
+    (acc, { node: { id, ...rest } }) => Object.assign(acc, { [id]: rest }),
+    {}
   )
 
   return result

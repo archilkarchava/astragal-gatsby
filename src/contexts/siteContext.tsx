@@ -1,30 +1,43 @@
+import produce from "immer"
 import React from "react"
 
-interface InitialStore {
+interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
   // page: undefined
-  orders: any[]
-  customerPhoneNumber: string | undefined
-  customerName: string | undefined
-  customerToken: string | undefined
-  cartItems: Map<string, { quantity: number }>
+  customer: {
+    firstName?: string
+    lastName?: string
+    phoneNumber?: string
+    email?: string
+    orders?: {
+      [orderId: string]: {
+        items: {
+          [productId: string]: {
+            quantity: number
+          }
+        }
+      }
+    }
+  }
+  cartItems: {
+    [productId: string]: {
+      quantity: number
+    }
+  }
 }
 
-const initialStoreState: InitialStore = {
+const initialStoreState: Store = {
   isCartOpen: false,
   isNavOpen: false,
   // page: undefined,
-  customerPhoneNumber: undefined,
-  customerName: undefined,
-  customerToken: undefined,
-  orders: [],
-  cartItems: new Map(),
+  customer: {},
+  cartItems: {},
 }
 
 const StoreContext = React.createContext<{
-  setStore: React.Dispatch<React.SetStateAction<InitialStore>>
-  store: InitialStore
+  setStore: React.Dispatch<React.SetStateAction<Store>>
+  store: Store
 }>({
   store: initialStoreState,
   setStore: () => null,
@@ -32,6 +45,21 @@ const StoreContext = React.createContext<{
 
 const StoreContextProvider: React.FC = ({ children }) => {
   const [store, setStore] = React.useState(initialStoreState)
+
+  React.useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("cart"))
+    if (data) {
+      setStore((prevState) => {
+        return produce(prevState, (draftState) => {
+          draftState.cartItems = data
+        })
+      })
+    }
+  }, [])
+
+  React.useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(store.cartItems))
+  }, [store])
 
   return (
     <StoreContext.Provider

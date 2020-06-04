@@ -20,7 +20,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
       )}
       {...rest}
     >
-      {Array.from(products.entries()).flatMap(([productId, product]) => {
+      {Object.entries(products).flatMap(([productId, product]) => {
         if (
           !product ||
           !product.slug ||

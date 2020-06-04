@@ -5310,14 +5310,6 @@ type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: Readon
         )>>> }
       ) }> } };
 
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, 'id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }>>> }
-      ) }> } };
-
 type SiteMetadataQueryVariables = {};
 
 
@@ -5327,6 +5319,14 @@ type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: Rea
           Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
         )>>> }
+      ) }> } };
+
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, 'id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }>>> }
       ) }> } };
 
 type PostQueryVariables = {
