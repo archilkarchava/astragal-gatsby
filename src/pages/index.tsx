@@ -14,6 +14,7 @@ const IndexPage: React.FC = () => {
       <div id="catalog" />
       <ProductGrid />
       <OurAdvantages />
+      <div id="contact" />
       <ContactUs />
     </Layout>
   )

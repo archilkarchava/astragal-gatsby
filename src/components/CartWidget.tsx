@@ -2,7 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
-import BackgroundImage from "gatsby-background-image"
+import { Link } from "gatsby"
+import Image from "gatsby-image"
 import React from "react"
 import { Helmet } from "react-helmet"
 import {
@@ -56,12 +57,10 @@ const CartItem: React.FC<{
     <div className="flex w-full py-4 border-b border-white">
       <div className="flex flex-col justify-evenly mr-2.5">
         <div className="w-20 h-20">
-          <BackgroundImage
-            style={{
-              backgroundSize: "contain",
-            }}
+          <Image
             className="w-full h-full"
             fluid={imageFluid}
+            imgStyle={{ objectFit: "contain" }}
           />
         </div>
       </div>
@@ -119,7 +118,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
       className={classNames(
         { [className]: className },
         isCartOpen ? "right-0" : "-right-full",
-        "fixed top-0 z-40 w-full min-h-0 h-screen max-w-md text-gray-100 duration-500 bg-black border border-black"
+        "fixed top-0 z-40 w-full min-h-0 h-full max-w-md text-gray-100 duration-500 bg-black border border-black"
       )}
       {...rest}
     >
@@ -145,11 +144,9 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
               ))}
             </div>
             <div className="bg-black border-t border-white">
-              <div className="flex flex-row items-start justify-between w-full my-4">
-                <div className="text-lg font-bold">Всего</div>
-                <div className="text-lg font-bold">
-                  {formatPrice(totalPrice)}
-                </div>
+              <div className="flex flex-row items-start justify-between w-full my-8">
+                <div className="text-xl">Всего</div>
+                <div className="text-xl">{formatPrice(totalPrice)}</div>
               </div>
               <div className="w-full">
                 <button
@@ -157,7 +154,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                   type="button"
                   className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
                 >
-                  Купить
+                  Оформить заказ
                 </button>
               </div>
             </div>
@@ -168,13 +165,13 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
               <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
             </div>
             <div>
-              <a
+              <Link
                 onClick={() => setIsCartOpen(false)}
-                href="/#catalog"
+                to="/#catalog"
                 className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
               >
                 Наш каталог товаров
-              </a>
+              </Link>
             </div>
           </>
         )}

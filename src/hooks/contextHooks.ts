@@ -22,7 +22,10 @@ export const useStore = () => {
   return store
 }
 
-export const useCartToggle = (): [boolean, (isOpen: boolean) => void] => {
+export const useCartToggle = (): [
+  boolean,
+  (isOpen: React.SetStateAction<boolean>) => void
+] => {
   const {
     store: { isCartOpen },
     setStore,
@@ -78,7 +81,7 @@ export const useCartItems = () => {
 
 export const useCartItemQuantity = (
   productId: string
-): [number, (quantity: number) => void] => {
+): [number, (quantity: React.SetStateAction<number>) => void] => {
   const {
     store: { cartItems },
     setStore,

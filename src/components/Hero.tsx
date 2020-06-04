@@ -34,7 +34,7 @@ const Hero = () => {
           <li className="text-xl">Лестницы</li>
         </ul>
       </div> */}
-        <div className="container absolute bottom-0 flex text-white -translate-x-1/2 h-1/6 left-1/2">
+        <div className="container absolute bottom-0 flex text-gray-100 -translate-x-1/2 h-4/12 left-1/2">
           <a
             href="#catalog"
             className="px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase bg-black border-2 border-black rounded-none"

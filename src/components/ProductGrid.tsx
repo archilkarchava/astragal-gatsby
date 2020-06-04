@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { Link } from "gatsby"
-import BackgroundImage from "gatsby-background-image"
-import type { IFluidObject as FluidObject } from "gatsby-background-image"
+import Image from "gatsby-image"
+import type { FluidObject } from "gatsby-image"
 import React from "react"
 import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import useProducts from "../hooks/useProducts"
@@ -13,33 +13,37 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   const products = useProducts()
   return (
-    <div
-      className={classNames(
-        "flex flex-wrap max-w-screen-lg mx-auto my-28",
-        className
-      )}
-      {...rest}
-    >
-      {Object.entries(products).flatMap(([productId, product]) => {
-        if (
-          !product ||
-          !product.slug ||
-          !product.images.length ||
-          !product.images[0].asset
-        )
-          return []
-        return [
-          <ProductCard
-            key={productId}
-            id={productId}
-            title={product.title}
-            oldPrice={product.oldPrice ?? undefined}
-            price={product.price}
-            slugStr={product.slug.current}
-            imageFluid={product.images[0].asset.localFile.childImageSharp.fluid}
-          />,
-        ]
-      })}
+    <div className="mx-10">
+      <div
+        className={classNames(
+          "flex flex-wrap max-w-screen-lg mx-auto my-28",
+          className
+        )}
+        {...rest}
+      >
+        {Object.entries(products).flatMap(([productId, product]) => {
+          if (
+            !product ||
+            !product.slug ||
+            !product.images.length ||
+            !product.images[0].asset
+          )
+            return []
+          return [
+            <ProductCard
+              key={productId}
+              id={productId}
+              title={product.title}
+              oldPrice={product.oldPrice ?? undefined}
+              price={product.price}
+              slugStr={product.slug.current}
+              imageFluid={
+                product.images[0].asset.localFile.childImageSharp.fluid
+              }
+            />,
+          ]
+        })}
+      </div>
     </div>
   )
 }
@@ -70,22 +74,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
           className="text-gray-900 no-underline"
           to={`/products/${slugStr}`}
         >
-          <BackgroundImage
+          <Image
             className="mb-1 h-60"
-            style={{
-              backgroundSize: "contain",
-            }}
             fluid={imageFluid}
             alt={title}
+            imgStyle={{ objectFit: "contain" }}
           />
         </Link>
 
-        <div className="text-lg leading-none text-center">{title}</div>
+        <div className="mb-2 text-lg leading-none text-center">{title}</div>
       </div>
       {price && (
         <div className="content-end">
           {oldPrice && (
-            <div className="mb-1 text-lg leading-none text-gray-600 line-through">
+            <div className="text-lg leading-none text-gray-600 line-through">
               {oldPrice && formatPrice(oldPrice)}
             </div>
           )}
@@ -96,9 +98,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <button
               onClick={() => addCartItem(id, quantity + 1)}
               type="button"
-              className="px-4 py-1 font-semibold leading-none uppercase transition duration-300 ease-in-out bg-blue-200 border-2 border-black rounded-none focus:bg-blue-400 hover:bg-blue-400"
+              className="px-4 py-1 font-semibold leading-none text-gray-900 uppercase transition duration-300 ease-in-out bg-white border-2 border-black rounded-none hover:text-gray-100 focus:text-gray-100 focus:bg-black hover:bg-black"
             >
-              в корзину
+              Купить
             </button>
           </div>
         </div>
