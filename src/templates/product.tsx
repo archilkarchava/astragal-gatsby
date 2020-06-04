@@ -1,13 +1,16 @@
+import classNames from "classnames"
 import { graphql } from "gatsby"
 import Image from "gatsby-image"
 import React from "react"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
+import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import formatPrice from "../utils/formatPrice"
 
 export const pageQuery = graphql`
   query Post($slug: String) {
     sanityProduct(slug: { current: { eq: $slug } }) {
+      id
       title
       price
       oldPrice
@@ -20,10 +23,11 @@ export const pageQuery = graphql`
         title
       }
       images {
+        _key
         asset {
           localFile {
             childImageSharp {
-              fluid(webpQuality: 90) {
+              fluid(maxHeight: 1700, webpQuality: 90) {
                 ...GatsbyImageSharpFluid_withWebp
               }
             }
@@ -35,40 +39,178 @@ export const pageQuery = graphql`
   }
 `
 
+const ImageCarousel: React.FC<Pick<
+  GatsbyTypes.PostQuery["sanityProduct"],
+  "images"
+>> = ({ images }) => {
+  const [imageIdx, setImageIdx] = React.useState(0)
+  return (
+    <div className="flex flex-col justify-center w-full overflow-hidden max-h-96 lg:w-1/2 lg:max-h-full">
+      {images.length > 0 && (
+        <div className="relative h-96 lg:h-full">
+          {images.map(
+            (
+              {
+                _key,
+                asset: {
+                  localFile: {
+                    childImageSharp: { fluid },
+                  },
+                },
+              },
+              i
+            ) => (
+              <div
+                key={_key}
+                className={classNames(
+                  imageIdx === i ? "opacity-1" : "opacity-0",
+                  "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
+                )}
+              >
+                <Image
+                  fluid={fluid}
+                  style={{ position: "static" }}
+                  imgStyle={{ objectFit: "contain" }}
+                  // alt={title}
+                />
+              </div>
+            )
+          )}
+        </div>
+      )}
+      {images.length > 1 && (
+        <div className="flex flex-row h-10 mx-auto my-5">
+          {images.map(
+            (
+              {
+                _key,
+                asset: {
+                  localFile: {
+                    childImageSharp: { fluid },
+                  },
+                },
+              },
+              i
+            ) => (
+              <button
+                type="button"
+                key={_key}
+                onMouseEnter={() => setImageIdx(i)}
+                // onKeyDown={() => setImageIdx(i)}
+                onClick={() => setImageIdx(i)}
+                className="w-10 h-10 mx-2 border border-transparent rounded-full cursor-pointer focus:outline-none focus:border-black"
+              >
+                <Image
+                  fluid={fluid}
+                  className={classNames(
+                    imageIdx === i && "border-black",
+                    "w-full h-full rounded-full border-2 border-transparent"
+                  )}
+                  // imgStyle={{ objectFit: "contain" }}
+                  // alt={}
+                />
+              </button>
+            )
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
 interface Props {
   data: GatsbyTypes.PostQuery
 }
 
-const ProductTemplate: React.FC<Props> = ({ data: { sanityProduct } }) => {
-  if (!sanityProduct) {
-    throw new Error("Did not receive any data.")
-  }
+const ProductTemplate: React.FC<Props> = ({
+  data: {
+    sanityProduct: {
+      id,
+      title,
+      price,
+      oldPrice,
+      sizes,
+      materials,
+      images,
+      _rawBody,
+    },
+  },
+}) => {
+  // if (!sanityProduct) {
+  //   throw new Error("Did not receive any data.")
+  // }
+
+  const addCartItem = useAddItemToCart()
+  const [quantity] = useCartItemQuantity(id)
+
   return (
     <Layout>
-      {sanityProduct.images.length &&
-        sanityProduct.images[0].asset.localFile && (
-          <Image
-            fluid={
-              sanityProduct.images[0]?.asset?.localFile?.childImageSharp?.fluid
-            }
-            alt={sanityProduct.title}
-          />
-        )}
-      <h1>{sanityProduct.title}</h1>
-      {sanityProduct.price > 0 && (
-        <p>
-          {/* ₽
-            {sanityProduct.defaultProductVariant.price.toLocaleString("ru", {
-              style: "currency",
-              currency: "RUB",
-            })} */}
-          {formatPrice(sanityProduct.price)}
-        </p>
-      )}
-      {sanityProduct._rawBody && (
-        <ProductBody content={sanityProduct._rawBody} />
-      )}
-      {/* <Link to="/">Вернуться на главную</Link> */}
+      <div className="box-border flex flex-col justify-between w-full h-full pt-12 lg:h-screen lg:flex-row md:pt-17">
+        <ImageCarousel images={images} />
+        <div className="flex flex-col justify-center w-full p-3 mb-10 lg:m-0 lg:p-0 lg:pl-12 h-1/2 lg:w-1/2 lg:h-full">
+          <h1 className="font-serif text-4xl lg:text-5xl">{title}</h1>
+          <div className="w-10 my-6 ml-2 border-t border-black" />
+          <div>
+            {price > 0 && (
+              <span className="mr-4 text-2xl font-semibold lg:text-3xl">
+                {formatPrice(price)}
+              </span>
+            )}
+            {price > 0 && oldPrice > price && (
+              <span className="text-xl font-semibold text-gray-500 line-through lg:text-xl">
+                {formatPrice(oldPrice)}
+              </span>
+            )}
+          </div>
+          <div className="mt-5">
+            <button
+              onClick={() => addCartItem(id, quantity + 1)}
+              type="button"
+              className="w-full px-16 py-3 text-gray-100 uppercase duration-300 ease-in-out bg-black border-2 border-white rounded-none lg:w-auto hover:bg-white hover:border-black focus:border-black hover:text-gray-900 focus:text-gray-900 focus:bg-white"
+            >
+              Купить
+            </button>
+          </div>
+          <ul className="list-inside my-7 lg:my-10">
+            {materials.length > 0 && (
+              <li className="text-lg list-disc">
+                {materials.length === 1 && (
+                  <>
+                    <span>Материал: </span>
+                    <span>{materials[0].title}</span>
+                  </>
+                )}
+                {materials.length > 1 && (
+                  <>
+                    <span>Материалы: </span>
+                    <span>
+                      {materials.map((material) => material.title).join(", ")}
+                    </span>
+                  </>
+                )}
+              </li>
+            )}
+            {sizes && sizes.length && sizes.depth && (
+              <li className="text-lg list-disc">
+                <span>Размер: </span>
+                <span>
+                  {sizes.length}
+                  {sizes.length && sizes.depth && "x"}
+                  {sizes.depth}
+                  {sizes.depth && sizes.height && "x"}
+                  {sizes.height}
+                </span>
+              </li>
+            )}
+          </ul>
+          {_rawBody && (
+            <div>
+              <ProductBody blocks={_rawBody} />
+            </div>
+          )}
+        </div>
+        {/* <Link to="/">Вернуться на главную</Link> */}
+      </div>
     </Layout>
   )
 }

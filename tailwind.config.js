@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       height: {
         18: "4.5rem",
+        26: "6.5rem",
         82: "20.5rem",
         84: "21rem",
         88: "22rem",
@@ -15,12 +16,25 @@ module.exports = {
       },
       width: {
         18: "4.5rem",
+        26: "6.5rem",
         82: "20.5rem",
         84: "21rem",
         88: "22rem",
         90: "22.5rem",
         112: "28rem",
         128: "32rem",
+      },
+      margin: {
+        17: "4.25rem",
+      },
+      padding: {
+        17: "4.25rem",
+      },
+      minHeight: {
+        20: "5rem",
+      },
+      minWidth: {
+        20: "5rem",
       },
       inset: {
         "-full": "-100%",
