@@ -68,7 +68,7 @@ const CartButton: React.FC = () => {
       onClick={() => setIsCartOpen(!isCartOpen)}
     >
       <BagIcon className="w-7 h-7" />
-      <div className="absolute text-xs leading-7 text-white w-7 h-7 top-3/12 md:top-1/3">
+      <div className="absolute text-xs leading-8 text-white -translate-y-full w-7 h-7">
         {itemCount}
       </div>
     </button>
