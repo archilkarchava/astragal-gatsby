@@ -13,10 +13,10 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   const products = useProducts()
   return (
-    <div className="mx-10">
+    <div className="mx-10 my-20 lg:my-28">
       <div
         className={classNames(
-          "flex flex-wrap max-w-screen-lg mx-auto my-28",
+          "flex flex-wrap max-w-screen-lg mx-auto",
           className
         )}
         {...rest}
