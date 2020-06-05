@@ -118,7 +118,7 @@ const ImageCarousel: React.FC<Pick<
                     activeImageIdx === i && "border-black",
                     "w-full h-full rounded-full border-2 border-transparent"
                   )}
-                  // imgStyle={{ objectFit: "contain" }}
+                  imgStyle={{ borderRadius: "9999px" }}
                   // alt={}
                 />
               </button>
