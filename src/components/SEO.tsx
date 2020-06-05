@@ -9,14 +9,14 @@ import React from "react"
 import { Helmet } from "react-helmet"
 import useSiteMetadata from "../hooks/useSiteMetadata"
 
-interface SEOProps {
+interface Props {
   description?: string
   lang?: string
   meta?: JSX.IntrinsicElements["meta"][]
   title: string
 }
 
-const SEO: React.FC<SEOProps> = ({
+const SEO: React.FC<Props> = ({
   description = "",
   lang = "ru",
   meta = [],

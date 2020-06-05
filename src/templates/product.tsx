@@ -5,6 +5,7 @@ import React from "react"
 import { Swipeable } from "react-swipeable"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
+import SEO from "../components/SEO"
 import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import formatPrice from "../utils/formatPrice"
 
@@ -157,6 +158,7 @@ const ProductTemplate: React.FC<Props> = ({
 
   return (
     <Layout>
+      <SEO title={title} />
       <div className="box-border flex flex-col justify-between w-full h-full pt-12 lg:h-screen lg:flex-row md:pt-17">
         <ImageCarousel images={images} />
         <div className="flex flex-col justify-center w-full p-3 mb-10 lg:m-0 lg:p-0 lg:pl-12 h-1/2 lg:w-1/2 lg:h-full">
