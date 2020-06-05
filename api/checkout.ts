@@ -93,9 +93,8 @@ ${Object.values(cartItems)
     await mailTransport.sendMail(mailOptions)
     console.log(`Информация о заказе отправлена на: ${receivingEmail}`)
   } catch (e) {
-    throw new Error(
-      `Ошибка отправки с ${gmailEmail} на ${receivingEmail}: ${e}`
-    )
+    console.error(`Ошибка отправки с ${gmailEmail} на ${receivingEmail}: ${e}`)
+    throw e
   }
   return null
 }
@@ -106,10 +105,12 @@ export default async (req: NowRequest, res: NowResponse) => {
   try {
     cartItems = await fetchOrderProducts(orderDto.cartItems)
   } catch (error) {
-    res.status(400).send({ message: "Не получилось загрузить товары." })
+    res.status(400).json({ message: "Не получилось загрузить товары." })
+    return
   }
   if (!cartItems) {
-    res.status(400).send({ message: "Не получилось загрузить товары." })
+    res.status(400).json({ message: "Не получилось выгрузить товары." })
+    return
   }
   const order: Order = {
     customer: orderDto.customer,
@@ -118,7 +119,7 @@ export default async (req: NowRequest, res: NowResponse) => {
   }
   console.log(order)
   sendEmail(order)
-    .then(() => res.status(200).send({ message: "Заказ успешно оформлен." }))
-    .catch(() => res.status(400).send({ message: "Ошибка оформления заказа." }))
+    .then(() => res.status(200).json({ message: "Заказ успешно оформлен." }))
+    .catch(() => res.status(400).json({ message: "Ошибка оформления заказа." }))
   // const { name = "World" } = req.query
 }

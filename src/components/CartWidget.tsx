@@ -243,18 +243,17 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
       },
       body: JSON.stringify(order),
     })
-      .then((res) =>
-        res
-          .json()
-          .then(() => {
-            setOrderStatus("success")
-          })
-          .catch(() => setOrderStatus("failure"))
-      )
-      .catch(() => setOrderStatus("failure"))
-      .finally(() => {
+      .then((res) => {
+        if (!res.ok) {
+          throw res
+        }
+        return res.json()
+      })
+      .then(() => {
+        setOrderStatus("success")
         updateCartItems({})
       })
+      .catch(() => setOrderStatus("failure"))
   }
 
   const escFunction = React.useCallback(
