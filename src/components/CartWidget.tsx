@@ -3,7 +3,7 @@
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
 import { Link } from "gatsby"
-import Image from "gatsby-image"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Helmet } from "react-helmet"
 import {

@@ -10,7 +10,7 @@ const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Header siteTitle={title} />
-      <main>{children}</main>
+      <main className="overflow-hidden">{children}</main>
       <CartWidget />
       {/* <div className="max-w-3xl px-4 pt-0 pb-6 mx-auto my-0">
       </div> */}
