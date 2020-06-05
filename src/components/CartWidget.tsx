@@ -6,12 +6,16 @@ import { Link } from "gatsby"
 import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Helmet } from "react-helmet"
+import { useForm } from "react-hook-form"
+import InputMask from "react-input-mask"
+import { Store } from "../contexts/siteContext"
 import {
   useCartItemQuantity,
   useCartItems,
   useCartToggle,
   useCartTotalPrice,
   useRemoveItemFromCart,
+  useUpdateItemsFromCart,
 } from "../hooks/contextHooks"
 import useProducts from "../hooks/useProducts"
 import formatPrice from "../utils/formatPrice"
@@ -106,13 +110,170 @@ const CartItem: React.FC<{
   )
 }
 
+const OrderForm: React.FC<{
+  onSubmit: (data: { name: string; phone: string }) => Promise<void>
+  submitting: boolean
+}> = ({ onSubmit, submitting }) => {
+  const [isCartOpen] = useCartToggle()
+  const totalPrice = useCartTotalPrice()
+  const nameInputRef = React.useRef<HTMLInputElement>()
+  const [phone, setPhone] = React.useState("")
+
+  React.useEffect(() => {
+    if (isCartOpen) {
+      nameInputRef.current.focus()
+    }
+  }, [isCartOpen])
+
+  const { register, handleSubmit, errors } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  })
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="py-8 text-gray-100 border-t border-white">
+        <div>
+          <p className="mb-1">Ваше имя</p>
+          <input
+            ref={(e) => {
+              register(e, {
+                required: true,
+              })
+              nameInputRef.current = e
+            }}
+            name="name"
+            className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+            type="text"
+          />
+          <div className="h-6 text-red-500">
+            {errors.name?.type === "required" && "Введите ваше имя."}
+          </div>
+        </div>
+        <div>
+          <p className="mb-1">Номер телефона</p>
+          <InputMask
+            className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+            value={phone}
+            name="phone"
+            inputRef={register({
+              required: true,
+              pattern: {
+                value: /^((\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d- ]{7,10}$/,
+                message: "Введите номер телефона.",
+              },
+              // validate: {
+              //   inputPhoneRequired: (v) =>
+              //     v && v.indexOf("_") === -1
+              //       ? undefined
+              //       : "Введите номер телефона.",
+              // },
+            })}
+            mask="+7 (999) 999-99-99"
+            alwaysShowMask
+            onChange={(e) => setPhone(e.target.value)}
+          />
+
+          <div className="h-6 text-red-500">
+            {errors.phone && errors.phone.message}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-white">
+        <div className="flex flex-row items-start justify-between w-full my-8">
+          <div className="text-xl leading-none">Всего</div>
+          <div className="text-xl leading-none">{formatPrice(totalPrice)}</div>
+        </div>
+        <div className="w-full">
+          <button
+            type="submit"
+            className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
+          >
+            {submitting ? "Оформляем..." : "Оформить заказ"}
+          </button>
+        </div>
+      </div>
+    </form>
+  )
+}
+
 const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
   className,
   ...rest
 }) => {
   const [isCartOpen, setIsCartOpen] = useCartToggle()
-  const totalPrice = useCartTotalPrice()
   const cartItems = useCartItems()
+  const updateCartItems = useUpdateItemsFromCart()
+
+  const [orderStatus, setOrderStatus] = React.useState<
+    "idle" | "pending" | "success" | "failure"
+  >("idle")
+
+  React.useEffect(() => {
+    if (
+      !isCartOpen &&
+      (orderStatus === "success" || orderStatus === "failure")
+    ) {
+      setOrderStatus("idle")
+    }
+  }, [isCartOpen, orderStatus])
+
+  const onSubmit = async (data: { name: string; phone: string }) => {
+    setOrderStatus("pending")
+    const order: Pick<Store, "customer" | "cartItems"> = {
+      customer: {
+        name: data.name,
+        phoneNumber: data.phone,
+      },
+      cartItems,
+    }
+
+    order.cartItems = Object.entries(order.cartItems).reduce(
+      (acc: typeof order.cartItems, [_id, val]) => {
+        const newId = _id.replace("drafts.", "")
+        return Object.assign(acc, { [newId]: val })
+      },
+      {}
+    )
+
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) =>
+        res
+          .json()
+          .then(() => {
+            setOrderStatus("success")
+          })
+          .catch(() => setOrderStatus("failure"))
+      )
+      .catch(() => setOrderStatus("failure"))
+      .finally(() => {
+        updateCartItems({})
+      })
+  }
+
+  const escFunction = React.useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        setIsCartOpen(false)
+      }
+    },
+    [setIsCartOpen]
+  )
+
+  React.useEffect(() => {
+    document.addEventListener("keydown", escFunction, false)
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false)
+    }
+  }, [escFunction])
+
   return (
     <div
       className={classNames(
@@ -125,54 +286,65 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
       <button
         aria-label="Закрыть корзину"
         type="button"
-        className="absolute px-0.5 py-2 text-white left-6 top-4"
+        className="absolute px-0.5 py-2 text-white left-6 top-6"
         onClick={() => setIsCartOpen(false)}
       >
         <GoBackIcon />
       </button>
-      <div className="z-30 flex flex-col justify-between h-full max-h-full min-h-full pt-14 pb-7 px-7">
-        <div className="border-b border-white">
-          <h1 className="mb-5 leading-none tracking-widest text-center uppercase">
-            Ваша корзина
-          </h1>
-        </div>
-        {Object.keys(cartItems).length > 0 ? (
-          <>
-            <div className="mb-auto overflow-y-auto">
-              {Object.keys(cartItems).map((productId) => (
-                <CartItem key={productId} id={productId} />
-              ))}
-            </div>
-            <div className="bg-black border-t border-white">
-              <div className="flex flex-row items-start justify-between w-full my-8">
-                <div className="text-xl">Всего</div>
-                <div className="text-xl">{formatPrice(totalPrice)}</div>
+      <div className="z-30 flex flex-col justify-between h-full max-h-full min-h-full py-7 px-7">
+        {orderStatus !== "idle" && orderStatus !== "pending" ? (
+          <div className="flex flex-col justify-center h-full">
+            {orderStatus === "success" ? (
+              <div className="w-full text-center">
+                <h1 className="w-full text-4xl font-bold text-center">
+                  Заказ успешно оформлен. Мы вам перезвоним.
+                </h1>
               </div>
-              <div className="w-full">
-                <button
-                  // ref={widgetRef}
-                  type="button"
-                  className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
-                >
-                  Оформить заказ
-                </button>
+            ) : (
+              <div className="w-full text-center">
+                <h1 className="w-full text-4xl font-bold text-red-400">
+                  Ошибка оформления заказа.
+                </h1>
               </div>
-            </div>
-          </>
+            )}
+          </div>
         ) : (
           <>
-            <div className="w-full text-center">
-              <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
+            <div className="border-b border-white">
+              <h1 className="mb-5 leading-none tracking-widest text-center uppercase">
+                Ваша корзина
+              </h1>
             </div>
-            <div>
-              <Link
-                onClick={() => setIsCartOpen(false)}
-                to="/#catalog"
-                className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
-              >
-                Наш каталог товаров
-              </Link>
-            </div>
+            {Object.keys(cartItems).length > 0 ? (
+              <>
+                <div className="mb-auto overflow-y-auto">
+                  {Object.keys(cartItems).map((productId) => (
+                    <CartItem key={productId} id={productId} />
+                  ))}
+                </div>
+                <div className="overflow-auto">
+                  <OrderForm
+                    onSubmit={onSubmit}
+                    submitting={orderStatus === "pending"}
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-full text-center">
+                  <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
+                </div>
+                <div>
+                  <Link
+                    onClick={() => setIsCartOpen(false)}
+                    to="/#catalog"
+                    className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
+                  >
+                    Наш каталог товаров
+                  </Link>
+                </div>
+              </>
+            )}
           </>
         )}
       </div>

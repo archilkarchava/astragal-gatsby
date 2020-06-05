@@ -1,6 +1,7 @@
 import produce from "immer"
 import React from "react"
 import { StoreContext } from "../contexts/siteContext"
+import type { Store } from "../contexts/siteContext"
 import useProducts from "./useProducts"
 
 // const initCustomer = (
@@ -143,6 +144,20 @@ export const useRemoveItemFromCart = () => {
       return produce(prevState, (draftState) => {
         // draftState.cartItems.filter((item) => item.productId !== productId)
         delete draftState.cartItems[productId]
+      })
+    })
+  }
+
+  return removeItemFromCart
+}
+
+export const useUpdateItemsFromCart = () => {
+  const { setStore } = React.useContext(StoreContext)
+
+  const removeItemFromCart = (items: Store["cartItems"]) => {
+    setStore((prevState) => {
+      return produce(prevState, (draftState) => {
+        draftState.cartItems = items
       })
     })
   }

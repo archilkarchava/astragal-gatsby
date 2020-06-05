@@ -8,7 +8,7 @@ const useProducts = () => {
       allSanityProduct {
         edges {
           node {
-            id
+            _id
             title
             price
             oldPrice
@@ -33,9 +33,9 @@ const useProducts = () => {
   `)
 
   const result: {
-    [id: string]: Omit<GatsbyTypes.SanityProduct, "id">
+    [_id: string]: Omit<GatsbyTypes.SanityProduct, "_id">
   } = allSanityProduct.edges.reduce(
-    (acc, { node: { id, ...rest } }) => Object.assign(acc, { [id]: rest }),
+    (acc, { node: { _id, ...rest } }) => Object.assign(acc, { [_id]: rest }),
     {}
   )
 

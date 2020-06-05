@@ -1,13 +1,12 @@
 import produce from "immer"
 import React from "react"
 
-interface Store {
+export interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
   // page: undefined
   customer: {
-    firstName?: string
-    lastName?: string
+    name?: string
     phoneNumber?: string
     email?: string
     orders?: {
@@ -21,7 +20,7 @@ interface Store {
     }
   }
   cartItems: {
-    [productId: string]: {
+    [sanityProductId: string]: {
       quantity: number
     }
   }

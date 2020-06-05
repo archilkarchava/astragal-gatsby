@@ -12,7 +12,7 @@ import formatPrice from "../utils/formatPrice"
 export const pageQuery = graphql`
   query Post($slug: String) {
     sanityProduct(slug: { current: { eq: $slug } }) {
-      id
+      _id
       title
       price
       oldPrice
@@ -138,7 +138,7 @@ interface Props {
 const ProductTemplate: React.FC<Props> = ({
   data: {
     sanityProduct: {
-      id,
+      _id,
       title,
       price,
       oldPrice,
@@ -154,7 +154,7 @@ const ProductTemplate: React.FC<Props> = ({
   // }
 
   const addCartItem = useAddItemToCart()
-  const [quantity] = useCartItemQuantity(id)
+  const [quantity] = useCartItemQuantity(_id)
 
   return (
     <Layout>
@@ -178,7 +178,7 @@ const ProductTemplate: React.FC<Props> = ({
           </div>
           <div className="mt-5">
             <button
-              onClick={() => addCartItem(id, quantity + 1)}
+              onClick={() => addCartItem(_id, quantity + 1)}
               type="button"
               className="w-full px-16 py-3 text-gray-100 uppercase duration-300 ease-in-out bg-black border-2 border-white rounded-none lg:w-auto hover:bg-white hover:border-black focus:border-black hover:text-gray-900 focus:text-gray-900 focus:bg-white"
             >

@@ -32,7 +32,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
           return [
             <ProductCard
               key={productId}
-              id={productId}
+              _id={productId}
               title={product.title}
               oldPrice={product.oldPrice ?? undefined}
               price={product.price}
@@ -49,7 +49,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
 }
 
 interface ProductCardProps {
-  id: string
+  _id: string
   title: string
   price: number
   oldPrice?: number
@@ -58,14 +58,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  id,
+  _id,
   title,
   price,
   oldPrice,
   imageFluid,
   slugStr,
 }) => {
-  const [quantity] = useCartItemQuantity(id)
+  const [quantity] = useCartItemQuantity(_id)
   const addCartItem = useAddItemToCart()
   return (
     <div className="flex flex-col w-full p-3 overflow-hidden h-88 sm:w-1/2 md:w-1/3 lg:w-1/4">
@@ -97,7 +97,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               {formatPrice(price)}
             </span>
             <button
-              onClick={() => addCartItem(id, quantity + 1)}
+              onClick={() => addCartItem(_id, quantity + 1)}
               type="button"
               className="px-4 py-1 font-semibold leading-none text-gray-900 uppercase transition duration-300 ease-in-out bg-white border-2 border-black rounded-none hover:text-gray-100 focus:text-gray-100 focus:bg-black hover:bg-black"
             >
