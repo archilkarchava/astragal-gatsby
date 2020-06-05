@@ -7,34 +7,37 @@ const ContactUs: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-between w-full overflow-hidden text-gray-900 bg-white md:flex-row">
-      <div className="py-10 m-auto md:p-0">
-        <h1 className="mb-5 text-4xl font-bold leading-none">
-          Свяжитесь с нами
-        </h1>
-        {phoneNumbers.map((phoneNumber) => {
-          return (
-            <a
-              key={phoneNumber}
-              className="block mb-2 text-lg"
-              href={`tel:${phoneNumber}`}
-            >
-              {phoneNumber}
-            </a>
-          )
-        })}
-        {emails.map((email) => {
-          return (
-            <a
-              key={email}
-              className="block mb-2 text-lg"
-              href={`mailto:${email}`}
-            >
-              {email}
-            </a>
-          )
-        })}
-        <div className="block text-lg">
-          {addresses[0].city}, ул. {addresses[0].street} {addresses[0].streetNo}
+      <div className="flex items-center mx-auto">
+        <div className="py-10 m-auto md:p-0">
+          <h1 className="mb-5 text-4xl font-bold leading-none">
+            Свяжитесь с нами
+          </h1>
+          {phoneNumbers.map((phoneNumber) => {
+            return (
+              <a
+                key={phoneNumber}
+                className="block mb-2 text-lg"
+                href={`tel:${phoneNumber}`}
+              >
+                {phoneNumber}
+              </a>
+            )
+          })}
+          {emails.map((email) => {
+            return (
+              <a
+                key={email}
+                className="block mb-2 text-lg"
+                href={`mailto:${email}`}
+              >
+                {email}
+              </a>
+            )
+          })}
+          <div className="block text-lg">
+            {addresses[0].city}, ул. {addresses[0].street}{" "}
+            {addresses[0].streetNo}
+          </div>
         </div>
       </div>
       <div className="w-full h-112 md:h-128 md:w-1/2">

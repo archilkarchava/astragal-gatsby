@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { Link } from "gatsby"
-import Image from "gatsby-image"
 import type { FluidObject } from "gatsby-image"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import useProducts from "../hooks/useProducts"
@@ -78,7 +78,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="mb-1 h-60"
             fluid={imageFluid}
             alt={title}
-            imgStyle={{ objectFit: "contain" }}
+            objectFit="contain"
+            objectPosition="50% 50%"
           />
         </Link>
 

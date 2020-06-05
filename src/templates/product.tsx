@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { graphql } from "gatsby"
-import Image from "gatsby-image"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Swipeable } from "react-swipeable"
 import Layout from "../components/Layout"
@@ -82,7 +82,7 @@ const ImageCarousel: React.FC<Pick<
                   <Image
                     fluid={fluid}
                     style={{ position: "static" }}
-                    imgStyle={{ objectFit: "contain" }}
+                    objectFit="contain"
                     // alt={title}
                   />
                 </div>
@@ -92,7 +92,7 @@ const ImageCarousel: React.FC<Pick<
         </div>
       )}
       {images.length > 1 && (
-        <div className="flex flex-row h-10 mx-auto my-5">
+        <div className="flex flex-row content-center justify-center h-10 my-5">
           {images.map(
             (
               {

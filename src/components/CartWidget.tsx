@@ -3,7 +3,7 @@
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
 import { Link } from "gatsby"
-import Image from "gatsby-image"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Helmet } from "react-helmet"
 import {
@@ -60,16 +60,16 @@ const CartItem: React.FC<{
           <Image
             className="w-full h-full"
             fluid={imageFluid}
-            imgStyle={{ objectFit: "contain" }}
+            objectFit="contain"
           />
         </div>
       </div>
-      <div className="flex flex-col flex-grow justify-between min-h-20 mr-2.5">
+      <div className="flex flex-col flex-grow justify-between w-62.5 min-h-20 mr-2.5">
         <div>
           <p className="font-semibold leading-none">{title}</p>
           <p className="text-sm">{formatPrice(price)}</p>
         </div>
-        <div className="">
+        <div>
           <button
             type="button"
             onClick={() => removeCartItem(id)}
