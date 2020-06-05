@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { Link } from "gatsby"
+import Image from "gatsby-image"
 import type { FluidObject } from "gatsby-image"
-import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import useProducts from "../hooks/useProducts"

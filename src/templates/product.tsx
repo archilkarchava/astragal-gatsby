@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { graphql } from "gatsby"
-import Image from "gatsby-image/withIEPolyfill"
+import Image from "gatsby-image"
 import React from "react"
 import { Swipeable } from "react-swipeable"
 import Layout from "../components/Layout"
