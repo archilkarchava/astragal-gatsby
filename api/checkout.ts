@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import sanityClient from "@sanity/client"
+import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node"
-import nodemailer from "nodemailer"
 import { Store } from "../src/contexts/siteContext"
 
 const sanity = sanityClient({
@@ -49,16 +49,15 @@ interface Order {
   totalSum: number
 }
 
-const receivingEmail = process.env.EMAIL_RECEIVER
-const gmailEmail = process.env.GMAIL_SENDER_EMAIL
-const gmailPassword = process.env.GMAIL_SENDER_PASSWORD
-const mailTransport = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: gmailEmail,
-    pass: gmailPassword,
-  },
-})
+// const gmailEmail = process.env.GMAIL_SENDER_EMAIL
+// const gmailPassword = process.env.GMAIL_SENDER_PASSWORD
+// const mailTransport = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: gmailEmail,
+//     pass: gmailPassword,
+//   },
+// })
 
 const countOrderPrice = (cartItems: Order["cartItems"]) => {
   const totalPrice = Object.values(cartItems).reduce((acc, item) => {
@@ -73,8 +72,10 @@ const sendEmail = async ({
   cartItems,
   totalSum,
 }: Order): Promise<number> => {
-  const mailOptions = {
-    from: gmailEmail,
+  const receivingEmail = process.env.EMAIL_RECEIVER
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  const msg = {
+    from: "archil1997@gmail.com",
     to: receivingEmail,
     subject: "Астрагал: Новый заказ.",
     text: `
@@ -90,10 +91,10 @@ ${Object.values(cartItems)
   .join("\n")}`,
   }
   try {
-    await mailTransport.sendMail(mailOptions)
+    await sgMail.send(msg)
     console.log(`Информация о заказе отправлена на: ${receivingEmail}`)
   } catch (e) {
-    console.error(`Ошибка отправки с ${gmailEmail} на ${receivingEmail}: ${e}`)
+    console.error(`Ошибка отправки письма на ${receivingEmail}: ${e}`)
     throw e
   }
   return null

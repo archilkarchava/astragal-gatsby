@@ -132,7 +132,7 @@ const ImageCarousel: React.FC<Pick<
 }
 
 interface Props {
-  data: GatsbyTypes.PostQuery
+  data: { sanityProduct: GatsbyTypes.SanityProduct }
 }
 
 const ProductTemplate: React.FC<Props> = ({
