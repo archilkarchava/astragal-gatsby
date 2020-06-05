@@ -1514,10 +1514,8 @@ type Query_allSitePageArgs = {
 
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
-  port: Maybe<StringQueryOperatorInput>;
+  port: Maybe<DateQueryOperatorInput>;
   host: Maybe<StringQueryOperatorInput>;
-  polyfill: Maybe<BooleanQueryOperatorInput>;
-  pathPrefix: Maybe<StringQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
   parent: Maybe<NodeFilterInput>;
   children: Maybe<NodeFilterListInput>;
@@ -4347,10 +4345,8 @@ enum SanityTransformImagesImageFormat {
 
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
-  readonly port: Maybe<Scalars['String']>;
+  readonly port: Maybe<Scalars['Date']>;
   readonly host: Maybe<Scalars['String']>;
-  readonly polyfill: Maybe<Scalars['Boolean']>;
-  readonly pathPrefix: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
   readonly parent: Maybe<Node>;
   readonly children: ReadonlyArray<Node>;
@@ -4359,6 +4355,14 @@ type Site = Node & {
 
 
 type Site_buildTimeArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type Site_portArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -4551,8 +4555,6 @@ enum SiteFieldsEnum {
   buildTime = 'buildTime',
   port = 'port',
   host = 'host',
-  polyfill = 'polyfill',
-  pathPrefix = 'pathPrefix',
   id = 'id',
   parent___id = 'parent.id',
   parent___parent___id = 'parent.parent.id',
@@ -4643,10 +4645,8 @@ enum SiteFieldsEnum {
 
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
-  readonly port: Maybe<StringQueryOperatorInput>;
+  readonly port: Maybe<DateQueryOperatorInput>;
   readonly host: Maybe<StringQueryOperatorInput>;
-  readonly polyfill: Maybe<BooleanQueryOperatorInput>;
-  readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly parent: Maybe<NodeFilterInput>;
   readonly children: Maybe<NodeFilterListInput>;
@@ -5314,6 +5314,33 @@ type HeroQueryVariables = {};
 
 type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
+type GatsbySanityImageFixedFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
+
+type GatsbySanityImageFixed_noBase64Fragment = Pick<SanityImageFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
+
+type GatsbySanityImageFixed_withWebpFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
+
+type GatsbySanityImageFixed_withWebp_noBase64Fragment = Pick<SanityImageFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
+
+type GatsbySanityImageFluidFragment = Pick<SanityImageFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type GatsbySanityImageFluid_noBase64Fragment = Pick<SanityImageFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type GatsbySanityImageFluid_withWebpFragment = Pick<SanityImageFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type GatsbySanityImageFluid_withWebp_noBase64Fragment = Pick<SanityImageFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type SiteMetadataQueryVariables = {};
+
+
+type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanitySiteSettings, 'title' | 'description' | 'keywords' | 'emails' | 'phoneNumbers'>
+        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
+          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
+          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
+        )>>> }
+      ) }> } };
+
 type ProductsQueryVariables = {};
 
 
@@ -5333,17 +5360,6 @@ type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: Readon
         )>>> }
       ) }> } };
 
-type SiteMetadataQueryVariables = {};
-
-
-type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanitySiteSettings, 'title' | 'description' | 'keywords' | 'emails' | 'phoneNumbers'>
-        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
-          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
-          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
-        )>>> }
-      ) }> } };
-
 type GatsbyImageSharpFluid_withWebpFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type PostQueryVariables = {
@@ -5358,22 +5374,6 @@ type PostQuery = { readonly sanityProduct: Maybe<(
       & { readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }
     )>>> }
   )> };
-
-type GatsbySanityImageFixedFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
-
-type GatsbySanityImageFixed_noBase64Fragment = Pick<SanityImageFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
-
-type GatsbySanityImageFixed_withWebpFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
-
-type GatsbySanityImageFixed_withWebp_noBase64Fragment = Pick<SanityImageFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
-
-type GatsbySanityImageFluidFragment = Pick<SanityImageFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type GatsbySanityImageFluid_noBase64Fragment = Pick<SanityImageFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type GatsbySanityImageFluid_withWebpFragment = Pick<SanityImageFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type GatsbySanityImageFluid_withWebp_noBase64Fragment = Pick<SanityImageFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 

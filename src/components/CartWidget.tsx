@@ -153,6 +153,7 @@ const OrderForm: React.FC<{
         <div>
           <p className="mb-1">Номер телефона</p>
           <InputMask
+            type="tel"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
             value={phone}
             name="phone"

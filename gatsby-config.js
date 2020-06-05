@@ -54,6 +54,12 @@ module.exports = {
     `gatsby-plugin-eslint`,
     `gatsby-plugin-react-helmet`,
     {
+      resolve: `gatsby-plugin-polyfill-io`,
+      options: {
+        features: [`fetch`],
+      },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,

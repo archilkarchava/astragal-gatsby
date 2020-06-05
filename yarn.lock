@@ -2905,13 +2905,6 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.61.tgz#d299136ce54bcaf1abaa4a487f9e4bedf6b0d393"
   integrity sha512-l+zSbvT8TPRaCxL1l9cwHCb0tSqGAGcjPJFItGGYat5oCTiq1uQQKYg5m7AF1mgnEBzFXGLJ2LRmNjtreRX76Q==
 
-"@types/nodemailer@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.0.tgz#d8c039be3ed685c4719a026455555be82c124b74"
-  integrity sha512-KY7bFWB0MahRZvVW4CuW83qcCDny59pJJ0MQ5ifvfcjNwPlIT0vW4uARO4u1gtkYnWdhSvURegecY/tzcukJcA==
-  dependencies:
-    "@types/node" "*"
-
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
@@ -8060,6 +8053,13 @@ gatsby-plugin-page-creator@^2.3.7:
     lodash "^4.17.15"
     micromatch "^3.1.10"
 
+gatsby-plugin-polyfill-io@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-polyfill-io/-/gatsby-plugin-polyfill-io-1.1.0.tgz#61424c773ae123680e50b9a6692a4b939a1e6e13"
+  integrity sha512-v2uiJvuAhtUU/30c257+KBj+hA0pMxpsCdq7PIcXLdGZlVhXJTporD5WIEPP5jeGl3zOp4y3FdQF1C10wlt1MA==
+  dependencies:
+    babel-runtime "^6.26.0"
+
 gatsby-plugin-postcss@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-postcss/-/gatsby-plugin-postcss-2.3.2.tgz#41e8a0f8e73d9a437d8a5e22be0d3b8afa897830"
@@ -11811,11 +11811,6 @@ node-releases@^1.1.53:
   version "1.1.57"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.57.tgz#f6754ce225fad0611e61228df3e09232e017ea19"
   integrity sha512-ZQmnWS7adi61A9JsllJ2gdj2PauElcjnOwTp2O011iGzoakTxUsDGSe+6vD7wXbKdqhSFymC0OSx35aAMhrSdw==
-
-nodemailer@^6.4.8:
-  version "6.4.8"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-6.4.8.tgz#aca52886e4e56f71f6b8a65f5ca6b767ca751fc7"
-  integrity sha512-UbJD0+g5e2H20bWv7Rpj3B+N3TMMJ0MLoLwaGVJ0k3Vo8upq0UltwHJ5BJfrpST1vFa91JQ8cf7cICK5DSIo1Q==
 
 noms@0.0.0:
   version "0.0.0"
