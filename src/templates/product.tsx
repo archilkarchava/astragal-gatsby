@@ -2,6 +2,7 @@ import classNames from "classnames"
 import { graphql } from "gatsby"
 import Image from "gatsby-image"
 import React from "react"
+import { Swipeable } from "react-swipeable"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
 import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
@@ -43,7 +44,7 @@ const ImageCarousel: React.FC<Pick<
   GatsbyTypes.PostQuery["sanityProduct"],
   "images"
 >> = ({ images }) => {
-  const [imageIdx, setImageIdx] = React.useState(0)
+  const [activeImageIdx, setActiveImageIdx] = React.useState(0)
   return (
     <div className="flex flex-col justify-center w-full overflow-hidden max-h-96 lg:w-1/2 lg:max-h-full">
       {images.length > 0 && (
@@ -60,20 +61,31 @@ const ImageCarousel: React.FC<Pick<
               },
               i
             ) => (
-              <div
-                key={_key}
-                className={classNames(
-                  imageIdx === i ? "opacity-1" : "opacity-0",
-                  "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
-                )}
+              <Swipeable
+                preventDefaultTouchmoveEvent
+                onSwipedLeft={() =>
+                  activeImageIdx < images.length - 1 &&
+                  setActiveImageIdx(activeImageIdx + 1)
+                }
+                onSwipedRight={() =>
+                  activeImageIdx > 0 && setActiveImageIdx(activeImageIdx - 1)
+                }
               >
-                <Image
-                  fluid={fluid}
-                  style={{ position: "static" }}
-                  imgStyle={{ objectFit: "contain" }}
-                  // alt={title}
-                />
-              </div>
+                <div
+                  key={_key}
+                  className={classNames(
+                    activeImageIdx === i ? "opacity-1" : "opacity-0",
+                    "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
+                  )}
+                >
+                  <Image
+                    fluid={fluid}
+                    style={{ position: "static" }}
+                    imgStyle={{ objectFit: "contain" }}
+                    // alt={title}
+                  />
+                </div>
+              </Swipeable>
             )
           )}
         </div>
@@ -95,15 +107,15 @@ const ImageCarousel: React.FC<Pick<
               <button
                 type="button"
                 key={_key}
-                onMouseEnter={() => setImageIdx(i)}
-                // onKeyDown={() => setImageIdx(i)}
-                onClick={() => setImageIdx(i)}
-                className="w-10 h-10 mx-2 border border-transparent rounded-full cursor-pointer focus:outline-none focus:border-black"
+                onMouseEnter={() => setActiveImageIdx(i)}
+                // onKeyDown={() => setActiveImageIdx(i)}
+                onClick={() => setActiveImageIdx(i)}
+                className="w-10 h-10 mx-2 rounded-full cursor-pointer focus:outline-none focus:shadow-outline-gray"
               >
                 <Image
                   fluid={fluid}
                   className={classNames(
-                    imageIdx === i && "border-black",
+                    activeImageIdx === i && "border-black",
                     "w-full h-full rounded-full border-2 border-transparent"
                   )}
                   // imgStyle={{ objectFit: "contain" }}

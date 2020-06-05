@@ -46,6 +46,7 @@
     "react-dom": "^16.13.1",
     "react-helmet": "^6.0.0",
     "react-slick": "^0.26.1",
+    "react-swipeable": "^5.5.1",
     "react-yandex-maps": "^4.4.0",
     "slick-carousel": "^1.8.1",
     "slugify": "^1.4.0",
