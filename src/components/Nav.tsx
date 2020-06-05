@@ -8,7 +8,7 @@ const Nav: React.FC = () => {
   return (
     <>
       <nav className="flex items-center w-auto md:flex-wrap">
-        <ul className="flex justify-between hidden md:block">
+        <ul className="flex justify-between block">
           {/* <NavLink to="/">Главная</NavLink> */}
           <NavLink to="/#catalog">Каталог</NavLink>
           {/* <NavLink to="/">О нас</NavLink> */}
@@ -29,7 +29,7 @@ const NavLink: React.FC<Omit<GatsbyLinkProps<{}>, "ref">> = ({
     <li
       className={classNames(
         { [className]: className },
-        "block py-3 md:inline-block md:mx-4 lg:mx-5 leading-none"
+        "block py-3 mr-6 md:mr-10 leading-none"
       )}
     >
       <Link className="text-center text-gray-900" {...rest}>
@@ -46,7 +46,7 @@ const CartButton: React.FC = () => {
     <button
       type="button"
       aria-label="Открыть корзину"
-      className="leading-none text-gray-900 md:ml-4 lg:ml-5"
+      className="leading-none text-gray-900"
       onClick={() => setIsCartOpen(!isCartOpen)}
     >
       <BagIcon className="w-7 h-7" />

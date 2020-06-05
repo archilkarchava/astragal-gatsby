@@ -11,10 +11,10 @@ const IndexPage: React.FC = () => {
     <Layout>
       <SEO title="Главная" />
       <Hero />
-      <div id="catalog" />
+      <div id="catalog" className="-translate-y-13 md:-translate-y-16" />
       <ProductGrid />
       <OurAdvantages />
-      <div id="contact" />
+      <div id="contact" className="-translate-y-13 md:-translate-y-16" />
       <ContactUs />
     </Layout>
   )
