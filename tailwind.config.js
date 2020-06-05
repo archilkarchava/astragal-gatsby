@@ -13,6 +13,8 @@ module.exports = {
         90: "22.5rem",
         112: "28rem",
         128: "32rem",
+        136: "34rem",
+        144: "36rem",
       },
       width: {
         18: "4.5rem",
@@ -23,6 +25,8 @@ module.exports = {
         90: "22.5rem",
         112: "28rem",
         128: "32rem",
+        136: "34rem",
+        144: "36rem",
       },
       margin: {
         17: "4.25rem",

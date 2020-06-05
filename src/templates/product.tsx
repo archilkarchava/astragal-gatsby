@@ -47,9 +47,9 @@ const ImageCarousel: React.FC<Pick<
 >> = ({ images }) => {
   const [activeImageIdx, setActiveImageIdx] = React.useState(0)
   return (
-    <div className="flex flex-col justify-center w-full overflow-hidden max-h-96 lg:w-1/2 lg:max-h-full">
+    <div className="flex flex-col justify-center w-full overflow-hidden h-96 md:h-136 lg:w-1/2 lg:h-full">
       {images.length > 0 && (
-        <div className="relative h-96 lg:h-full">
+        <div className="relative h-96 md:h-136 lg:h-full">
           {images.map(
             (
               {
@@ -63,6 +63,7 @@ const ImageCarousel: React.FC<Pick<
               i
             ) => (
               <Swipeable
+                key={_key}
                 preventDefaultTouchmoveEvent
                 onSwipedLeft={() =>
                   activeImageIdx < images.length - 1 &&
@@ -73,7 +74,6 @@ const ImageCarousel: React.FC<Pick<
                 }
               >
                 <div
-                  key={_key}
                   className={classNames(
                     activeImageIdx === i ? "opacity-1" : "opacity-0",
                     "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
