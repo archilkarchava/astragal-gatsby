@@ -138,7 +138,7 @@ const OrderForm: React.FC<{
           <input
             ref={(e) => {
               register(e, {
-                required: true,
+                required: { message: "Введите ваше имя.", value: true },
               })
               nameInputRef.current = e
             }}
@@ -147,7 +147,7 @@ const OrderForm: React.FC<{
             type="text"
           />
           <div className="h-6 text-red-500">
-            {errors.name?.type === "required" && "Введите ваше имя."}
+            {errors.name && errors.name.message}
           </div>
         </div>
         <div>
@@ -158,10 +158,10 @@ const OrderForm: React.FC<{
             value={phone}
             name="phone"
             inputRef={register({
-              required: true,
+              required: { message: "Введите номер телефона.", value: true },
               pattern: {
                 value: /^(\+7) ((\(\d{3}\))|(\d{3}(-?))) ((\d{7})|(\d{3}-\d{2}-\d{2}))$/,
-                message: "Введите номер телефона.",
+                message: "Введите корректный номер телефона.",
               },
               // validate: {
               //   inputPhoneRequired: (v) =>
