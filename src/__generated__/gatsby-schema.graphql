@@ -1391,7 +1391,7 @@ type Query {
   allDirectory(filter: DirectoryFilterInput, sort: DirectorySortInput, skip: Int, limit: Int): DirectoryConnection!
   sitePage(path: StringQueryOperatorInput, component: StringQueryOperatorInput, internalComponentName: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, context: SitePageContextFilterInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput, componentPath: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SitePage
   allSitePage(filter: SitePageFilterInput, sort: SitePageSortInput, skip: Int, limit: Int): SitePageConnection!
-  site(buildTime: DateQueryOperatorInput, port: DateQueryOperatorInput, host: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Site
+  site(buildTime: DateQueryOperatorInput, port: DateQueryOperatorInput, host: StringQueryOperatorInput, polyfill: BooleanQueryOperatorInput, pathPrefix: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Site
   allSite(filter: SiteFilterInput, sort: SiteSortInput, skip: Int, limit: Int): SiteConnection!
   imageSharp(fixed: ImageSharpFixedFilterInput, resolutions: ImageSharpResolutionsFilterInput, fluid: ImageSharpFluidFilterInput, sizes: ImageSharpSizesFilterInput, original: ImageSharpOriginalFilterInput, resize: ImageSharpResizeFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): ImageSharp
   allImageSharp(filter: ImageSharpFilterInput, sort: ImageSharpSortInput, skip: Int, limit: Int): ImageSharpConnection!
@@ -3939,6 +3939,8 @@ type Site implements Node {
     locale: String
   ): Date
   host: String
+  polyfill: Boolean
+  pathPrefix: String
   id: ID!
   parent: Node
   children: [Node!]!
@@ -4115,6 +4117,8 @@ enum SiteFieldsEnum {
   buildTime
   port
   host
+  polyfill
+  pathPrefix
   id
   parent___id
   parent___parent___id
@@ -4207,6 +4211,8 @@ input SiteFilterInput {
   buildTime: DateQueryOperatorInput
   port: DateQueryOperatorInput
   host: StringQueryOperatorInput
+  polyfill: BooleanQueryOperatorInput
+  pathPrefix: StringQueryOperatorInput
   id: StringQueryOperatorInput
   parent: NodeFilterInput
   children: NodeFilterListInput
@@ -4314,6 +4320,7 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql
   pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql
   pluginCreator___pluginOptions___fonts___google
+  pluginCreator___pluginOptions___features
   pluginCreator___pluginOptions___name
   pluginCreator___pluginOptions___path
   pluginCreator___pluginOptions___projectId
@@ -4600,6 +4607,7 @@ enum SitePluginFieldsEnum {
   pluginOptions___fonts___google___family
   pluginOptions___fonts___google___subsets
   pluginOptions___fonts___google___variants
+  pluginOptions___features
   pluginOptions___name
   pluginOptions___path
   pluginOptions___projectId
@@ -4735,6 +4743,7 @@ type SitePluginPluginOptions {
   emitSchema: SitePluginPluginOptionsEmitSchema
   emitPluginDocuments: SitePluginPluginOptionsEmitPluginDocuments
   fonts: SitePluginPluginOptionsFonts
+  features: [String]
   name: String
   path: String
   projectId: String
@@ -4776,6 +4785,7 @@ input SitePluginPluginOptionsFilterInput {
   emitSchema: SitePluginPluginOptionsEmitSchemaFilterInput
   emitPluginDocuments: SitePluginPluginOptionsEmitPluginDocumentsFilterInput
   fonts: SitePluginPluginOptionsFontsFilterInput
+  features: StringQueryOperatorInput
   name: StringQueryOperatorInput
   path: StringQueryOperatorInput
   projectId: StringQueryOperatorInput

@@ -160,7 +160,7 @@ const OrderForm: React.FC<{
             inputRef={register({
               required: true,
               pattern: {
-                value: /^((\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d- ]{7,10}$/,
+                value: /^((\+7)[- ]?)?(\(?\d{3}\)?[- ]?)?[\d- ]{10}$/,
                 message: "Введите номер телефона.",
               },
               // validate: {
@@ -322,7 +322,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                     <CartItem key={productId} id={productId} />
                   ))}
                 </div>
-                <div className="overflow-auto">
+                <div className="overflow-auto min-h-99">
                   <OrderForm
                     onSubmit={onSubmit}
                     submitting={orderStatus === "pending"}
