@@ -72,10 +72,12 @@ const sendEmail = async ({
   cartItems,
   totalSum,
 }: Order): Promise<number> => {
-  const receivingEmail = process.env.EMAIL_RECEIVER
+  const receivingEmail = process.env.RECEIVER_EMAIL
+  const sendingEmail = process.env.SENDER_EMAIL
+
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   const msg = {
-    from: "archil1997@gmail.com",
+    from: sendingEmail,
     to: receivingEmail,
     subject: "Астрагал: Новый заказ.",
     text: `
@@ -86,9 +88,10 @@ ${customer.name} ${
 ${Object.values(cartItems)
   .map(
     ({ title, price, quantity }) =>
-      `   ${title} - ${price} руб. в количестве ${quantity} шт.,`
+      `    ${title} - ${price} руб. в количестве ${quantity} шт.,`
   )
-  .join("\n")}`,
+  .join("\n")}
+`,
   }
   try {
     await sgMail.send(msg)
