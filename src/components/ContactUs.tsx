@@ -40,7 +40,7 @@ const ContactUs: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-112 md:h-128 md:w-1/2">
+      <div className="w-full h-112 lg:h-128 md:w-1/2">
         <YandexMap />
       </div>
     </div>

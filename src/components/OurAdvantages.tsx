@@ -9,15 +9,15 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
   return (
     <div
       className={classNames(
-        "box-border w-full px-5 py-14 md:py-24 bg-orange-100 text-black",
+        "box-border w-full px-5 py-14 md:py-20 lg:py-24 bg-orange-100 text-black",
         className
       )}
       {...rest}
     >
-      <h1 className="mb-20 text-3xl font-semibold leading-none text-center md:text-4xl">
+      <h1 className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl">
         Наши приемущества
       </h1>
-      <div className="container relative flex flex-wrap mx-auto my-0">
+      <div className="container relative flex flex-wrap px-10 mx-auto my-0">
         <AdvantageItem title="Материалы" icon={WoodSvg}>
           Все наши изделия изготовлены из массива натурального дерева
         </AdvantageItem>
@@ -39,12 +39,12 @@ const AdvantageItem: React.FC<{
   icon: React.ComponentType
 }> = ({ children, title, icon: Icon }) => {
   return (
-    <div className="content-center w-full px-2 mb-6 text-center md:w-1/3 md:m-0">
-      <div className="w-20 mx-auto md:w-24">
+    <div className="content-center w-full px-4 mb-6 text-center md:w-1/3 md:m-0">
+      <div className="w-20 mx-auto lg:w-24">
         <Icon />
       </div>
-      <div className="mt-3 mb-3 text-2xl font-semibold">{title}</div>
-      <div className="text-lg">{children}</div>
+      <div className="mt-3 mb-3 text-xl font-semibold lg:text-2xl">{title}</div>
+      <div className="text-base lg:text-lg">{children}</div>
     </div>
   )
 }
