@@ -171,7 +171,7 @@ const OrderForm: React.FC<{
               // },
             })}
             mask="+7 (999) 999-99-99"
-            alwaysShowMask
+            maskChar={null}
             onChange={(e) => setPhone(e.target.value)}
           />
 
