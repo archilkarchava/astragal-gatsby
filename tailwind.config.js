@@ -38,11 +38,11 @@ module.exports = {
       },
       minHeight: {
         20: "5rem",
+        28: "7rem",
         100: "25rem",
       },
       minWidth: {
         20: "5rem",
-        99: "24.75rem",
         100: "25rem",
       },
       inset: {
