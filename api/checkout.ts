@@ -88,9 +88,9 @@ ${customer.name} ${
 ${Object.values(cartItems)
   .map(
     ({ title, price, quantity }) =>
-      `    ${title} - ${price} руб. в количестве ${quantity} шт.,`
+      `    ${title} - ${price} руб. в количестве ${quantity} шт.`
   )
-  .join("\n")}
+  .join(",\n")}
 `,
   }
   try {
@@ -113,7 +113,7 @@ export default async (req: NowRequest, res: NowResponse) => {
     return
   }
   if (!cartItems) {
-    res.status(400).json({ message: "Не получилось выгрузить товары." })
+    res.status(400).json({ message: "Не получилось загрузить товары." })
     return
   }
   const order: Order = {
@@ -125,5 +125,4 @@ export default async (req: NowRequest, res: NowResponse) => {
   sendEmail(order)
     .then(() => res.status(200).json({ message: "Заказ успешно оформлен." }))
     .catch(() => res.status(400).json({ message: "Ошибка оформления заказа." }))
-  // const { name = "World" } = req.query
 }
