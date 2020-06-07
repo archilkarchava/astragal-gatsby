@@ -7,7 +7,7 @@ const Hero = () => {
     query Hero {
       ourServicesBgImg: file(relativePath: { eq: "our-services-bg.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 2480) {
+          fluid(maxWidth: 1920) {
             ...GatsbyImageSharpFluid
           }
         }

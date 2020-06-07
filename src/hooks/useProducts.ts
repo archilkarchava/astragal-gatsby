@@ -19,7 +19,7 @@ const useProducts = () => {
               asset {
                 localFile {
                   childImageSharp {
-                    fluid(maxWidth: 400, webpQuality: 90) {
+                    fluid(maxWidth: 240, webpQuality: 90) {
                       ...GatsbyImageSharpFluid_withWebp
                     }
                   }
