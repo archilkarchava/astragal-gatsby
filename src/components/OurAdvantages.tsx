@@ -15,7 +15,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
       {...rest}
     >
       <h1 className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl">
-        Наши приемущества
+        Наши преимущества
       </h1>
       <div className="container relative flex flex-wrap px-10 mx-auto my-0">
         <AdvantageItem title="Материалы" icon={WoodSvg}>
