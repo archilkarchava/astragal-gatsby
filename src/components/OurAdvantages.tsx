@@ -37,7 +37,12 @@ const AdvantageItem: React.FC<{
   icon: React.ComponentType
 }> = ({ children, title, icon: Icon }) => {
   return (
-    <div className="content-center w-full px-4 mb-6 text-center md:w-1/3 md:m-0">
+    <div
+      data-sal="fade"
+      data-sal-delay="200"
+      data-sal-easing="ease"
+      className="content-center w-full px-4 mb-6 text-center md:w-1/3 md:m-0"
+    >
       <div className="w-20 mx-auto lg:w-24">
         <Icon />
       </div>
