@@ -21,13 +21,11 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
         <AdvantageItem title="Материалы" icon={WoodSvg}>
           Все наши изделия изготовлены из массива натурального дерева
         </AdvantageItem>
-        <AdvantageItem title="Материалы" icon={WoodSvg}>
-          Все наши изделия изготовлены из массива натурального дерева
+        <AdvantageItem title="Уникальный дизайн" icon={WoodSvg}>
+          Наш дизайнер создаст уникальный макет изделия, учитывая ваши пожелания
         </AdvantageItem>
-        <AdvantageItem title="Бесплатная консультация дизайнера" icon={WoodSvg}>
-          В нашей столярной мастерской вы можете получить бесплатную
-          консультацию профессионаольного дизайнера интерьеров, который подберет
-          подходящую мебель по стилю
+        <AdvantageItem title="Подберём цвет" icon={WoodSvg}>
+          Подбёрем и покрасим в цвет, который подойдет к вашему интерьеру
         </AdvantageItem>
       </div>
     </div>
