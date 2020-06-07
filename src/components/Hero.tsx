@@ -39,7 +39,7 @@ const Hero = () => {
             href="#catalog"
             className="px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase bg-black border-2 border-black rounded-none"
           >
-            Наши товары
+            Наши изделия
           </a>
         </div>
       </BackgroundImage>
