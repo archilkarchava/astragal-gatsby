@@ -1,5 +1,6 @@
 import React from "react"
 import useSiteMetadata from "../hooks/useSiteMetadata"
+import "../styles/global.css"
 import CartWidget from "./CartWidget"
 import Footer from "./Footer"
 import Header from "./Header"
