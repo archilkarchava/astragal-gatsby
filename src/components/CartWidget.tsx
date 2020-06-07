@@ -132,7 +132,7 @@ const OrderForm: React.FC<{
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="py-8 text-gray-100 border-t border-white">
+      <div className="py-4 text-gray-100 border-t border-white">
         <div>
           <p className="mb-1">Ваше имя</p>
           <input
@@ -184,7 +184,7 @@ const OrderForm: React.FC<{
             type="submit"
             className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
           >
-            {submitting ? "Оформляем..." : "Оформить заказ"}
+            {submitting ? "Подождите..." : "Оформить заказ"}
           </button>
         </div>
       </div>
@@ -311,17 +311,15 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
             </div>
             {Object.keys(cartItems).length > 0 ? (
               <>
-                <div className="mb-auto overflow-y-auto">
+                <div className="mb-auto overflow-y-auto min-h-28">
                   {Object.keys(cartItems).map((productId) => (
                     <CartItem key={productId} id={productId} />
                   ))}
                 </div>
-                <div className="overflow-auto min-h-99">
-                  <OrderForm
-                    onSubmit={onSubmit}
-                    submitting={orderStatus === "pending"}
-                  />
-                </div>
+                <OrderForm
+                  onSubmit={onSubmit}
+                  submitting={orderStatus === "pending"}
+                />
               </>
             ) : (
               <>
