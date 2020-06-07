@@ -163,12 +163,6 @@ const OrderForm: React.FC<{
                 value: /^(\+7) ((\(\d{3}\))|(\d{3}(-?))) ((\d{7})|(\d{3}-\d{2}-\d{2}))$/,
                 message: "Введите корректный номер телефона.",
               },
-              // validate: {
-              //   inputPhoneRequired: (v) =>
-              //     v && v.indexOf("_") === -1
-              //       ? undefined
-              //       : "Введите номер телефона.",
-              // },
             })}
             mask="+7 (999) 999-99-99"
             maskChar={null}
