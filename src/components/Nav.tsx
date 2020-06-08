@@ -1,5 +1,6 @@
 import classNames from "classnames"
-import { GatsbyLinkProps, Link } from "gatsby"
+import { AnchorLink } from "gatsby-plugin-anchor-links"
+import type { AnchorLinkProps } from "gatsby-plugin-anchor-links"
 import React from "react"
 import { useCartToggle, useCartTotalQuantity } from "../hooks/contextHooks"
 import BagIcon from "./icons/BagIcon"
@@ -20,7 +21,7 @@ const Nav: React.FC = () => {
   )
 }
 
-const NavLink: React.FC<Omit<GatsbyLinkProps<{}>, "ref">> = ({
+const NavLink: React.FC<AnchorLinkProps> = ({
   className,
   children,
   ...rest
@@ -32,9 +33,9 @@ const NavLink: React.FC<Omit<GatsbyLinkProps<{}>, "ref">> = ({
         "block py-3 mr-6 md:mr-10 leading-none"
       )}
     >
-      <Link className="text-center text-gray-900" {...rest}>
+      <AnchorLink className="text-center text-gray-900" {...rest}>
         {children}
-      </Link>
+      </AnchorLink>
     </li>
   )
 }

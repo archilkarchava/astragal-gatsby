@@ -1405,7 +1405,7 @@ type Query {
   allSanityFileAsset(filter: SanityFileAssetFilterInput, sort: SanityFileAssetSortInput, skip: Int, limit: Int): SanityFileAssetConnection!
   sanityImageAsset(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, originalFilename: StringQueryOperatorInput, label: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, sha1hash: StringQueryOperatorInput, extension: StringQueryOperatorInput, mimeType: StringQueryOperatorInput, size: FloatQueryOperatorInput, assetId: StringQueryOperatorInput, path: StringQueryOperatorInput, url: StringQueryOperatorInput, metadata: SanityImageMetadataFilterInput, source: SanityAssetSourceDataFilterInput, fixed: SanityImageFixedFilterInput, fluid: SanityImageFluidFilterInput, _rawMetadata: JSONQueryOperatorInput, _rawSource: JSONQueryOperatorInput, localFile: FileFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, childImageSharp: ImageSharpFilterInput): SanityImageAsset
   allSanityImageAsset(filter: SanityImageAssetFilterInput, sort: SanityImageAssetSortInput, skip: Int, limit: Int): SanityImageAssetConnection!
-  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, siteUrl: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
+  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
   allSanitySiteSettings(filter: SanitySiteSettingsFilterInput, sort: SanitySiteSettingsSortInput, skip: Int, limit: Int): SanitySiteSettingsConnection!
   siteBuildMetadata(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, buildTime: DateQueryOperatorInput): SiteBuildMetadata
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, sort: SiteBuildMetadataSortInput, skip: Int, limit: Int): SiteBuildMetadataConnection!
@@ -3695,7 +3695,6 @@ type SanitySiteSettings implements SanityDocument & Node {
   title: String
   description: String
   keywords: [String]
-  siteUrl: String
   emails: [String]
   phoneNumbers: [String]
   addresses: [SanityAddress]
@@ -3731,7 +3730,6 @@ enum SanitySiteSettingsFieldsEnum {
   title
   description
   keywords
-  siteUrl
   emails
   phoneNumbers
   addresses
@@ -3844,7 +3842,6 @@ input SanitySiteSettingsFilterInput {
   title: StringQueryOperatorInput
   description: StringQueryOperatorInput
   keywords: StringQueryOperatorInput
-  siteUrl: StringQueryOperatorInput
   emails: StringQueryOperatorInput
   phoneNumbers: StringQueryOperatorInput
   addresses: SanityAddressFilterListInput

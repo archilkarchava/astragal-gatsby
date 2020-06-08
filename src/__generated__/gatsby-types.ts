@@ -1731,7 +1731,6 @@ type Query_sanitySiteSettingsArgs = {
   title: Maybe<StringQueryOperatorInput>;
   description: Maybe<StringQueryOperatorInput>;
   keywords: Maybe<StringQueryOperatorInput>;
-  siteUrl: Maybe<StringQueryOperatorInput>;
   emails: Maybe<StringQueryOperatorInput>;
   phoneNumbers: Maybe<StringQueryOperatorInput>;
   addresses: Maybe<SanityAddressFilterListInput>;
@@ -4105,7 +4104,6 @@ type SanitySiteSettings = SanityDocument & Node & {
   readonly title: Maybe<Scalars['String']>;
   readonly description: Maybe<Scalars['String']>;
   readonly keywords: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
-  readonly siteUrl: Maybe<Scalars['String']>;
   readonly emails: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly phoneNumbers: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly addresses: Maybe<ReadonlyArray<Maybe<SanityAddress>>>;
@@ -4174,7 +4172,6 @@ enum SanitySiteSettingsFieldsEnum {
   title = 'title',
   description = 'description',
   keywords = 'keywords',
-  siteUrl = 'siteUrl',
   emails = 'emails',
   phoneNumbers = 'phoneNumbers',
   addresses = 'addresses',
@@ -4287,7 +4284,6 @@ type SanitySiteSettingsFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
   readonly description: Maybe<StringQueryOperatorInput>;
   readonly keywords: Maybe<StringQueryOperatorInput>;
-  readonly siteUrl: Maybe<StringQueryOperatorInput>;
   readonly emails: Maybe<StringQueryOperatorInput>;
   readonly phoneNumbers: Maybe<StringQueryOperatorInput>;
   readonly addresses: Maybe<SanityAddressFilterListInput>;

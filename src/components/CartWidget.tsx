@@ -2,8 +2,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
-import { Link } from "gatsby"
 import Image from "gatsby-image/withIEPolyfill"
+import { AnchorLink } from "gatsby-plugin-anchor-links"
 import React from "react"
 import { Helmet } from "react-helmet"
 import { useForm } from "react-hook-form"
@@ -327,13 +327,15 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                   <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
                 </div>
                 <div>
-                  <Link
-                    onClick={() => setIsCartOpen(false)}
-                    to="/#catalog"
-                    className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
-                  >
-                    Наш каталог товаров
-                  </Link>
+                  <AnchorLink to="/#catalog">
+                    <button
+                      className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
+                      onClick={() => setIsCartOpen(false)}
+                      type="button"
+                    >
+                      Наш каталог товаров
+                    </button>
+                  </AnchorLink>
                 </div>
               </>
             )}
