@@ -1731,6 +1731,7 @@ type Query_sanitySiteSettingsArgs = {
   title: Maybe<StringQueryOperatorInput>;
   description: Maybe<StringQueryOperatorInput>;
   keywords: Maybe<StringQueryOperatorInput>;
+  siteUrl: Maybe<StringQueryOperatorInput>;
   emails: Maybe<StringQueryOperatorInput>;
   phoneNumbers: Maybe<StringQueryOperatorInput>;
   addresses: Maybe<SanityAddressFilterListInput>;
@@ -4104,6 +4105,7 @@ type SanitySiteSettings = SanityDocument & Node & {
   readonly title: Maybe<Scalars['String']>;
   readonly description: Maybe<Scalars['String']>;
   readonly keywords: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
+  readonly siteUrl: Maybe<Scalars['String']>;
   readonly emails: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly phoneNumbers: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly addresses: Maybe<ReadonlyArray<Maybe<SanityAddress>>>;
@@ -4172,6 +4174,7 @@ enum SanitySiteSettingsFieldsEnum {
   title = 'title',
   description = 'description',
   keywords = 'keywords',
+  siteUrl = 'siteUrl',
   emails = 'emails',
   phoneNumbers = 'phoneNumbers',
   addresses = 'addresses',
@@ -4284,6 +4287,7 @@ type SanitySiteSettingsFilterInput = {
   readonly title: Maybe<StringQueryOperatorInput>;
   readonly description: Maybe<StringQueryOperatorInput>;
   readonly keywords: Maybe<StringQueryOperatorInput>;
+  readonly siteUrl: Maybe<StringQueryOperatorInput>;
   readonly emails: Maybe<StringQueryOperatorInput>;
   readonly phoneNumbers: Maybe<StringQueryOperatorInput>;
   readonly addresses: Maybe<SanityAddressFilterListInput>;
@@ -4774,7 +4778,6 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql = 'pluginCreator.pluginOptions.emitSchema.src___generated___gatsby_schema_graphql',
   pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql = 'pluginCreator.pluginOptions.emitPluginDocuments.src___generated___gatsby_plugin_documents_graphql',
   pluginCreator___pluginOptions___fonts___google = 'pluginCreator.pluginOptions.fonts.google',
-  pluginCreator___pluginOptions___features = 'pluginCreator.pluginOptions.features',
   pluginCreator___pluginOptions___name = 'pluginCreator.pluginOptions.name',
   pluginCreator___pluginOptions___path = 'pluginCreator.pluginOptions.path',
   pluginCreator___pluginOptions___projectId = 'pluginCreator.pluginOptions.projectId',
@@ -4793,6 +4796,8 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy = 'pluginCreator.pluginOptions.legacy',
   pluginCreator___pluginOptions___theme_color_in_head = 'pluginCreator.pluginOptions.theme_color_in_head',
   pluginCreator___pluginOptions___cacheDigest = 'pluginCreator.pluginOptions.cacheDigest',
+  pluginCreator___pluginOptions___trackingId = 'pluginCreator.pluginOptions.trackingId',
+  pluginCreator___pluginOptions___webvisor = 'pluginCreator.pluginOptions.webvisor',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator.nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator.browserAPIs',
@@ -5073,7 +5078,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___fonts___google___family = 'pluginOptions.fonts.google.family',
   pluginOptions___fonts___google___subsets = 'pluginOptions.fonts.google.subsets',
   pluginOptions___fonts___google___variants = 'pluginOptions.fonts.google.variants',
-  pluginOptions___features = 'pluginOptions.features',
   pluginOptions___name = 'pluginOptions.name',
   pluginOptions___path = 'pluginOptions.path',
   pluginOptions___projectId = 'pluginOptions.projectId',
@@ -5092,6 +5096,8 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy = 'pluginOptions.legacy',
   pluginOptions___theme_color_in_head = 'pluginOptions.theme_color_in_head',
   pluginOptions___cacheDigest = 'pluginOptions.cacheDigest',
+  pluginOptions___trackingId = 'pluginOptions.trackingId',
+  pluginOptions___webvisor = 'pluginOptions.webvisor',
   pluginOptions___pathCheck = 'pluginOptions.pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -5209,7 +5215,6 @@ type SitePluginPluginOptions = {
   readonly emitSchema: Maybe<SitePluginPluginOptionsEmitSchema>;
   readonly emitPluginDocuments: Maybe<SitePluginPluginOptionsEmitPluginDocuments>;
   readonly fonts: Maybe<SitePluginPluginOptionsFonts>;
-  readonly features: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly name: Maybe<Scalars['String']>;
   readonly path: Maybe<Scalars['String']>;
   readonly projectId: Maybe<Scalars['String']>;
@@ -5228,6 +5233,8 @@ type SitePluginPluginOptions = {
   readonly legacy: Maybe<Scalars['Boolean']>;
   readonly theme_color_in_head: Maybe<Scalars['Boolean']>;
   readonly cacheDigest: Maybe<Scalars['String']>;
+  readonly trackingId: Maybe<Scalars['String']>;
+  readonly webvisor: Maybe<Scalars['Boolean']>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
 };
 
@@ -5251,7 +5258,6 @@ type SitePluginPluginOptionsFilterInput = {
   readonly emitSchema: Maybe<SitePluginPluginOptionsEmitSchemaFilterInput>;
   readonly emitPluginDocuments: Maybe<SitePluginPluginOptionsEmitPluginDocumentsFilterInput>;
   readonly fonts: Maybe<SitePluginPluginOptionsFontsFilterInput>;
-  readonly features: Maybe<StringQueryOperatorInput>;
   readonly name: Maybe<StringQueryOperatorInput>;
   readonly path: Maybe<StringQueryOperatorInput>;
   readonly projectId: Maybe<StringQueryOperatorInput>;
@@ -5270,6 +5276,8 @@ type SitePluginPluginOptionsFilterInput = {
   readonly legacy: Maybe<BooleanQueryOperatorInput>;
   readonly theme_color_in_head: Maybe<BooleanQueryOperatorInput>;
   readonly cacheDigest: Maybe<StringQueryOperatorInput>;
+  readonly trackingId: Maybe<StringQueryOperatorInput>;
+  readonly webvisor: Maybe<BooleanQueryOperatorInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
 };
 
@@ -5321,8 +5329,6 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
-
 type HeroQueryVariables = {};
 
 
@@ -5338,8 +5344,6 @@ type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: Readon
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng'>> }
         )>>> }
       ) }> } };
-
-type GatsbyImageSharpFluid_withWebpFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type ProductsQueryVariables = {};
 
@@ -5359,6 +5363,8 @@ type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: Rea
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
         )>>> }
       ) }> } };
+
+type GatsbyImageSharpFluid_withWebpFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type PostQueryVariables = {
   slug: Maybe<Scalars['String']>;
@@ -5400,6 +5406,8 @@ type GatsbyImageSharpFixed_withWebp_tracedSVGFragment = Pick<ImageSharpFixed, 't
 type GatsbyImageSharpFixed_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'height' | 'src' | 'srcSet'>;
 
 type GatsbyImageSharpFixed_withWebp_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
+
+type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpFluidLimitPresentationSizeFragment = { maxHeight: ImageSharpFluid['presentationHeight'], maxWidth: ImageSharpFluid['presentationWidth'] };
 

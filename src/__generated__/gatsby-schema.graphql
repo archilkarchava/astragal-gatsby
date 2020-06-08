@@ -1405,7 +1405,7 @@ type Query {
   allSanityFileAsset(filter: SanityFileAssetFilterInput, sort: SanityFileAssetSortInput, skip: Int, limit: Int): SanityFileAssetConnection!
   sanityImageAsset(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, originalFilename: StringQueryOperatorInput, label: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, sha1hash: StringQueryOperatorInput, extension: StringQueryOperatorInput, mimeType: StringQueryOperatorInput, size: FloatQueryOperatorInput, assetId: StringQueryOperatorInput, path: StringQueryOperatorInput, url: StringQueryOperatorInput, metadata: SanityImageMetadataFilterInput, source: SanityAssetSourceDataFilterInput, fixed: SanityImageFixedFilterInput, fluid: SanityImageFluidFilterInput, _rawMetadata: JSONQueryOperatorInput, _rawSource: JSONQueryOperatorInput, localFile: FileFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, childImageSharp: ImageSharpFilterInput): SanityImageAsset
   allSanityImageAsset(filter: SanityImageAssetFilterInput, sort: SanityImageAssetSortInput, skip: Int, limit: Int): SanityImageAssetConnection!
-  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
+  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, siteUrl: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
   allSanitySiteSettings(filter: SanitySiteSettingsFilterInput, sort: SanitySiteSettingsSortInput, skip: Int, limit: Int): SanitySiteSettingsConnection!
   siteBuildMetadata(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, buildTime: DateQueryOperatorInput): SiteBuildMetadata
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, sort: SiteBuildMetadataSortInput, skip: Int, limit: Int): SiteBuildMetadataConnection!
@@ -3695,6 +3695,7 @@ type SanitySiteSettings implements SanityDocument & Node {
   title: String
   description: String
   keywords: [String]
+  siteUrl: String
   emails: [String]
   phoneNumbers: [String]
   addresses: [SanityAddress]
@@ -3730,6 +3731,7 @@ enum SanitySiteSettingsFieldsEnum {
   title
   description
   keywords
+  siteUrl
   emails
   phoneNumbers
   addresses
@@ -3842,6 +3844,7 @@ input SanitySiteSettingsFilterInput {
   title: StringQueryOperatorInput
   description: StringQueryOperatorInput
   keywords: StringQueryOperatorInput
+  siteUrl: StringQueryOperatorInput
   emails: StringQueryOperatorInput
   phoneNumbers: StringQueryOperatorInput
   addresses: SanityAddressFilterListInput
@@ -4320,7 +4323,6 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql
   pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql
   pluginCreator___pluginOptions___fonts___google
-  pluginCreator___pluginOptions___features
   pluginCreator___pluginOptions___name
   pluginCreator___pluginOptions___path
   pluginCreator___pluginOptions___projectId
@@ -4339,6 +4341,8 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy
   pluginCreator___pluginOptions___theme_color_in_head
   pluginCreator___pluginOptions___cacheDigest
+  pluginCreator___pluginOptions___trackingId
+  pluginCreator___pluginOptions___webvisor
   pluginCreator___pluginOptions___pathCheck
   pluginCreator___nodeAPIs
   pluginCreator___browserAPIs
@@ -4607,7 +4611,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___fonts___google___family
   pluginOptions___fonts___google___subsets
   pluginOptions___fonts___google___variants
-  pluginOptions___features
   pluginOptions___name
   pluginOptions___path
   pluginOptions___projectId
@@ -4626,6 +4629,8 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy
   pluginOptions___theme_color_in_head
   pluginOptions___cacheDigest
+  pluginOptions___trackingId
+  pluginOptions___webvisor
   pluginOptions___pathCheck
   nodeAPIs
   browserAPIs
@@ -4743,7 +4748,6 @@ type SitePluginPluginOptions {
   emitSchema: SitePluginPluginOptionsEmitSchema
   emitPluginDocuments: SitePluginPluginOptionsEmitPluginDocuments
   fonts: SitePluginPluginOptionsFonts
-  features: [String]
   name: String
   path: String
   projectId: String
@@ -4762,6 +4766,8 @@ type SitePluginPluginOptions {
   legacy: Boolean
   theme_color_in_head: Boolean
   cacheDigest: String
+  trackingId: String
+  webvisor: Boolean
   pathCheck: Boolean
 }
 
@@ -4785,7 +4791,6 @@ input SitePluginPluginOptionsFilterInput {
   emitSchema: SitePluginPluginOptionsEmitSchemaFilterInput
   emitPluginDocuments: SitePluginPluginOptionsEmitPluginDocumentsFilterInput
   fonts: SitePluginPluginOptionsFontsFilterInput
-  features: StringQueryOperatorInput
   name: StringQueryOperatorInput
   path: StringQueryOperatorInput
   projectId: StringQueryOperatorInput
@@ -4804,6 +4809,8 @@ input SitePluginPluginOptionsFilterInput {
   legacy: BooleanQueryOperatorInput
   theme_color_in_head: BooleanQueryOperatorInput
   cacheDigest: StringQueryOperatorInput
+  trackingId: StringQueryOperatorInput
+  webvisor: BooleanQueryOperatorInput
   pathCheck: BooleanQueryOperatorInput
 }
 

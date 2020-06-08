@@ -43,6 +43,11 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
               imageFluid={
                 product.images[0].asset.localFile.childImageSharp.fluid
               }
+              imageFluid2={
+                product.images[1]
+                  ? product.images[1].asset.localFile.childImageSharp.fluid
+                  : undefined
+              }
             />,
           ]
         })}
@@ -57,6 +62,7 @@ interface ProductCardProps {
   price: number
   oldPrice?: number
   imageFluid: FluidObject
+  imageFluid2?: FluidObject
   slugStr: string
 }
 
@@ -66,6 +72,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   price,
   oldPrice,
   imageFluid,
+  imageFluid2,
   slugStr,
 }) => {
   const [quantity] = useCartItemQuantity(_id)
@@ -74,16 +81,33 @@ const ProductCard: React.FC<ProductCardProps> = ({
     <div className="flex flex-col w-full p-3 overflow-hidden h-88 sm:w-1/2 md:w-1/3 lg:w-1/4">
       <div className="h-full">
         <Link
-          className="text-gray-900 no-underline"
+          className="h-full text-gray-900 no-underline"
           to={`/products/${slugStr}`}
         >
-          <Image
-            className="mb-1 h-60"
-            fluid={imageFluid}
-            alt={title}
-            objectFit="contain"
-            objectPosition="50% 50%"
-          />
+          <div className="relative block">
+            <Image
+              className="mb-1 bg-white h-60"
+              fluid={imageFluid}
+              alt={title}
+              objectFit="contain"
+              objectPosition="50% 50%"
+            />
+            {imageFluid2 && (
+              <Image
+                className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-100"
+                fluid={imageFluid2}
+                alt={title}
+                style={{
+                  position: "absolute",
+                }}
+                imgStyle={{
+                  width: "100%",
+                }}
+                objectFit="contain"
+                objectPosition="50% 50%"
+              />
+            )}
+          </div>
         </Link>
 
         <div className="mb-2 text-lg leading-none text-center">{title}</div>
