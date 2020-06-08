@@ -3,9 +3,9 @@ import { Link } from "gatsby"
 import type { FluidObject } from "gatsby-image"
 import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
-import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import useProducts from "../hooks/useProducts"
 import formatPrice from "../utils/formatPrice"
+import AddToCartButton from "./AddToCartButton"
 
 const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
   className,
@@ -75,10 +75,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
   imageFluid2,
   slugStr,
 }) => {
-  const [quantity] = useCartItemQuantity(_id)
-  const addCartItem = useAddItemToCart()
   return (
-    <div className="flex flex-col w-full p-3 overflow-hidden h-88 sm:w-1/2 md:w-1/3 lg:w-1/4">
+    <div className="flex flex-col w-full p-3 overflow-hidden h-90 sm:w-1/2 md:w-1/3 lg:w-1/4">
       <div className="h-full">
         <Link
           className="h-full text-gray-900 no-underline"
@@ -120,16 +118,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
           <div className="flex items-center justify-between">
-            <span className="text-2xl font-bold leading-none">
+            <span className="text-2xl font-semibold leading-none">
               {formatPrice(price)}
             </span>
-            <button
-              onClick={() => addCartItem(_id, quantity + 1)}
-              type="button"
-              className="px-4 py-1 font-semibold leading-none text-gray-900 uppercase transition duration-300 ease-in-out bg-white border-2 border-black rounded-none hover:text-gray-100 focus:text-gray-100 focus:bg-black hover:bg-black"
-            >
-              Купить
-            </button>
+            <AddToCartButton size="small" _id={_id} />
           </div>
         </div>
       )}

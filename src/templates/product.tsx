@@ -3,6 +3,7 @@ import { graphql } from "gatsby"
 import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Swipeable } from "react-swipeable"
+import AddToCartButton from "../components/AddToCartButton"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
 import SEO from "../components/SEO"
@@ -177,13 +178,14 @@ const ProductTemplate: React.FC<Props> = ({
             )}
           </div>
           <div className="mt-5">
-            <button
+            <AddToCartButton _id={_id} inverse size="big" />
+            {/* <button
               onClick={() => addCartItem(_id, quantity + 1)}
               type="button"
               className="w-full px-16 py-3 text-gray-100 uppercase duration-300 ease-in-out bg-black border-2 border-white rounded-none lg:w-auto hover:bg-white hover:border-black focus:border-black hover:text-gray-900 focus:text-gray-900 focus:bg-white"
             >
               Купить
-            </button>
+            </button> */}
           </div>
           <ul className="list-inside my-7 lg:my-10">
             {materials.length > 0 && (

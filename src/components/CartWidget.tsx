@@ -112,8 +112,8 @@ const CartItem: React.FC<{
 
 const OrderForm: React.FC<{
   onSubmit: (data: { name: string; phone: string }) => Promise<void>
-  submitting: boolean
-}> = ({ onSubmit, submitting }) => {
+  isSubmitting: boolean
+}> = ({ onSubmit, isSubmitting: submitting }) => {
   const [isCartOpen] = useCartToggle()
   const totalPrice = useCartTotalPrice()
   const nameInputRef = React.useRef<HTMLInputElement>()
@@ -318,7 +318,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                 </div>
                 <OrderForm
                   onSubmit={onSubmit}
-                  submitting={orderStatus === "pending"}
+                  isSubmitting={orderStatus === "pending"}
                 />
               </>
             ) : (
