@@ -13,9 +13,7 @@ const watchMode =
 
 module.exports = {
   siteMetadata: {
-    siteUrl: process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : `https://astragal74.ru`,
+    siteUrl: `https://astragal74.ru`,
   },
   plugins: [
     `gatsby-plugin-typescript`,
