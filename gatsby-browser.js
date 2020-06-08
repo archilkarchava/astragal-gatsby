@@ -3,6 +3,7 @@ const { YMaps } = require("react-yandex-maps")
 const { StoreContextProvider } = require("./src/contexts/siteContext")
 const { enableES5 } = require("immer")
 const { polyfill } = require("es6-promise")
+import "./src/styles/global.css"
 
 export const onClientEntry = () => {
   polyfill()
