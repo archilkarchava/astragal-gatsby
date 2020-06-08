@@ -13,9 +13,6 @@ const watchMode =
 
 module.exports = {
   plugins: [
-    // gatsby-plugin-preact breaks hot reloading in development
-    // ...(process.env.NODE_ENV === `production` ? [`gatsby-plugin-preact`] : []),
-    // `gatsby-plugin-preact`,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-typegen`,
