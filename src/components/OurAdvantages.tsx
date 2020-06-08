@@ -1,5 +1,7 @@
 import classNames from "classnames"
 import React from "react"
+import ColorPaletteIcon from "./icons/ColorPaletteIcon"
+import DesignerIcon from "./icons/DesignerIcon"
 import WoodSvg from "./icons/WoodIcon"
 
 const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
@@ -21,10 +23,10 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
         <AdvantageItem title="Материалы" icon={WoodSvg}>
           Все наши изделия изготовлены из массива натурального дерева
         </AdvantageItem>
-        <AdvantageItem title="Уникальный дизайн" icon={WoodSvg}>
+        <AdvantageItem title="Уникальный дизайн" icon={DesignerIcon}>
           Наш дизайнер создаст уникальный макет изделия, учитывая ваши пожелания
         </AdvantageItem>
-        <AdvantageItem title="Подберём цвет" icon={WoodSvg}>
+        <AdvantageItem title="Подберём цвет" icon={ColorPaletteIcon}>
           Подбёрем и покрасим в цвет, который подойдет к вашему интерьеру
         </AdvantageItem>
       </div>
