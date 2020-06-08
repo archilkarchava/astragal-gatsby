@@ -12,6 +12,7 @@
     "@sendgrid/mail": "^7.1.1",
     "@tailwindcss/ui": "^0.3.0",
     "classnames": "^2.2.6",
+    "custom-event-polyfill": "^1.0.7",
     "dotenv": "^8.2.0",
     "es6-promise": "^4.2.8",
     "focus-trap-react": "^6.0.0",

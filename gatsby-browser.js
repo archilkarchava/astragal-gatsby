@@ -6,6 +6,7 @@ const { polyfill } = require("es6-promise")
 import "./src/styles/global.css"
 
 export const onClientEntry = () => {
+  require("custom-event-polyfill")
   polyfill()
   require("isomorphic-fetch")
   enableES5()
