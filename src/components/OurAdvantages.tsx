@@ -11,7 +11,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
   return (
     <div
       className={classNames(
-        "box-border w-full px-5 py-14 md:py-20 lg:py-24 bg-orange-100 text-black",
+        "box-border w-full px-5 py-10 md:py-20 lg:py-24 bg-orange-100 text-black",
         className
       )}
       {...rest}

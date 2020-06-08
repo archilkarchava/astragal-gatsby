@@ -13,7 +13,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   const products = useProducts()
   return (
-    <div className="px-10 py-20 lg:py-28">
+    <div className="px-10 py-10 md:py-20 lg:py-24">
       <h1 className="mb-10 text-3xl font-semibold leading-none text-center lg:text-4xl">
         Наши изделия
       </h1>
