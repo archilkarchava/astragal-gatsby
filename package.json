@@ -12,6 +12,7 @@
     "@tailwindcss/ui": "^0.3.0",
     "classnames": "^2.2.6",
     "dotenv": "^8.2.0",
+    "es6-promise": "^4.2.8",
     "focus-trap-react": "^6.0.0",
     "gatsby": "^2.22.9",
     "gatsby-background-image": "^1.1.1",
