@@ -33,7 +33,7 @@ const NavLink: React.FC<AnchorLinkProps> = ({
         "block py-3 mr-6 md:mr-10 leading-none"
       )}
     >
-      <IsomorphicAnchorLink className="text-center text-gray-900" {...rest}>
+      <IsomorphicAnchorLink className="text-sm text-gray-900" {...rest}>
         {children}
       </IsomorphicAnchorLink>
     </li>

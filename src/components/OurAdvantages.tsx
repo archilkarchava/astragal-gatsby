@@ -19,7 +19,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
       <h1 className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl">
         Наши преимущества
       </h1>
-      <div className="container relative flex flex-wrap px-10 mx-auto my-0">
+      <div className="container relative flex flex-col justify-center px-10 mx-auto my-0 md:flex-row">
         <AdvantageItem title="Материалы" icon={WoodSvg}>
           Все наши изделия изготовлены из массива натурального дерева
         </AdvantageItem>
@@ -43,13 +43,15 @@ const AdvantageItem: React.FC<{
       data-sal="fade"
       data-sal-delay="200"
       data-sal-easing="ease"
-      className="content-center w-full px-4 mb-6 text-center md:w-1/3 md:m-0"
+      className="content-center w-full px-4 mb-6 md:w-1/3 md:m-0 min-w-58"
     >
       <div className="w-20 mx-auto lg:w-24">
         <Icon />
       </div>
-      <div className="mt-3 mb-3 text-xl font-semibold lg:text-2xl">{title}</div>
-      <div className="text-base lg:text-lg">{children}</div>
+      <div className="mt-3 mb-3 text-lg font-semibold text-center lg:text-xl">
+        {title}
+      </div>
+      <div className="text-sm text-center lg:text-base">{children}</div>
     </div>
   )
 }

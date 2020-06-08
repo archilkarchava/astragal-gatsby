@@ -7,8 +7,8 @@ import AddToCartButton from "../components/AddToCartButton"
 import Layout from "../components/Layout"
 import ProductBody from "../components/ProductBody"
 import SEO from "../components/SEO"
-import { useAddItemToCart, useCartItemQuantity } from "../hooks/contextHooks"
 import formatPrice from "../utils/formatPrice"
+import getDiscountPercentStr from "../utils/getDiscountPercentStr"
 
 export const pageQuery = graphql`
   query Post($slug: String) {
@@ -150,13 +150,6 @@ const ProductTemplate: React.FC<Props> = ({
     },
   },
 }) => {
-  // if (!sanityProduct) {
-  //   throw new Error("Did not receive any data.")
-  // }
-
-  const addCartItem = useAddItemToCart()
-  const [quantity] = useCartItemQuantity(_id)
-
   return (
     <Layout>
       <SEO title={title} />
@@ -165,16 +158,28 @@ const ProductTemplate: React.FC<Props> = ({
         <div className="flex flex-col justify-center w-full p-3 mb-10 lg:m-0 lg:p-0 lg:pl-12 h-1/2 lg:w-1/2 lg:h-full">
           <h1 className="font-serif text-4xl lg:text-5xl">{title}</h1>
           <div className="w-10 my-6 ml-2 border-t border-black" />
-          <div>
+          <div className="flex flex-col">
             {price > 0 && (
-              <span className="mr-4 text-2xl font-semibold lg:text-3xl">
-                {formatPrice(price)}
-              </span>
-            )}
-            {price > 0 && oldPrice > price && (
-              <span className="text-xl font-semibold text-gray-500 line-through lg:text-xl">
-                {formatPrice(oldPrice)}
-              </span>
+              <div>
+                {oldPrice > price && (
+                  <span className="mr-2 text-base font-normal text-gray-500 line-through lg:text-lg">
+                    {formatPrice(oldPrice)}
+                  </span>
+                )}
+                <span
+                  className={classNames(
+                    oldPrice > price ? "text-red-700" : "text-current",
+                    "mr-1 text-3xl font-bold lg:text-4xl"
+                  )}
+                >
+                  {formatPrice(price)}
+                </span>
+                {oldPrice > price && (
+                  <span className="text-base font-normal text-red-700 lg:text-lg">
+                    ({getDiscountPercentStr(oldPrice, price)})
+                  </span>
+                )}
+              </div>
             )}
           </div>
           <div className="mt-5">
@@ -189,7 +194,7 @@ const ProductTemplate: React.FC<Props> = ({
           </div>
           <ul className="list-inside my-7 lg:my-10">
             {materials.length > 0 && (
-              <li className="text-lg list-disc">
+              <li className="text-base list-disc">
                 {materials.length === 1 && (
                   <>
                     <span>Материал: </span>
@@ -207,7 +212,7 @@ const ProductTemplate: React.FC<Props> = ({
               </li>
             )}
             {sizes && sizes.length && sizes.depth && (
-              <li className="text-lg list-disc">
+              <li className="text-base list-disc">
                 <span>Размер: </span>
                 <span>
                   {sizes.length}

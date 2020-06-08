@@ -5,7 +5,7 @@ import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import useProducts from "../hooks/useProducts"
 import formatPrice from "../utils/formatPrice"
-import AddToCartButton from "./AddToCartButton"
+import getDiscountPercentStr from "../utils/getDiscountPercentStr"
 
 const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
   className,
@@ -66,8 +66,15 @@ interface ProductCardProps {
   slugStr: string
 }
 
+const DiscountChip: React.FC = ({ children }) => {
+  return (
+    <div className="absolute left-0 px-1 py-0.5 text-xs font-bold text-red-700 bg-white top-4 pointer-events-none">
+      {children}
+    </div>
+  )
+}
+
 const ProductCard: React.FC<ProductCardProps> = ({
-  _id,
   title,
   price,
   oldPrice,
@@ -76,56 +83,64 @@ const ProductCard: React.FC<ProductCardProps> = ({
   slugStr,
 }) => {
   return (
-    <div className="flex flex-col w-full p-3 overflow-hidden h-90 sm:w-1/2 md:w-1/3 lg:w-1/4">
-      <div className="h-full">
-        <Link
-          className="h-full text-gray-900 no-underline"
-          to={`/products/${slugStr}`}
-        >
-          <div className="relative block">
+    <Link
+      to={`/products/${slugStr}`}
+      className="flex flex-col w-full p-4 overflow-hidden transition duration-500 ease-in-out h-86 sm:w-1/2 md:w-1/3 lg:w-1/4"
+    >
+      <div className="h-full text-gray-900 no-underline">
+        <div className="relative block">
+          <Image
+            className="mb-1 bg-white h-60"
+            fluid={imageFluid}
+            alt={title}
+            objectFit="contain"
+            objectPosition="50% 50%"
+          />
+          {imageFluid2 && (
             <Image
-              className="mb-1 bg-white h-60"
-              fluid={imageFluid}
+              className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-100"
+              fluid={imageFluid2}
               alt={title}
+              style={{
+                position: "absolute",
+              }}
+              imgStyle={{
+                width: "100%",
+              }}
               objectFit="contain"
               objectPosition="50% 50%"
             />
-            {imageFluid2 && (
-              <Image
-                className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-100"
-                fluid={imageFluid2}
-                alt={title}
-                style={{
-                  position: "absolute",
-                }}
-                imgStyle={{
-                  width: "100%",
-                }}
-                objectFit="contain"
-                objectPosition="50% 50%"
-              />
-            )}
-          </div>
-        </Link>
+          )}
+          {oldPrice > price && (
+            <DiscountChip>
+              {getDiscountPercentStr(oldPrice, price)}
+            </DiscountChip>
+          )}
+        </div>
 
-        <div className="mb-2 text-lg leading-none text-center">{title}</div>
+        <div className="my-2 text-base leading-5">{title}</div>
       </div>
       {price && (
         <div className="content-end">
-          {oldPrice && (
-            <div className="text-lg leading-none text-gray-600 line-through">
-              {oldPrice && formatPrice(oldPrice)}
-            </div>
-          )}
-          <div className="flex items-center justify-between">
-            <span className="text-2xl font-semibold leading-none">
+          <div className="flex flex-row">
+            {oldPrice && oldPrice > price && (
+              <div className="mr-1 text-lg font-light leading-none text-gray-600 line-through">
+                {formatPrice(oldPrice)}
+              </div>
+            )}
+            <div
+              className={classNames(
+                oldPrice && oldPrice > price ? "text-red-700" : "text-current",
+                "text-lg font-bold leading-none"
+              )}
+            >
               {formatPrice(price)}
-            </span>
-            <AddToCartButton size="small" _id={_id} />
+            </div>
+            {/* <AddToCartButton size="small" _id={_id} /> */}
           </div>
         </div>
       )}
-    </div>
+    </Link>
   )
 }
 

@@ -27,7 +27,7 @@ const AddToCartButton: React.FC<Props> = ({
   const cartItems = useCartItems()
   const commonClassNames = classNames(
     className,
-    size === "small" && "px-4 py-1 tracking-wide",
+    size === "small" && "w-full px-4 py-1.5 tracking-wide",
     size === "big" && "w-full px-16 py-4 lg:w-auto tracking-wider",
     "leading-none uppercase border-black border-2 rounded-none font-semibold"
   )
@@ -42,7 +42,7 @@ const AddToCartButton: React.FC<Props> = ({
         )}
         {...rest}
       >
-        В корзине
+        Товар в корзине
       </button>
     )
   }

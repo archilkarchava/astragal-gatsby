@@ -40,9 +40,9 @@ module.exports = {
               variants: [`600`],
             },
             {
-              family: `Source Sans Pro`,
+              family: `Open Sans`,
               subsets: [`latin`, `cyrillic`],
-              variants: [`400`, `600`, `700`],
+              variants: [`300`, `400`, `600`, `700`],
             },
           ],
         },

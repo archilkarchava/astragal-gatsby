@@ -10,6 +10,7 @@ module.exports = {
         62.5: "15.625rem",
         82: "20.5rem",
         84: "21rem",
+        86: "21.5rem",
         88: "22rem",
         90: "22.5rem",
         112: "28rem",
@@ -23,6 +24,7 @@ module.exports = {
         62.5: "15.625rem",
         82: "20.5rem",
         84: "21rem",
+        86: "21.5rem",
         88: "22rem",
         90: "22.5rem",
         112: "28rem",
@@ -39,10 +41,17 @@ module.exports = {
       minHeight: {
         20: "5rem",
         28: "7rem",
+        48: "12rem",
+        58: "14.5rem",
+        65: "16.25rem",
         100: "25rem",
       },
       minWidth: {
         20: "5rem",
+        28: "7rem",
+        48: "12rem",
+        58: "14.5rem",
+        65: "16.25rem",
         100: "25rem",
       },
       inset: {
@@ -50,7 +59,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      sans: ['"Source Sans Pro"', ...defaultTheme.fontFamily.sans],
+      sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
       serif: ['"Playfair Display"', ...defaultTheme.fontFamily.serif],
     },
     colors: {

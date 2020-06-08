@@ -70,7 +70,7 @@ const CartItem: React.FC<{
       </div>
       <div className="flex flex-col flex-grow justify-between w-62.5 min-h-20 mr-2.5">
         <div>
-          <p className="font-semibold leading-none">{title}</p>
+          <p className="text-sm font-semibold leading-4">{title}</p>
           <p className="text-sm">{formatPrice(price)}</p>
         </div>
         <div>
@@ -134,7 +134,7 @@ const OrderForm: React.FC<{
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="py-4 text-gray-100 border-t border-white">
         <div>
-          <p className="mb-1">Ваше имя</p>
+          <p className="mb-1 text-sm">Ваше имя</p>
           <input
             ref={(e) => {
               register(e, {
@@ -146,12 +146,12 @@ const OrderForm: React.FC<{
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
             type="text"
           />
-          <div className="h-6 text-red-500">
+          <div className="h-6 text-sm text-red-500">
             {errors.name && errors.name.message}
           </div>
         </div>
         <div>
-          <p className="mb-1">Номер телефона</p>
+          <p className="mb-1 text-sm">Номер телефона</p>
           <InputMask
             type="tel"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
@@ -169,15 +169,15 @@ const OrderForm: React.FC<{
             onChange={(e) => setPhone(e.target.value)}
           />
 
-          <div className="h-6 text-red-500">
+          <div className="h-6 text-sm text-red-500">
             {errors.phone && errors.phone.message}
           </div>
         </div>
       </div>
       <div className="border-t border-white">
         <div className="flex flex-row items-start justify-between w-full my-8">
-          <div className="text-xl leading-none">Всего</div>
-          <div className="text-xl leading-none">{formatPrice(totalPrice)}</div>
+          <div className="text-lg leading-none">Всего</div>
+          <div className="text-lg leading-none">{formatPrice(totalPrice)}</div>
         </div>
         <div className="w-full">
           <button
@@ -305,7 +305,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
         ) : (
           <>
             <div className="border-b border-white">
-              <h1 className="mb-5 leading-none tracking-widest text-center uppercase">
+              <h1 className="mb-5 text-sm leading-none tracking-widest text-center uppercase">
                 Ваша корзина
               </h1>
             </div>
