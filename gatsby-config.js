@@ -83,6 +83,22 @@ module.exports = {
       },
     },
     `gatsby-plugin-scroll-reveal`,
+    {
+      resolve: `gatsby-plugin-yandex-metrika`,
+      options: {
+        trackingId: process.env.YANDEX_METRIKA_ID,
+        webvisor: true,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        resolveSiteUrl: () => {
+          return process.env.VERCEL_URL || "https://astragal74.ru"
+        },
+      },
+    },
+    `gatsby-plugin-robots-txt`,
     // "gatsby-plugin-webpack-bundle-analyser-v2",
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
