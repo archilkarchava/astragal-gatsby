@@ -14,6 +14,9 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
   const products = useProducts()
   return (
     <div className="px-10 py-20 lg:py-28">
+      <h1 className="mb-10 text-3xl font-semibold leading-none text-center lg:text-4xl">
+        Наши изделия
+      </h1>
       <div
         className={classNames(
           "flex flex-wrap max-w-screen-lg mx-auto",
