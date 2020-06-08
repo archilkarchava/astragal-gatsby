@@ -564,7 +564,6 @@ type File implements Node {
   birthtimeMs: Float @deprecated(reason: "Use `birthTime` instead")
   blksize: Int
   blocks: Int
-  url: String
 
   # Copy file to static directory and return public url to it
   publicURL: String
@@ -624,7 +623,6 @@ enum FileFieldsEnum {
   birthtimeMs
   blksize
   blocks
-  url
   publicURL
   childImageSharp___fixed___base64 @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   childImageSharp___fixed___tracedSVG @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
@@ -839,7 +837,6 @@ input FileFilterInput {
   birthtimeMs: FloatQueryOperatorInput
   blksize: IntQueryOperatorInput
   blocks: IntQueryOperatorInput
-  url: StringQueryOperatorInput
   publicURL: StringQueryOperatorInput
   childImageSharp: ImageSharpFilterInput
   id: StringQueryOperatorInput
@@ -1385,13 +1382,13 @@ enum PotraceTurnPolicy {
 }
 
 type Query {
-  file(sourceInstanceName: StringQueryOperatorInput, absolutePath: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, extension: StringQueryOperatorInput, size: IntQueryOperatorInput, prettySize: StringQueryOperatorInput, modifiedTime: DateQueryOperatorInput, accessTime: DateQueryOperatorInput, changeTime: DateQueryOperatorInput, birthTime: DateQueryOperatorInput, root: StringQueryOperatorInput, dir: StringQueryOperatorInput, base: StringQueryOperatorInput, ext: StringQueryOperatorInput, name: StringQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, dev: IntQueryOperatorInput, mode: IntQueryOperatorInput, nlink: IntQueryOperatorInput, uid: IntQueryOperatorInput, gid: IntQueryOperatorInput, rdev: IntQueryOperatorInput, ino: FloatQueryOperatorInput, atimeMs: FloatQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, atime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, ctime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, url: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, childImageSharp: ImageSharpFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): File
+  file(sourceInstanceName: StringQueryOperatorInput, absolutePath: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, extension: StringQueryOperatorInput, size: IntQueryOperatorInput, prettySize: StringQueryOperatorInput, modifiedTime: DateQueryOperatorInput, accessTime: DateQueryOperatorInput, changeTime: DateQueryOperatorInput, birthTime: DateQueryOperatorInput, root: StringQueryOperatorInput, dir: StringQueryOperatorInput, base: StringQueryOperatorInput, ext: StringQueryOperatorInput, name: StringQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, dev: IntQueryOperatorInput, mode: IntQueryOperatorInput, nlink: IntQueryOperatorInput, uid: IntQueryOperatorInput, gid: IntQueryOperatorInput, rdev: IntQueryOperatorInput, ino: FloatQueryOperatorInput, atimeMs: FloatQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, atime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, ctime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, publicURL: StringQueryOperatorInput, childImageSharp: ImageSharpFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): File
   allFile(filter: FileFilterInput, sort: FileSortInput, skip: Int, limit: Int): FileConnection!
   directory(sourceInstanceName: StringQueryOperatorInput, absolutePath: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, extension: StringQueryOperatorInput, size: IntQueryOperatorInput, prettySize: StringQueryOperatorInput, modifiedTime: DateQueryOperatorInput, accessTime: DateQueryOperatorInput, changeTime: DateQueryOperatorInput, birthTime: DateQueryOperatorInput, root: StringQueryOperatorInput, dir: StringQueryOperatorInput, base: StringQueryOperatorInput, ext: StringQueryOperatorInput, name: StringQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, dev: IntQueryOperatorInput, mode: IntQueryOperatorInput, nlink: IntQueryOperatorInput, uid: IntQueryOperatorInput, gid: IntQueryOperatorInput, rdev: IntQueryOperatorInput, ino: FloatQueryOperatorInput, atimeMs: FloatQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, atime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, ctime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Directory
   allDirectory(filter: DirectoryFilterInput, sort: DirectorySortInput, skip: Int, limit: Int): DirectoryConnection!
-  sitePage(path: StringQueryOperatorInput, component: StringQueryOperatorInput, internalComponentName: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, context: SitePageContextFilterInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput, componentPath: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SitePage
+  sitePage(path: StringQueryOperatorInput, component: StringQueryOperatorInput, internalComponentName: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, matchPath: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, context: SitePageContextFilterInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput, componentPath: StringQueryOperatorInput): SitePage
   allSitePage(filter: SitePageFilterInput, sort: SitePageSortInput, skip: Int, limit: Int): SitePageConnection!
-  site(buildTime: DateQueryOperatorInput, port: DateQueryOperatorInput, host: StringQueryOperatorInput, polyfill: BooleanQueryOperatorInput, pathPrefix: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Site
+  site(buildTime: DateQueryOperatorInput, siteMetadata: SiteSiteMetadataFilterInput, polyfill: BooleanQueryOperatorInput, pathPrefix: StringQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): Site
   allSite(filter: SiteFilterInput, sort: SiteSortInput, skip: Int, limit: Int): SiteConnection!
   imageSharp(fixed: ImageSharpFixedFilterInput, resolutions: ImageSharpResolutionsFilterInput, fluid: ImageSharpFluidFilterInput, sizes: ImageSharpSizesFilterInput, original: ImageSharpOriginalFilterInput, resize: ImageSharpResizeFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): ImageSharp
   allImageSharp(filter: ImageSharpFilterInput, sort: ImageSharpSortInput, skip: Int, limit: Int): ImageSharpConnection!
@@ -1405,7 +1402,7 @@ type Query {
   allSanityFileAsset(filter: SanityFileAssetFilterInput, sort: SanityFileAssetSortInput, skip: Int, limit: Int): SanityFileAssetConnection!
   sanityImageAsset(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, originalFilename: StringQueryOperatorInput, label: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, sha1hash: StringQueryOperatorInput, extension: StringQueryOperatorInput, mimeType: StringQueryOperatorInput, size: FloatQueryOperatorInput, assetId: StringQueryOperatorInput, path: StringQueryOperatorInput, url: StringQueryOperatorInput, metadata: SanityImageMetadataFilterInput, source: SanityAssetSourceDataFilterInput, fixed: SanityImageFixedFilterInput, fluid: SanityImageFluidFilterInput, _rawMetadata: JSONQueryOperatorInput, _rawSource: JSONQueryOperatorInput, localFile: FileFilterInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, childImageSharp: ImageSharpFilterInput): SanityImageAsset
   allSanityImageAsset(filter: SanityImageAssetFilterInput, sort: SanityImageAssetSortInput, skip: Int, limit: Int): SanityImageAssetConnection!
-  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
+  sanitySiteSettings(_id: StringQueryOperatorInput, _type: StringQueryOperatorInput, _createdAt: DateQueryOperatorInput, _updatedAt: DateQueryOperatorInput, _rev: StringQueryOperatorInput, _key: StringQueryOperatorInput, title: StringQueryOperatorInput, description: StringQueryOperatorInput, keywords: StringQueryOperatorInput, siteUrl: StringQueryOperatorInput, emails: StringQueryOperatorInput, phoneNumbers: StringQueryOperatorInput, addresses: SanityAddressFilterListInput, _rawAddresses: JSONQueryOperatorInput, id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput): SanitySiteSettings
   allSanitySiteSettings(filter: SanitySiteSettingsFilterInput, sort: SanitySiteSettingsSortInput, skip: Int, limit: Int): SanitySiteSettingsConnection!
   siteBuildMetadata(id: StringQueryOperatorInput, parent: NodeFilterInput, children: NodeFilterListInput, internal: InternalFilterInput, buildTime: DateQueryOperatorInput): SiteBuildMetadata
   allSiteBuildMetadata(filter: SiteBuildMetadataFilterInput, sort: SiteBuildMetadataSortInput, skip: Int, limit: Int): SiteBuildMetadataConnection!
@@ -1766,7 +1763,6 @@ enum SanityCategoryFieldsEnum {
   image___asset___localFile___birthtimeMs @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   image___asset___localFile___blksize @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   image___asset___localFile___blocks @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  image___asset___localFile___url @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   image___asset___localFile___publicURL @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   image___asset___localFile___id @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   image___asset___localFile___children @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
@@ -2403,7 +2399,6 @@ enum SanityImageAssetFieldsEnum {
   localFile___birthtimeMs @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   localFile___blksize @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   localFile___blocks @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  localFile___url @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   localFile___publicURL @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   localFile___childImageSharp___fixed___base64 @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   localFile___childImageSharp___fixed___tracedSVG @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
@@ -3269,7 +3264,6 @@ enum SanityProductFieldsEnum {
   images___asset___localFile___birthtimeMs @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   images___asset___localFile___blksize @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   images___asset___localFile___blocks @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
-  images___asset___localFile___url @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   images___asset___localFile___publicURL @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   images___asset___localFile___id @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
   images___asset___localFile___children @deprecated(reason: "Sorting on fields that need arguments to resolve is deprecated.")
@@ -3695,6 +3689,7 @@ type SanitySiteSettings implements SanityDocument & Node {
   title: String
   description: String
   keywords: [String]
+  siteUrl: String
   emails: [String]
   phoneNumbers: [String]
   addresses: [SanityAddress]
@@ -3730,6 +3725,7 @@ enum SanitySiteSettingsFieldsEnum {
   title
   description
   keywords
+  siteUrl
   emails
   phoneNumbers
   addresses
@@ -3842,6 +3838,7 @@ input SanitySiteSettingsFilterInput {
   title: StringQueryOperatorInput
   description: StringQueryOperatorInput
   keywords: StringQueryOperatorInput
+  siteUrl: StringQueryOperatorInput
   emails: StringQueryOperatorInput
   phoneNumbers: StringQueryOperatorInput
   addresses: SanityAddressFilterListInput
@@ -3921,24 +3918,7 @@ type Site implements Node {
     # Configures the locale Moment.js will use to format the date.
     locale: String
   ): Date
-  port(
-    # Format the date using Moment.js' date tokens, e.g. `date(formatString: "YYYY
-    # MMMM DD")`. See https://momentjs.com/docs/#/displaying/format/ for
-    # documentation for different tokens.
-    formatString: String
-
-    # Returns a string generated with Moment.js' `fromNow` function
-    fromNow: Boolean
-
-    # Returns the difference between this date and the current time. Defaults to
-    # "milliseconds" but you can also pass in as the measurement "years",
-    # "months", "weeks", "days", "hours", "minutes", and "seconds".
-    difference: String
-
-    # Configures the locale Moment.js will use to format the date.
-    locale: String
-  ): Date
-  host: String
+  siteMetadata: SiteSiteMetadata
   polyfill: Boolean
   pathPrefix: String
   id: ID!
@@ -4115,8 +4095,7 @@ type SiteEdge {
 
 enum SiteFieldsEnum {
   buildTime
-  port
-  host
+  siteMetadata___siteUrl
   polyfill
   pathPrefix
   id
@@ -4209,8 +4188,7 @@ enum SiteFieldsEnum {
 
 input SiteFilterInput {
   buildTime: DateQueryOperatorInput
-  port: DateQueryOperatorInput
-  host: StringQueryOperatorInput
+  siteMetadata: SiteSiteMetadataFilterInput
   polyfill: BooleanQueryOperatorInput
   pathPrefix: StringQueryOperatorInput
   id: StringQueryOperatorInput
@@ -4234,15 +4212,15 @@ type SitePage implements Node {
   internalComponentName: String!
   componentChunkName: String!
   matchPath: String
+  id: ID!
+  parent: Node
+  children: [Node!]!
+  internal: Internal!
   isCreatedByStatefulCreatePages: Boolean
   context: SitePageContext
   pluginCreator: SitePlugin
   pluginCreatorId: String
   componentPath: String
-  id: ID!
-  parent: Node
-  children: [Node!]!
-  internal: Internal!
 }
 
 type SitePageConnection {
@@ -4274,94 +4252,6 @@ enum SitePageFieldsEnum {
   internalComponentName
   componentChunkName
   matchPath
-  isCreatedByStatefulCreatePages
-  context___slug
-  pluginCreator___id
-  pluginCreator___parent___id
-  pluginCreator___parent___parent___id
-  pluginCreator___parent___parent___children
-  pluginCreator___parent___children
-  pluginCreator___parent___children___id
-  pluginCreator___parent___children___children
-  pluginCreator___parent___internal___content
-  pluginCreator___parent___internal___contentDigest
-  pluginCreator___parent___internal___description
-  pluginCreator___parent___internal___fieldOwners
-  pluginCreator___parent___internal___ignoreType
-  pluginCreator___parent___internal___mediaType
-  pluginCreator___parent___internal___owner
-  pluginCreator___parent___internal___type
-  pluginCreator___children
-  pluginCreator___children___id
-  pluginCreator___children___parent___id
-  pluginCreator___children___parent___children
-  pluginCreator___children___children
-  pluginCreator___children___children___id
-  pluginCreator___children___children___children
-  pluginCreator___children___internal___content
-  pluginCreator___children___internal___contentDigest
-  pluginCreator___children___internal___description
-  pluginCreator___children___internal___fieldOwners
-  pluginCreator___children___internal___ignoreType
-  pluginCreator___children___internal___mediaType
-  pluginCreator___children___internal___owner
-  pluginCreator___children___internal___type
-  pluginCreator___internal___content
-  pluginCreator___internal___contentDigest
-  pluginCreator___internal___description
-  pluginCreator___internal___fieldOwners
-  pluginCreator___internal___ignoreType
-  pluginCreator___internal___mediaType
-  pluginCreator___internal___owner
-  pluginCreator___internal___type
-  pluginCreator___resolve
-  pluginCreator___name
-  pluginCreator___version
-  pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql
-  pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql
-  pluginCreator___pluginOptions___fonts___google
-  pluginCreator___pluginOptions___name
-  pluginCreator___pluginOptions___path
-  pluginCreator___pluginOptions___projectId
-  pluginCreator___pluginOptions___dataset
-  pluginCreator___pluginOptions___token
-  pluginCreator___pluginOptions___overlayDrafts
-  pluginCreator___pluginOptions___watchMode
-  pluginCreator___pluginOptions___short_name
-  pluginCreator___pluginOptions___start_url
-  pluginCreator___pluginOptions___background_color
-  pluginCreator___pluginOptions___theme_color
-  pluginCreator___pluginOptions___display
-  pluginCreator___pluginOptions___icon
-  pluginCreator___pluginOptions___cache_busting_mode
-  pluginCreator___pluginOptions___include_favicon
-  pluginCreator___pluginOptions___legacy
-  pluginCreator___pluginOptions___theme_color_in_head
-  pluginCreator___pluginOptions___cacheDigest
-  pluginCreator___pluginOptions___trackingId
-  pluginCreator___pluginOptions___webvisor
-  pluginCreator___pluginOptions___pathCheck
-  pluginCreator___nodeAPIs
-  pluginCreator___browserAPIs
-  pluginCreator___ssrAPIs
-  pluginCreator___pluginFilepath
-  pluginCreator___packageJson___name
-  pluginCreator___packageJson___description
-  pluginCreator___packageJson___version
-  pluginCreator___packageJson___main
-  pluginCreator___packageJson___license
-  pluginCreator___packageJson___dependencies
-  pluginCreator___packageJson___dependencies___name
-  pluginCreator___packageJson___dependencies___version
-  pluginCreator___packageJson___devDependencies
-  pluginCreator___packageJson___devDependencies___name
-  pluginCreator___packageJson___devDependencies___version
-  pluginCreator___packageJson___peerDependencies
-  pluginCreator___packageJson___peerDependencies___name
-  pluginCreator___packageJson___peerDependencies___version
-  pluginCreator___packageJson___keywords
-  pluginCreatorId
-  componentPath
   id
   parent___id
   parent___parent___id
@@ -4448,6 +4338,95 @@ enum SitePageFieldsEnum {
   internal___mediaType
   internal___owner
   internal___type
+  isCreatedByStatefulCreatePages
+  context___slug
+  pluginCreator___id
+  pluginCreator___parent___id
+  pluginCreator___parent___parent___id
+  pluginCreator___parent___parent___children
+  pluginCreator___parent___children
+  pluginCreator___parent___children___id
+  pluginCreator___parent___children___children
+  pluginCreator___parent___internal___content
+  pluginCreator___parent___internal___contentDigest
+  pluginCreator___parent___internal___description
+  pluginCreator___parent___internal___fieldOwners
+  pluginCreator___parent___internal___ignoreType
+  pluginCreator___parent___internal___mediaType
+  pluginCreator___parent___internal___owner
+  pluginCreator___parent___internal___type
+  pluginCreator___children
+  pluginCreator___children___id
+  pluginCreator___children___parent___id
+  pluginCreator___children___parent___children
+  pluginCreator___children___children
+  pluginCreator___children___children___id
+  pluginCreator___children___children___children
+  pluginCreator___children___internal___content
+  pluginCreator___children___internal___contentDigest
+  pluginCreator___children___internal___description
+  pluginCreator___children___internal___fieldOwners
+  pluginCreator___children___internal___ignoreType
+  pluginCreator___children___internal___mediaType
+  pluginCreator___children___internal___owner
+  pluginCreator___children___internal___type
+  pluginCreator___internal___content
+  pluginCreator___internal___contentDigest
+  pluginCreator___internal___description
+  pluginCreator___internal___fieldOwners
+  pluginCreator___internal___ignoreType
+  pluginCreator___internal___mediaType
+  pluginCreator___internal___owner
+  pluginCreator___internal___type
+  pluginCreator___resolve
+  pluginCreator___name
+  pluginCreator___version
+  pluginCreator___pluginOptions___emitSchema___src___generated___gatsby_schema_graphql
+  pluginCreator___pluginOptions___emitPluginDocuments___src___generated___gatsby_plugin_documents_graphql
+  pluginCreator___pluginOptions___fonts___google
+  pluginCreator___pluginOptions___name
+  pluginCreator___pluginOptions___path
+  pluginCreator___pluginOptions___projectId
+  pluginCreator___pluginOptions___dataset
+  pluginCreator___pluginOptions___token
+  pluginCreator___pluginOptions___overlayDrafts
+  pluginCreator___pluginOptions___watchMode
+  pluginCreator___pluginOptions___short_name
+  pluginCreator___pluginOptions___start_url
+  pluginCreator___pluginOptions___background_color
+  pluginCreator___pluginOptions___theme_color
+  pluginCreator___pluginOptions___display
+  pluginCreator___pluginOptions___icon
+  pluginCreator___pluginOptions___cache_busting_mode
+  pluginCreator___pluginOptions___include_favicon
+  pluginCreator___pluginOptions___legacy
+  pluginCreator___pluginOptions___theme_color_in_head
+  pluginCreator___pluginOptions___cacheDigest
+  pluginCreator___pluginOptions___trackingId
+  pluginCreator___pluginOptions___webvisor
+  pluginCreator___pluginOptions___query
+  pluginCreator___pluginOptions___pathCheck
+  pluginCreator___nodeAPIs
+  pluginCreator___browserAPIs
+  pluginCreator___ssrAPIs
+  pluginCreator___pluginFilepath
+  pluginCreator___packageJson___name
+  pluginCreator___packageJson___description
+  pluginCreator___packageJson___version
+  pluginCreator___packageJson___main
+  pluginCreator___packageJson___license
+  pluginCreator___packageJson___dependencies
+  pluginCreator___packageJson___dependencies___name
+  pluginCreator___packageJson___dependencies___version
+  pluginCreator___packageJson___devDependencies
+  pluginCreator___packageJson___devDependencies___name
+  pluginCreator___packageJson___devDependencies___version
+  pluginCreator___packageJson___peerDependencies
+  pluginCreator___packageJson___peerDependencies___name
+  pluginCreator___packageJson___peerDependencies___version
+  pluginCreator___packageJson___keywords
+  pluginCreatorId
+  componentPath
 }
 
 input SitePageFilterInput {
@@ -4456,15 +4435,15 @@ input SitePageFilterInput {
   internalComponentName: StringQueryOperatorInput
   componentChunkName: StringQueryOperatorInput
   matchPath: StringQueryOperatorInput
+  id: StringQueryOperatorInput
+  parent: NodeFilterInput
+  children: NodeFilterListInput
+  internal: InternalFilterInput
   isCreatedByStatefulCreatePages: BooleanQueryOperatorInput
   context: SitePageContextFilterInput
   pluginCreator: SitePluginFilterInput
   pluginCreatorId: StringQueryOperatorInput
   componentPath: StringQueryOperatorInput
-  id: StringQueryOperatorInput
-  parent: NodeFilterInput
-  children: NodeFilterListInput
-  internal: InternalFilterInput
 }
 
 type SitePageGroupConnection {
@@ -4628,6 +4607,7 @@ enum SitePluginFieldsEnum {
   pluginOptions___cacheDigest
   pluginOptions___trackingId
   pluginOptions___webvisor
+  pluginOptions___query
   pluginOptions___pathCheck
   nodeAPIs
   browserAPIs
@@ -4765,6 +4745,7 @@ type SitePluginPluginOptions {
   cacheDigest: String
   trackingId: String
   webvisor: Boolean
+  query: String
   pathCheck: Boolean
 }
 
@@ -4808,6 +4789,7 @@ input SitePluginPluginOptionsFilterInput {
   cacheDigest: StringQueryOperatorInput
   trackingId: StringQueryOperatorInput
   webvisor: BooleanQueryOperatorInput
+  query: StringQueryOperatorInput
   pathCheck: BooleanQueryOperatorInput
 }
 
@@ -4838,6 +4820,14 @@ input SitePluginPluginOptionsFontsGoogleFilterListInput {
 input SitePluginSortInput {
   fields: [SitePluginFieldsEnum]
   order: [SortOrderEnum] = [ASC]
+}
+
+type SiteSiteMetadata {
+  siteUrl: String
+}
+
+input SiteSiteMetadataFilterInput {
+  siteUrl: StringQueryOperatorInput
 }
 
 input SiteSortInput {

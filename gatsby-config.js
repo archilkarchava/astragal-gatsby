@@ -12,6 +12,11 @@ const watchMode =
     : process.env.NODE_ENV !== `production`
 
 module.exports = {
+  siteMetadata: {
+    siteUrl: process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : `https://astragal74.ru`,
+  },
   plugins: [
     `gatsby-plugin-typescript`,
     {
@@ -94,12 +99,36 @@ module.exports = {
     {
       resolve: `gatsby-plugin-sitemap`,
       options: {
-        resolveSiteUrl: () => {
-          return process.env.VERCEL_URL || "https://astragal74.ru"
+        query: `
+        {
+          site {
+            siteMetadata {
+              siteUrl
+            }
+          }
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+      }`,
+        resolveSiteUrl: ({ site }) => {
+          return site.siteMetadata.siteUrl
+        },
+        serialize: ({ site, allSitePage }) => {
+          return allSitePage.nodes.map((node) => {
+            return {
+              url: `${site.siteMetadata.siteUrl}${node.path}`,
+              changefreq: `monthly`,
+              priority: 0.7,
+            }
+          })
         },
       },
     },
-    `gatsby-plugin-robots-txt`,
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+    },
     // "gatsby-plugin-webpack-bundle-analyser-v2",
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
