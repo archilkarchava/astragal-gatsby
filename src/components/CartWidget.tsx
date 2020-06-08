@@ -3,7 +3,6 @@
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
 import Image from "gatsby-image/withIEPolyfill"
-import { AnchorLink } from "gatsby-plugin-anchor-links"
 import React from "react"
 import { Helmet } from "react-helmet"
 import { useForm } from "react-hook-form"
@@ -22,6 +21,7 @@ import formatPrice from "../utils/formatPrice"
 import DecreaseIcon from "./icons/DecreaseIcon"
 import GoBackIcon from "./icons/GoBackIcon"
 import IncreaseIcon from "./icons/IncreaseIcon"
+import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
 
 const Overlay: React.FC<JSX.IntrinsicElements["div"]> = ({
   className,
@@ -327,7 +327,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                   <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
                 </div>
                 <div>
-                  <AnchorLink to="/#catalog">
+                  <IsomorphicAnchorLink to="/#catalog">
                     <button
                       className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
                       onClick={() => setIsCartOpen(false)}
@@ -335,7 +335,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                     >
                       Наш каталог товаров
                     </button>
-                  </AnchorLink>
+                  </IsomorphicAnchorLink>
                 </div>
               </>
             )}

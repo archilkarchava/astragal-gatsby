@@ -1,7 +1,7 @@
 import { graphql, useStaticQuery } from "gatsby"
 import BackgroundImage from "gatsby-background-image"
-import { AnchorLink } from "gatsby-plugin-anchor-links"
 import React from "react"
+import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
 
 const Hero = () => {
   const { ourServicesBgImg } = useStaticQuery<GatsbyTypes.HeroQuery>(graphql`
@@ -36,12 +36,12 @@ const Hero = () => {
         </ul>
       </div> */}
         <div className="container absolute bottom-0 flex text-gray-100 -translate-x-1/2 mb-28 left-1/2">
-          <AnchorLink
+          <IsomorphicAnchorLink
             to="/#catalog"
             className="px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase bg-black border-2 border-black rounded-none"
           >
             Наши изделия
-          </AnchorLink>
+          </IsomorphicAnchorLink>
         </div>
       </BackgroundImage>
     </>

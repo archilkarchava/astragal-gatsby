@@ -86,7 +86,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-scroll-reveal`,
-    `gatsby-plugin-anchor-links`,
     {
       resolve: `gatsby-plugin-yandex-metrika`,
       options: {

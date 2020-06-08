@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Archil Karchava <archil1997@gmail.com>",
   "dependencies": {
+    "@reach/router": "^1.3.3",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/client": "^1.149.13",
     "@sanity/image-url": "^0.140.19",
