@@ -158,7 +158,9 @@ const createOrFetchCustomerIdInDatabase = async (
       }),
     })
     const { data } = await res.json()
-    customerId = data.findCustomerByID._id
+    if (data && data.findCustomerByID) {
+      customerId = data.findCustomerByID._id
+    }
   }
   if (!customerId) {
     const res = await fetch(faundaDbGraphQlEndpoint, {
