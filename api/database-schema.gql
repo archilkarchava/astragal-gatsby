@@ -1,0 +1,28 @@
+# This file is imported manually in faunadb dashboard. Here for a reference and possible future change.
+
+type Customer @collection(name: "customers") {
+  name: String!
+  phoneNumber: String!
+}
+
+type Order @collection(name: "orders") {
+  customer: Customer!
+  currentName: String!
+  currentPhone: String!
+  items: [Product!]!
+  totalSum: Float!
+  creationDate: Time!
+}
+
+type Product @embedded {
+  productId: ID!
+  title: String!
+  price: Int!
+  oldPrice: Float
+  quantity: Int!
+}
+
+type Query {
+  allCustomers: [Customer!]! @index(name: "all_customers")
+  allOrders: [Order!]! @index(name: "all_orders")
+}

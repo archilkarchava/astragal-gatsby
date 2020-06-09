@@ -18,14 +18,38 @@ import useProducts from "./useProducts"
 //   }
 // }
 
-export const useStore = () => {
-  const { store } = React.useContext(StoreContext)
-  return store
+export const useStore = (): [
+  Store,
+  React.Dispatch<React.SetStateAction<Store>>
+] => {
+  const { store, setStore } = React.useContext(StoreContext)
+  return [store, setStore]
+}
+
+export const useCustomer = (): [
+  Store["customer"],
+  React.Dispatch<React.SetStateAction<Store["customer"]>>
+] => {
+  const {
+    store: { customer },
+    setStore,
+  } = React.useContext(StoreContext)
+  const setCustomer = (c: Store["customer"]) => {
+    // const cust: Store["customer"] = Cookies.getJSON("customer")
+
+    // const customer = Cookies.get("customer_phoneNumber")
+    setStore((prevState) => {
+      return produce(prevState, (draftState) => {
+        draftState.customer = c
+      })
+    })
+  }
+  return [customer, setCustomer]
 }
 
 export const useCartToggle = (): [
   boolean,
-  (isOpen: React.SetStateAction<boolean>) => void
+  React.Dispatch<React.SetStateAction<boolean>>
 ] => {
   const {
     store: { isCartOpen },
@@ -41,6 +65,26 @@ export const useCartToggle = (): [
   }
 
   return [isCartOpen, setIsCartOpen]
+}
+
+export const useOrderStatus = (): [
+  Store["orderStatus"],
+  React.Dispatch<React.SetStateAction<Store["orderStatus"]>>
+] => {
+  const {
+    store: { orderStatus },
+    setStore,
+  } = React.useContext(StoreContext)
+
+  const setOrderStatus = (status: Store["orderStatus"]) => {
+    setStore((prevState) => {
+      return produce(prevState, (draftState) => {
+        draftState.orderStatus = status
+      })
+    })
+  }
+
+  return [orderStatus, setOrderStatus]
 }
 
 export const useCartTotalPrice = () => {
@@ -82,7 +126,7 @@ export const useCartItems = () => {
 
 export const useCartItemQuantity = (
   productId: string
-): [number, (quantity: React.SetStateAction<number>) => void] => {
+): [number, React.Dispatch<React.SetStateAction<number>>] => {
   const {
     store: { cartItems },
     setStore,
@@ -111,14 +155,6 @@ export const useCartItemQuantity = (
   }
 
   return [qtty, setCartItemQuantity]
-}
-
-export const useCustomer = () => {
-  const {
-    store: { customer },
-  } = React.useContext(StoreContext)
-
-  return { customer }
 }
 
 export const useAddItemToCart = () => {
@@ -154,7 +190,7 @@ export const useRemoveItemFromCart = () => {
 export const useUpdateItemsFromCart = () => {
   const { setStore } = React.useContext(StoreContext)
 
-  const removeItemFromCart = (items: Store["cartItems"]) => {
+  const updateCartItem = (items: Store["cartItems"]) => {
     setStore((prevState) => {
       return produce(prevState, (draftState) => {
         draftState.cartItems = items
@@ -162,5 +198,5 @@ export const useUpdateItemsFromCart = () => {
     })
   }
 
-  return removeItemFromCart
+  return updateCartItem
 }

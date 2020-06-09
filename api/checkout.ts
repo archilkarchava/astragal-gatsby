@@ -2,6 +2,8 @@
 import sanityClient from "@sanity/client"
 import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node"
+import { serialize } from "cookie"
+import fetch from "isomorphic-fetch"
 import { Store } from "../src/contexts/siteContext"
 
 const sanity = sanityClient({
@@ -9,6 +11,8 @@ const sanity = sanityClient({
   projectId: process.env.SANITY_PROJECT_ID,
   useCdn: false,
 })
+
+const faundaDbGraphQlEndpoint = "https://graphql.fauna.com/graphql"
 
 const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
   const data = await sanity.fetch<
@@ -22,7 +26,7 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
   }`,
     { ids: Object.keys(cartItemsDto) }
   )
-  const cartItems: Order["cartItems"] = {}
+  const cartItems: OrderInput["cartItems"] = {}
   data.forEach(({ _id, title, price, oldPrice }) => {
     cartItems[_id] = {
       title,
@@ -34,10 +38,13 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
   return cartItems
 }
 
-type OrderDto = Pick<Store, "customer" | "cartItems">
+interface OrderDto {
+  customer: Omit<Store["customer"], "id">
+  cartItems: Store["cartItems"]
+}
 
-interface Order {
-  customer: OrderDto["customer"]
+interface OrderInput {
+  customer: Store["customer"]
   cartItems: {
     [productId: string]: {
       title: GatsbyTypes.SanityProduct["title"]
@@ -49,17 +56,27 @@ interface Order {
   totalSum: number
 }
 
-// const gmailEmail = process.env.GMAIL_SENDER_EMAIL
-// const gmailPassword = process.env.GMAIL_SENDER_PASSWORD
-// const mailTransport = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: gmailEmail,
-//     pass: gmailPassword,
-//   },
-// })
+interface OrderFromDB {
+  _id: string
+  currentName: string
+  currentPhone: string
+  items: {
+    productId: string
+    title: string
+    price: number
+    oldPrice: number
+    quantity: number
+  }[]
+  customer: {
+    _id: string
+    name: string
+    phoneNumber: string
+  }
+  totalSum: number
+  creationDate: string
+}
 
-const countOrderPrice = (cartItems: Order["cartItems"]) => {
+const countOrderPrice = (cartItems: OrderInput["cartItems"]) => {
   const totalPrice = Object.values(cartItems).reduce((acc, item) => {
     return acc + item.price * item.quantity
   }, 0)
@@ -69,9 +86,20 @@ const countOrderPrice = (cartItems: Order["cartItems"]) => {
 
 const sendEmail = async ({
   customer,
-  cartItems,
+  items,
   totalSum,
-}: Order): Promise<number> => {
+  currentName,
+  currentPhone,
+}: OrderFromDB) => {
+  const idText = `ID: ${customer._id}`
+  const nameText =
+    customer.name === currentName
+      ? `Имя: ${customer.name}`
+      : `Имя: ${currentName} (в прошлом ${customer.name})`
+  const phoneNumberText =
+    customer.phoneNumber === currentPhone
+      ? `Номер телефона: ${customer.phoneNumber}`
+      : `Номер телефона: ${currentPhone} (в прошлом ${customer.phoneNumber})`
   const receivingEmail = process.env.RECEIVER_EMAIL
   const sendingEmail = process.env.SENDER_EMAIL
 
@@ -80,12 +108,9 @@ const sendEmail = async ({
     from: sendingEmail,
     to: receivingEmail,
     subject: "Астрагал: Новый заказ.",
-    text: `
-${customer.name} ${
-      customer.phoneNumber
-    } хочет сделать заказ на сумму ${totalSum} рублей.
+    text: `Покупатель (${idText}, ${nameText}, ${phoneNumberText}) хочет сделать заказ на сумму ${totalSum} рублей.
 Товары:
-${Object.values(cartItems)
+${items
   .map(
     ({ title, price, quantity }) =>
       `    ${title} - ${price} руб. в количестве ${quantity} шт.`
@@ -93,19 +118,132 @@ ${Object.values(cartItems)
   .join(",\n")}
 `,
   }
-  try {
-    await sgMail.send(msg)
-    console.log(`Информация о заказе отправлена на: ${receivingEmail}`)
-  } catch (e) {
-    console.error(`Ошибка отправки письма на ${receivingEmail}: ${e}`)
-    throw e
+  return sgMail.send(msg)
+}
+
+const graphqlFetchMethodAndHeaders = {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.FAUNADB_SECRET}`,
+    "Content-type": "application/json",
+    Accept: "application/json",
+  },
+}
+
+const createOrFetchCustomerIdInDatabase = async (
+  customer: Omit<OrderInput["customer"], "orders">
+) => {
+  const fetchCustomerQuery = `query($customerId: ID!) {
+    findCustomerByID(id: $customerId) {
+      _id
+      name
+      phoneNumber
+    }
+  }`
+
+  const createCustomerQuery = `mutation($customer: CustomerInput!) {
+    createCustomer(data: $customer) {
+      _id
+    }
+  }`
+  let customerId: string
+  if (customer.id) {
+    const res = await fetch(faundaDbGraphQlEndpoint, {
+      ...graphqlFetchMethodAndHeaders,
+      body: JSON.stringify({
+        query: fetchCustomerQuery,
+        variables: {
+          customerId: customer.id,
+        },
+      }),
+    })
+    const { data } = await res.json()
+    customerId = data.findCustomerByID._id
   }
-  return null
+  if (!customerId) {
+    const res = await fetch(faundaDbGraphQlEndpoint, {
+      ...graphqlFetchMethodAndHeaders,
+      body: JSON.stringify({
+        query: createCustomerQuery,
+        variables: {
+          customer: {
+            name: customer.name,
+            phoneNumber: customer.phoneNumber,
+          },
+        },
+      }),
+    })
+    if (!res.ok) {
+      throw new Error(`Не получилось добавить покупателя в базу данных.`)
+    }
+    const { data } = await res.json()
+    customerId = data.createCustomer._id
+  }
+  return customerId
+}
+
+const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
+  const createOrderQuery = `mutation($customerId: ID!,
+    $currentName: String!,
+    $currentPhone: String!,
+    $items: [ProductInput!]!,
+    $totalSum: Float!,
+    $creationDate: Time!) {
+    createOrder(data: {
+      customer: {connect: $customerId},
+      currentName: $currentName
+      currentPhone: $currentPhone
+      items: $items
+      totalSum: $totalSum
+      creationDate: $creationDate
+    }) {
+      _id
+      currentName
+      currentPhone
+      items {
+        productId
+        title
+        price
+        oldPrice
+        quantity
+      }
+      customer {
+        _id
+        name
+        phoneNumber
+      }
+      totalSum
+      creationDate
+    }
+  }`
+
+  const res = await fetch(faundaDbGraphQlEndpoint, {
+    ...graphqlFetchMethodAndHeaders,
+    body: JSON.stringify({
+      query: createOrderQuery,
+      variables: {
+        customerId: order.customer.id,
+        currentName: order.customer.name,
+        currentPhone: order.customer.phoneNumber,
+        items: Object.entries(order.cartItems).map(([productId, val]) => ({
+          ...val,
+          productId,
+        })),
+        totalSum: order.totalSum,
+        creationDate: new Date().toISOString(),
+      },
+    }),
+  })
+  if (!res.ok) {
+    throw new Error(`Не получилось добавить заказ.`)
+  }
+  const { data } = await res.json()
+  return data.createOrder
 }
 
 export default async (req: NowRequest, res: NowResponse) => {
   const orderDto: OrderDto = req.body
-  let cartItems: Order["cartItems"]
+  let cartItems: OrderInput["cartItems"]
   try {
     cartItems = await fetchOrderProducts(orderDto.cartItems)
   } catch (error) {
@@ -116,13 +254,39 @@ export default async (req: NowRequest, res: NowResponse) => {
     res.status(400).json({ message: "Не получилось загрузить товары." })
     return
   }
-  const order: Order = {
-    customer: orderDto.customer,
+  const { customerId: customerIdFromCookie } = req.cookies
+  const customerId = await createOrFetchCustomerIdInDatabase({
+    ...orderDto.customer,
+    id: customerIdFromCookie,
+  })
+  const order: OrderInput = {
+    customer: {
+      id: customerId,
+      ...orderDto.customer,
+    },
     cartItems,
     totalSum: countOrderPrice(cartItems),
   }
-  console.log(order)
-  sendEmail(order)
-    .then(() => res.status(200).json({ message: "Заказ успешно оформлен." }))
-    .catch(() => res.status(400).json({ message: "Ошибка оформления заказа." }))
+
+  let orderFromDB: OrderFromDB
+  try {
+    orderFromDB = await addOrderToDatabase(order)
+  } catch (e) {
+    console.error(e)
+    res.status(400).json({ message: "Ошибка оформления заказа." })
+    return
+  }
+  console.log(orderFromDB)
+  const customerIdCookie = serialize("customerId", order.customer.id, {
+    expires: new Date(new Date().getTime() + 10 * 365 * 24 * 60 * 60 * 1000),
+    path: "/",
+  })
+  res.setHeader("Set-Cookie", [customerIdCookie])
+  try {
+    await sendEmail(orderFromDB)
+    res.status(200).json({ message: "Заказ успешно оформлен." })
+  } catch (e) {
+    console.error(e)
+    res.status(400).json({ message: "Ошибка оформления заказа." })
+  }
 }

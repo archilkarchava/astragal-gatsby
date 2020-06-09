@@ -1,23 +1,17 @@
 import produce from "immer"
+import Cookies from "js-cookie"
 import React from "react"
 
 export interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
+  orderStatus: "idle" | "pending" | "success" | "failure"
   // page: undefined
   customer: {
     name?: string
+    id?: string
     phoneNumber?: string
-    email?: string
-    orders?: {
-      [orderId: string]: {
-        items: {
-          [productId: string]: {
-            quantity: number
-          }
-        }
-      }
-    }
+    // email?: string
   }
   cartItems: {
     [sanityProductId: string]: {
@@ -29,8 +23,12 @@ export interface Store {
 const initialStoreState: Store = {
   isCartOpen: false,
   isNavOpen: false,
+  orderStatus: "idle",
   // page: undefined,
-  customer: {},
+  customer: {
+    name: "",
+    phoneNumber: "",
+  },
   cartItems: {},
 }
 
@@ -46,11 +44,19 @@ const StoreContextProvider: React.FC = ({ children }) => {
   const [store, setStore] = React.useState(initialStoreState)
 
   React.useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("cart"))
-    if (data) {
+    const customerId = Cookies.get("customerId")
+    const cartItems = JSON.parse(localStorage.getItem("cart"))
+    if (customerId) {
       setStore((prevState) => {
         return produce(prevState, (draftState) => {
-          draftState.cartItems = data
+          draftState.customer.id = customerId
+        })
+      })
+    }
+    if (cartItems) {
+      setStore((prevState) => {
+        return produce(prevState, (draftState) => {
+          draftState.cartItems = cartItems
         })
       })
     }
