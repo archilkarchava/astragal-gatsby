@@ -45,11 +45,22 @@ const StoreContextProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     const customerId = Cookies.get("customerId")
+    const customer = JSON.parse(localStorage.getItem("customer"))
     const cartItems = JSON.parse(localStorage.getItem("cart"))
     if (customerId) {
       setStore((prevState) => {
         return produce(prevState, (draftState) => {
           draftState.customer.id = customerId
+        })
+      })
+    }
+    if (customer) {
+      setStore((prevState) => {
+        return produce(prevState, (draftState) => {
+          draftState.customer = {
+            name: customer.name,
+            phoneNumber: customer.phoneNumber,
+          }
         })
       })
     }
@@ -64,6 +75,7 @@ const StoreContextProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(store.cartItems))
+    localStorage.setItem("customer", JSON.stringify(store.customer))
   }, [store])
 
   return (
