@@ -325,7 +325,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                   <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
                 </div>
                 <div>
-                  <IsomorphicAnchorLink to="/#catalog">
+                  <IsomorphicAnchorLink to="/#catalog" stripHash>
                     <button
                       className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
                       onClick={() => setIsCartOpen(false)}

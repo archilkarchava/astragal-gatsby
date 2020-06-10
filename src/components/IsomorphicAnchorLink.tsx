@@ -10,6 +10,9 @@ const IsomorphicAnchorLink: React.FC<AnchorLinkProps> = ({
   ...rest
 }) => {
   const location = useLocation()
+  if (stripHash) {
+    window.history.replaceState(null, null, " ")
+  }
   if (location.pathname === to.replace(/#.*$/, "")) {
     return <AnchorLink to={to} stripHash={stripHash} {...rest} />
   }

@@ -38,6 +38,7 @@ const Hero = () => {
         <div className="container absolute bottom-0 flex text-gray-100 -translate-x-1/2 mb-28 left-1/2">
           <IsomorphicAnchorLink
             to="/#catalog"
+            stripHash
             className="px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase bg-black border-2 border-black rounded-none"
           >
             Наши изделия
