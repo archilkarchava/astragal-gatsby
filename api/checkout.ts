@@ -121,7 +121,7 @@ ${items
   return sgMail.send(msg)
 }
 
-const graphqlFetchMethodAndHeaders = {
+const faunaGraphqlFetchMethodAndHeaders = {
   method: "POST",
   headers: {
     Authorization: `Bearer ${process.env.FAUNADB_SECRET}`,
@@ -149,7 +149,7 @@ const createOrFetchCustomerIdInDatabase = async (
   let customerId: string
   if (customer.id) {
     const res = await fetch(faundaDbGraphQlEndpoint, {
-      ...graphqlFetchMethodAndHeaders,
+      ...faunaGraphqlFetchMethodAndHeaders,
       body: JSON.stringify({
         query: fetchCustomerQuery,
         variables: {
@@ -164,7 +164,7 @@ const createOrFetchCustomerIdInDatabase = async (
   }
   if (!customerId) {
     const res = await fetch(faundaDbGraphQlEndpoint, {
-      ...graphqlFetchMethodAndHeaders,
+      ...faunaGraphqlFetchMethodAndHeaders,
       body: JSON.stringify({
         query: createCustomerQuery,
         variables: {
@@ -220,7 +220,7 @@ const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
   }`
 
   const res = await fetch(faundaDbGraphQlEndpoint, {
-    ...graphqlFetchMethodAndHeaders,
+    ...faunaGraphqlFetchMethodAndHeaders,
     body: JSON.stringify({
       query: createOrderQuery,
       variables: {
