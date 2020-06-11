@@ -153,7 +153,7 @@ const ProductTemplate: React.FC<Props> = ({
   return (
     <Layout>
       <SEO title={title} />
-      <div className="box-border flex flex-col justify-between w-full h-full pt-12 lg:h-screen lg:flex-row md:pt-17">
+      <div className="box-border flex flex-col justify-between w-full h-full pt-12 lg:h-screen lg:flex-row md:pt-16">
         <ImageCarousel images={images} />
         <div className="flex flex-col justify-center w-full p-3 mb-10 lg:m-0 lg:p-0 lg:pl-12 h-1/2 lg:w-1/2 lg:h-full">
           <h1 className="font-serif text-4xl lg:text-5xl">{title}</h1>
