@@ -26,9 +26,6 @@ const ProductBody: React.FC<BlockContentProps> = ({ blocks }) => {
     <div className={markdownStyles}>
       <BlockContent blocks={blocks} />
     </div>
-    // <div className="max-w-2xl mx-auto">
-    //   <BlockContent blocks={content} className={markdownStyles} />
-    // </div>
   )
 }
 export default ProductBody
