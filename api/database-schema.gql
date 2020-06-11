@@ -3,6 +3,7 @@
 type Customer @collection(name: "customers") {
   name: String!
   phoneNumber: String!
+  orders: [Order!] @relation
 }
 
 type Order @collection(name: "orders") {
