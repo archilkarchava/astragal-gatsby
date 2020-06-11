@@ -3,7 +3,7 @@ import { css } from "linaria"
 import React from "react"
 
 const markdownStyles = css`
-  @apply text-lg leading-relaxed;
+  @apply text-base leading-relaxed;
 
   p,
   ul,
@@ -13,11 +13,11 @@ const markdownStyles = css`
   }
 
   h2 {
-    @apply mt-12 mb-4 text-3xl leading-snug;
+    @apply mt-12 mb-4 text-2xl leading-snug;
   }
 
   h3 {
-    @apply mt-8 mb-4 text-2xl leading-snug;
+    @apply mt-8 mb-4 text-xl leading-snug;
   }
 `
 
