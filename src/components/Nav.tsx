@@ -27,20 +27,16 @@ const NavLink: React.FC<AnchorLinkProps> = ({
   ...rest
 }) => {
   return (
-    <li
-      className={classNames(
-        { [className]: className },
-        "block py-3 mr-6 md:mr-10 leading-none"
-      )}
-    >
-      <IsomorphicAnchorLink
-        stripHash
-        className="text-sm text-gray-900"
-        {...rest}
+    <IsomorphicAnchorLink stripHash className="text-sm text-gray-900" {...rest}>
+      <li
+        className={classNames(
+          { [className]: className },
+          "block py-3 mr-6 md:mr-10 leading-none"
+        )}
       >
         {children}
-      </IsomorphicAnchorLink>
-    </li>
+      </li>
+    </IsomorphicAnchorLink>
   )
 }
 
