@@ -9,7 +9,7 @@ const Nav: React.FC = () => {
   return (
     <>
       <nav className="flex items-center w-auto md:flex-wrap">
-        <ul className="flex justify-between block">
+        <ul className="flex justify-between block h-full">
           {/* <NavLink to="/">Главная</NavLink> */}
           <NavLink to="/#catalog">Каталог</NavLink>
           {/* <NavLink to="/">О нас</NavLink> */}
@@ -27,16 +27,20 @@ const NavLink: React.FC<AnchorLinkProps> = ({
   ...rest
 }) => {
   return (
-    <IsomorphicAnchorLink stripHash className="text-sm text-gray-900" {...rest}>
-      <li
-        className={classNames(
-          { [className]: className },
-          "block py-3 mr-6 md:mr-10 leading-none"
-        )}
+    <li
+      className={classNames(
+        { [className]: className },
+        "block h-full leading-none mr-6 text-sm text-gray-900 md:mr-10"
+      )}
+    >
+      <IsomorphicAnchorLink
+        className="flex items-center justify-center block h-full"
+        stripHash
+        {...rest}
       >
         {children}
-      </li>
-    </IsomorphicAnchorLink>
+      </IsomorphicAnchorLink>
+    </li>
   )
 }
 
@@ -47,7 +51,7 @@ const CartButton: React.FC = () => {
     <button
       type="button"
       aria-label="Открыть корзину"
-      className="leading-none text-gray-900"
+      className="h-full leading-none text-gray-900"
       onClick={() => setIsCartOpen(!isCartOpen)}
     >
       <BagIcon className="w-7 h-7" />
