@@ -291,13 +291,13 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
           <div className="flex flex-col justify-center h-full">
             {orderStatus === "success" ? (
               <div className="w-full text-center">
-                <h1 className="w-full text-4xl font-bold text-center">
+                <h1 className="w-full text-4xl font-semibold text-center">
                   Заказ успешно оформлен. Мы вам перезвоним.
                 </h1>
               </div>
             ) : (
               <div className="w-full text-center">
-                <h1 className="w-full text-4xl font-bold text-red-400">
+                <h1 className="w-full text-4xl font-semibold text-red-400">
                   Ошибка оформления заказа.
                 </h1>
               </div>
@@ -322,7 +322,9 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
             ) : (
               <>
                 <div className="w-full text-center">
-                  <h2 className="w-full text-4xl font-bold">В корзине пусто</h2>
+                  <h2 className="w-full text-4xl font-semibold">
+                    В корзине пусто
+                  </h2>
                 </div>
                 <div>
                   <IsomorphicAnchorLink to="/#catalog" stripHash>
