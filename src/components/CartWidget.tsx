@@ -291,9 +291,12 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
           <div className="flex flex-col justify-center h-full">
             {orderStatus === "success" ? (
               <div className="w-full text-center">
-                <h1 className="w-full text-4xl font-semibold text-center">
-                  Заказ успешно оформлен. Мы вам перезвоним.
+                <h1 className="w-full mb-8 text-4xl font-semibold">
+                  Заказ успешно оформлен.
                 </h1>
+                <p className="w-full text-xl">
+                  Мы вам перезвоним в ближайшее время.
+                </p>
               </div>
             ) : (
               <div className="w-full text-center">
