@@ -16,7 +16,12 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
       )}
       {...rest}
     >
-      <h1 className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl">
+      <h1
+        data-sal="slide-up"
+        data-sal-delay="300"
+        data-sal-easing="ease"
+        className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl"
+      >
         Наши преимущества
       </h1>
       <div className="container relative flex flex-col justify-center px-10 mx-auto my-0 md:flex-row">
