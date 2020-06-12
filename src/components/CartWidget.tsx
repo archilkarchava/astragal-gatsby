@@ -224,6 +224,7 @@ const OrderForm: React.FC = () => {
         <div className="w-full">
           <button
             type="submit"
+            aria-label="Оформить заказ"
             className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
           >
             {orderStatus === "pending" ? "Подождите..." : "Оформить заказ"}
@@ -332,6 +333,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                 <div>
                   <IsomorphicAnchorLink to="/#catalog" stripHash>
                     <button
+                      aria-label="Перейти в каталог товаров"
                       className="block w-full py-4 font-semibold tracking-wider text-center text-gray-900 uppercase bg-white border-2 border-black"
                       onClick={() => setIsCartOpen(false)}
                       type="button"

@@ -34,6 +34,7 @@ const AddToCartButton: React.FC<Props> = ({
   if (_id in cartItems) {
     return (
       <button
+        aria-label="Товар в корзине"
         onClick={() => setIsCartOpen(true)}
         type="button"
         className={classNames(
@@ -48,6 +49,7 @@ const AddToCartButton: React.FC<Props> = ({
   }
   return (
     <button
+      aria-label="Купить"
       onClick={() => addCartItem(_id, quantity + 1)}
       type="button"
       className={classNames(
