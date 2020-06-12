@@ -57,6 +57,9 @@ module.exports = {
       inset: {
         "-full": "-100%",
       },
+      opacity: {
+        "99": ".99",
+      },
     },
     fontFamily: {
       sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
