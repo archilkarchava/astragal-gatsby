@@ -87,22 +87,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
   imageFluid2,
   slugStr,
 }) => {
-  // const firstBgImageCss = css`
-  //   background-color: #ffffff !important;
-  //   background-size: contain !important;
-  //   background-position: center !important;
-  // `
-  // const secondBgImageCss = css`
-  //   background-color: #ffffff !important;
-  //   background-size: contain !important;
-  //   background-position: center !important;
-  //   opacity: 0 !important;
-  //   position: absolute !important;
-  //   :hover {
-  //     opacity: 0.99 !important;
-  //   }
-  // `
-
   return (
     <Link
       to={`/products/${slugStr}`}
