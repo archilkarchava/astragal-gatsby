@@ -30,8 +30,8 @@ export const pageQuery = graphql`
         asset {
           localFile {
             childImageSharp {
-              fluid(maxWidth: 960, webpQuality: 90) {
-                ...GatsbyImageSharpFluid_withWebp
+              fluid(maxWidth: 960) {
+                ...GatsbyImageSharpFluid
               }
             }
           }
@@ -108,6 +108,7 @@ const ImageCarousel: React.FC<Pick<
             ) => (
               <button
                 type="button"
+                aria-label={`Выбрать изображение ${i}`}
                 key={_key}
                 onMouseEnter={() => setActiveImageIdx(i)}
                 // onKeyDown={() => setActiveImageIdx(i)}
@@ -162,7 +163,7 @@ const ProductTemplate: React.FC<Props> = ({
             {price > 0 && (
               <div>
                 {oldPrice > price && (
-                  <span className="mr-2 text-base font-normal text-gray-500 line-through lg:text-lg">
+                  <span className="mr-2 text-base font-normal text-gray-700 line-through lg:text-lg">
                     {formatPrice(oldPrice)}
                   </span>
                 )}
