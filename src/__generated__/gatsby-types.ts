@@ -5351,7 +5351,7 @@ type ProductsQueryVariables = {};
 
 type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
         Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }>>> }
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
       ) }> } };
 
 type SiteMetadataQueryVariables = {};
@@ -5374,7 +5374,7 @@ type PostQuery = { readonly sanityProduct: Maybe<(
     Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice' | '_rawBody'>
     & { readonly sizes: Maybe<Pick<SanityProductSizes, 'depth' | 'height' | 'length'>>, readonly materials: Maybe<ReadonlyArray<Maybe<Pick<SanityMaterial, 'title'>>>>, readonly images: Maybe<ReadonlyArray<Maybe<(
       Pick<SanityImage, '_key'>
-      & { readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluid_withWebpFragment> }> }> }> }
+      & { readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }
     )>>> }
   )> };
 
