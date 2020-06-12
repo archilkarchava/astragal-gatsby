@@ -1,6 +1,6 @@
 import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
-import { Map, MapProps, Placemark, YMaps } from "react-yandex-maps"
+import { Map, MapProps, Placemark } from "react-yandex-maps"
 
 const YandexMap: React.FC<MapProps> = (props) => {
   const data = useStaticQuery<GatsbyTypes.YandexMapQuery>(graphql`
@@ -27,7 +27,7 @@ const YandexMap: React.FC<MapProps> = (props) => {
   const siteInfo = data.allSanitySiteSettings.edges[0].node
 
   return (
-    <YMaps>
+    <>
       {siteInfo &&
       siteInfo.addresses.length &&
       siteInfo.addresses[0].location.lat &&
@@ -68,7 +68,7 @@ const YandexMap: React.FC<MapProps> = (props) => {
           />
         </Map>
       ) : null}
-    </YMaps>
+    </>
   )
 }
 
