@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import classNames from "classnames"
 import FocusTrap from "focus-trap-react"
-import Image from "gatsby-image/withIEPolyfill"
+import BackgroundImage from "gatsby-background-image-es5"
 import React from "react"
 import { Helmet } from "react-helmet"
 import { useForm } from "react-hook-form"
@@ -63,10 +63,10 @@ const CartItem: React.FC<{
     <div className="flex w-full py-4 border-b border-white">
       <div className="flex flex-col justify-evenly mr-2.5">
         <div className="w-20 h-20">
-          <Image
+          <BackgroundImage
             className="w-full h-full"
             fluid={imageFluid}
-            objectFit="contain"
+            style={{ backgroundSize: "contain" }}
           />
         </div>
       </div>
