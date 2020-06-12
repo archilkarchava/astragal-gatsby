@@ -91,6 +91,8 @@ module.exports = {
       options: {
         trackingId: process.env.YANDEX_METRIKA_ID,
         webvisor: true,
+        defer: true,
+        afterBody: true,
       },
     },
     {
@@ -126,7 +128,10 @@ module.exports = {
     {
       resolve: `gatsby-plugin-robots-txt`,
     },
-    // "gatsby-plugin-webpack-bundle-analyser-v2",
+    {
+      resolve: `gatsby-plugin-create-client-paths`,
+      options: { prefixes: [`/preview/*`] },
+    }, // "gatsby-plugin-webpack-bundle-analyser-v2",
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

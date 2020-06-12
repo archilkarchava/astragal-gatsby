@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { Link } from "gatsby"
-import type { FluidObject } from "gatsby-image"
-import Image from "gatsby-image/withIEPolyfill"
+import type { IFluidObject } from "gatsby-background-image"
+import BackgroundImage from "gatsby-background-image-es5"
 import React from "react"
 import useProducts from "../hooks/useProducts"
 import formatPrice from "../utils/formatPrice"
@@ -66,8 +66,8 @@ interface ProductCardProps {
   title: string
   price: number
   oldPrice?: number
-  imageFluid: FluidObject
-  imageFluid2?: FluidObject
+  imageFluid: IFluidObject
+  imageFluid2?: IFluidObject
   slugStr: string
 }
 
@@ -94,26 +94,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
     >
       <div className="h-full text-gray-900 no-underline">
         <div className="relative block">
-          <Image
-            className="mb-1 bg-white h-60"
+          <BackgroundImage
+            className="mb-1 h-60"
+            style={{ backgroundSize: "contain", backgroundPosition: "center" }}
             fluid={imageFluid}
             alt={title}
-            objectFit="contain"
-            objectPosition="50% 50%"
           />
           {imageFluid2 && (
-            <Image
-              className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-100"
+            <BackgroundImage
+              className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-99"
+              style={{
+                backgroundSize: "contain",
+                position: "absolute",
+                backgroundPosition: "center",
+              }}
+              preserveStackingContext
               fluid={imageFluid2}
               alt={title}
-              style={{
-                position: "absolute",
-              }}
-              imgStyle={{
-                width: "100%",
-              }}
-              objectFit="contain"
-              objectPosition="50% 50%"
             />
           )}
           {oldPrice > price && (
@@ -128,14 +125,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
       {price && (
         <div className="content-end">
           <div className="flex flex-row">
-            {oldPrice && oldPrice > price && (
-              <div className="mr-1 text-lg font-light leading-none text-gray-600 line-through">
+            {oldPrice > price && (
+              <div className="mr-1 text-lg font-light leading-none text-gray-700 line-through">
                 {formatPrice(oldPrice)}
               </div>
             )}
             <div
               className={classNames(
-                oldPrice && oldPrice > price ? "text-red-700" : "text-current",
+                oldPrice > price ? "text-red-700" : "text-current",
                 "text-lg font-bold leading-none"
               )}
             >

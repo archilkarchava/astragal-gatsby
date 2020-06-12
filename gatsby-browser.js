@@ -15,7 +15,7 @@ export const onClientEntry = () => {
 export const wrapRootElement = ({ element }) => {
   return (
     <StoreContextProvider>
-      <YMaps>{element}</YMaps>
+      <YMaps preload={false}>{element}</YMaps>
     </StoreContextProvider>
   )
 }
