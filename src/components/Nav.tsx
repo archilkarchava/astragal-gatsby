@@ -21,6 +21,7 @@ const Nav: React.FC = () => {
             to="/#contact"
             onMouseOver={() => triggerMapPreload()}
             onFocus={() => triggerMapPreload()}
+            onClick={() => triggerMapPreload()}
           >
             Контакты
           </NavLink>
