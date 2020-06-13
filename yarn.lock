@@ -469,7 +469,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.10.1"
 
-"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
+"@babel/plugin-syntax-dynamic-import@^7.7.4", "@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==
@@ -1185,7 +1185,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.0", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
   version "7.10.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.10.2.tgz#d103f21f2602497d38348a32e008637d506db839"
   integrity sha512-6sF3uQw2ivImfVIl62RZ7MXhO2tap69WeWK57vAaimT6AZbE4FbqjdEJIN1UqoD6wI6B+1n9UiagafH1sxjOtg==
@@ -2133,6 +2133,35 @@
   resolved "https://registry.yarnpkg.com/@kwsites/exec-p/-/exec-p-0.4.0.tgz#ab3765d482849ba6e825721077c248cf9f3323b7"
   integrity sha512-44DWNv5gDR9EwrCTVQ4ZC99yPqVS0VCWrYIBl45qNR8XQy+4lbl0IQG8kBDf6NHwj4Ib4c2z1Fq1IUJOCbkZcw==
 
+"@loadable/babel-plugin@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/babel-plugin/-/babel-plugin-5.12.0.tgz#de18d4637eb8f4bdecd694a6737880b3e2094d4c"
+  integrity sha512-hb4TDUalaGogsCASEi0fD9Jn0Y2nQybupGgJQAxmx2KrLKxRoWfg78bJMabvownonsq3MEWgUWqb0c3m0uX9vQ==
+  dependencies:
+    "@babel/plugin-syntax-dynamic-import" "^7.7.4"
+
+"@loadable/component@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/component/-/component-5.12.0.tgz#34d056d15f53dc08d04e9203cad6867cf4f7306c"
+  integrity sha512-eDG7FPZ8tCFA/mqu2IrYV6eS+UxGBo21PwtEV9QpkpYrx25xKRXzJUm36yfQPK3o7jXu43xpPkwiU4mLWcjJlw==
+  dependencies:
+    "@babel/runtime" "^7.7.7"
+    hoist-non-react-statics "^3.3.1"
+
+"@loadable/server@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/server/-/server-5.12.0.tgz#61069d9cf6151e7d22c25f54264165556a101634"
+  integrity sha512-Sb4hPz3vPf2z8GMPlW2kSiDwy3Lv38LhVFEW/Uy3BJqHxNlollJDD3rXQ6zmCZY5S/x/m1tPox8UyIBhcr8SZg==
+  dependencies:
+    lodash "^4.17.15"
+
+"@loadable/webpack-plugin@^5.12.0":
+  version "5.12.0"
+  resolved "https://registry.yarnpkg.com/@loadable/webpack-plugin/-/webpack-plugin-5.12.0.tgz#b28c6e7a979e9c2f8d8b743a634de0ede124c76f"
+  integrity sha512-9G/DOSvR0BZHF8DCd7jWTVEjfLnyLKB+S5KhBOSCK8pTMwDcTKeb0oVd4iwPyeAfPAN4ibqN90r9qnSKnJ+WEQ==
+  dependencies:
+    mkdirp "^0.5.1"
+
 "@mdx-js/mdx@^1.6.1", "@mdx-js/mdx@^1.6.5":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.6.5.tgz#4e00ca5d38d678c6070d73819bb696e4030e2662"
@@ -2850,6 +2879,13 @@
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.4.tgz#38fd73ddfd9b55abb1e1b2ed578cb55bd7b7d339"
   integrity sha512-8+KAKzEvSUdeo+kmqnKrqgeE+LcA0tjYWFY7RPProVYwnqDjukzO+3b6dLD56rYX5TdWejnEOLJYOIeh4CXKuA==
+
+"@types/loadable__component@^5.10.0":
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/@types/loadable__component/-/loadable__component-5.10.0.tgz#178fdc401983f4f93647fac778226da7b8c1e080"
+  integrity sha512-AaDP1VxV3p7CdPOtOTl3ALgQ6ES4AxJKO9UGj9vJonq/w2yERxwdzFiWNQFh9fEDXEzjxujBlM2RmSJtHV1/pA==
+  dependencies:
+    "@types/react" "*"
 
 "@types/lodash.sample@^4.2.6":
   version "4.2.6"
@@ -8060,6 +8096,17 @@ gatsby-plugin-linaria@^2.0.0:
   resolved "https://registry.yarnpkg.com/gatsby-plugin-linaria/-/gatsby-plugin-linaria-2.0.0.tgz#387be2e4e9a28b763695755e39b2f17953151d04"
   integrity sha512-n7jvvc7bmTPY2J+tL9NAoq63mNTIKOsvMWD0p+Ktq7hFWwXZDwrWvaRgjPTa24ZqgwImC2vc8/RQS/VzM2VePQ==
 
+gatsby-plugin-loadable-components-ssr@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-loadable-components-ssr/-/gatsby-plugin-loadable-components-ssr-2.1.0.tgz#cafb98df82ec029d5380a2dcf4816fd572f52dfe"
+  integrity sha512-/jifBSNo+JuzPO91OrO4jYh2j2bqNYA0oiG3/6GkY6vkF9GmwyUpcnThRdiju2l3CReuKpvI5A8nDP6I6iCaSA==
+  dependencies:
+    "@babel/runtime" "^7.9.6"
+    "@loadable/babel-plugin" "^5.12.0"
+    "@loadable/server" "^5.12.0"
+    "@loadable/webpack-plugin" "^5.12.0"
+    react-dom "^16.12.0"
+
 gatsby-plugin-manifest@^2.4.9:
   version "2.4.9"
   resolved "https://registry.yarnpkg.com/gatsby-plugin-manifest/-/gatsby-plugin-manifest-2.4.9.tgz#f211d87cf3d06a5bfd0619b6844b156abd837d43"
@@ -9328,7 +9375,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==

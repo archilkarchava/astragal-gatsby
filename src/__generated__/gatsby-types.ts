@@ -4859,12 +4859,9 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy = 'pluginCreator.pluginOptions.legacy',
   pluginCreator___pluginOptions___theme_color_in_head = 'pluginCreator.pluginOptions.theme_color_in_head',
   pluginCreator___pluginOptions___cacheDigest = 'pluginCreator.pluginOptions.cacheDigest',
-  pluginCreator___pluginOptions___trackingId = 'pluginCreator.pluginOptions.trackingId',
-  pluginCreator___pluginOptions___webvisor = 'pluginCreator.pluginOptions.webvisor',
-  pluginCreator___pluginOptions___defer = 'pluginCreator.pluginOptions.defer',
-  pluginCreator___pluginOptions___afterBody = 'pluginCreator.pluginOptions.afterBody',
+  pluginCreator___pluginOptions___id = 'pluginCreator.pluginOptions.id',
+  pluginCreator___pluginOptions___domains = 'pluginCreator.pluginOptions.domains',
   pluginCreator___pluginOptions___query = 'pluginCreator.pluginOptions.query',
-  pluginCreator___pluginOptions___prefixes = 'pluginCreator.pluginOptions.prefixes',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
   pluginCreator___nodeAPIs = 'pluginCreator.nodeAPIs',
   pluginCreator___browserAPIs = 'pluginCreator.browserAPIs',
@@ -5077,12 +5074,9 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy = 'pluginOptions.legacy',
   pluginOptions___theme_color_in_head = 'pluginOptions.theme_color_in_head',
   pluginOptions___cacheDigest = 'pluginOptions.cacheDigest',
-  pluginOptions___trackingId = 'pluginOptions.trackingId',
-  pluginOptions___webvisor = 'pluginOptions.webvisor',
-  pluginOptions___defer = 'pluginOptions.defer',
-  pluginOptions___afterBody = 'pluginOptions.afterBody',
+  pluginOptions___id = 'pluginOptions.id',
+  pluginOptions___domains = 'pluginOptions.domains',
   pluginOptions___query = 'pluginOptions.query',
-  pluginOptions___prefixes = 'pluginOptions.prefixes',
   pluginOptions___pathCheck = 'pluginOptions.pathCheck',
   nodeAPIs = 'nodeAPIs',
   browserAPIs = 'browserAPIs',
@@ -5218,12 +5212,9 @@ type SitePluginPluginOptions = {
   readonly legacy: Maybe<Scalars['Boolean']>;
   readonly theme_color_in_head: Maybe<Scalars['Boolean']>;
   readonly cacheDigest: Maybe<Scalars['String']>;
-  readonly trackingId: Maybe<Scalars['String']>;
-  readonly webvisor: Maybe<Scalars['Boolean']>;
-  readonly defer: Maybe<Scalars['Boolean']>;
-  readonly afterBody: Maybe<Scalars['Boolean']>;
+  readonly id: Maybe<Scalars['String']>;
+  readonly domains: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly query: Maybe<Scalars['String']>;
-  readonly prefixes: Maybe<ReadonlyArray<Maybe<Scalars['String']>>>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
 };
 
@@ -5265,12 +5256,9 @@ type SitePluginPluginOptionsFilterInput = {
   readonly legacy: Maybe<BooleanQueryOperatorInput>;
   readonly theme_color_in_head: Maybe<BooleanQueryOperatorInput>;
   readonly cacheDigest: Maybe<StringQueryOperatorInput>;
-  readonly trackingId: Maybe<StringQueryOperatorInput>;
-  readonly webvisor: Maybe<BooleanQueryOperatorInput>;
-  readonly defer: Maybe<BooleanQueryOperatorInput>;
-  readonly afterBody: Maybe<BooleanQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
+  readonly domains: Maybe<StringQueryOperatorInput>;
   readonly query: Maybe<StringQueryOperatorInput>;
-  readonly prefixes: Maybe<StringQueryOperatorInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
 };
 
@@ -5335,25 +5323,6 @@ type HeroQueryVariables = {};
 
 type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
-type YandexMapQueryVariables = {};
-
-
-type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanitySiteSettings, 'title'>
-        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
-          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
-          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng'>> }
-        )>>> }
-      ) }> } };
-
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
-      ) }> } };
-
 type SiteMetadataQueryVariables = {};
 
 
@@ -5363,6 +5332,14 @@ type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: Rea
           Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
         )>>> }
+      ) }> } };
+
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
       ) }> } };
 
 type PostQueryVariables = {
@@ -5393,6 +5370,17 @@ type GatsbySanityImageFluid_noBase64Fragment = Pick<SanityImageFluid, 'aspectRat
 type GatsbySanityImageFluid_withWebpFragment = Pick<SanityImageFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
 
 type GatsbySanityImageFluid_withWebp_noBase64Fragment = Pick<SanityImageFluid, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
+
+type YandexMapQueryVariables = {};
+
+
+type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanitySiteSettings, 'title'>
+        & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
+          Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
+          & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng'>> }
+        )>>> }
+      ) }> } };
 
 type GatsbyImageSharpFixedFragment = Pick<ImageSharpFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet'>;
 

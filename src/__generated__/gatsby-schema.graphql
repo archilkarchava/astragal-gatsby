@@ -4399,12 +4399,9 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy
   pluginCreator___pluginOptions___theme_color_in_head
   pluginCreator___pluginOptions___cacheDigest
-  pluginCreator___pluginOptions___trackingId
-  pluginCreator___pluginOptions___webvisor
-  pluginCreator___pluginOptions___defer
-  pluginCreator___pluginOptions___afterBody
+  pluginCreator___pluginOptions___id
+  pluginCreator___pluginOptions___domains
   pluginCreator___pluginOptions___query
-  pluginCreator___pluginOptions___prefixes
   pluginCreator___pluginOptions___pathCheck
   pluginCreator___nodeAPIs
   pluginCreator___browserAPIs
@@ -4605,12 +4602,9 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy
   pluginOptions___theme_color_in_head
   pluginOptions___cacheDigest
-  pluginOptions___trackingId
-  pluginOptions___webvisor
-  pluginOptions___defer
-  pluginOptions___afterBody
+  pluginOptions___id
+  pluginOptions___domains
   pluginOptions___query
-  pluginOptions___prefixes
   pluginOptions___pathCheck
   nodeAPIs
   browserAPIs
@@ -4746,12 +4740,9 @@ type SitePluginPluginOptions {
   legacy: Boolean
   theme_color_in_head: Boolean
   cacheDigest: String
-  trackingId: String
-  webvisor: Boolean
-  defer: Boolean
-  afterBody: Boolean
+  id: String
+  domains: [String]
   query: String
-  prefixes: [String]
   pathCheck: Boolean
 }
 
@@ -4793,12 +4784,9 @@ input SitePluginPluginOptionsFilterInput {
   legacy: BooleanQueryOperatorInput
   theme_color_in_head: BooleanQueryOperatorInput
   cacheDigest: StringQueryOperatorInput
-  trackingId: StringQueryOperatorInput
-  webvisor: BooleanQueryOperatorInput
-  defer: BooleanQueryOperatorInput
-  afterBody: BooleanQueryOperatorInput
+  id: StringQueryOperatorInput
+  domains: StringQueryOperatorInput
   query: StringQueryOperatorInput
-  prefixes: StringQueryOperatorInput
   pathCheck: BooleanQueryOperatorInput
 }
 
