@@ -19,7 +19,7 @@ const ContactUs: React.FC = () => {
     }
   }, [contentRef])
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     window.addEventListener("scroll", handleScroll)
     return () => {
       window.removeEventListener("scroll", handleScroll)
