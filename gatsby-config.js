@@ -87,12 +87,9 @@ module.exports = {
     },
     `gatsby-plugin-scroll-reveal`,
     {
-      resolve: `gatsby-plugin-yandex-metrika`,
+      resolve: "gatsby-plugin-google-tagmanager",
       options: {
-        trackingId: process.env.YANDEX_METRIKA_ID,
-        webvisor: true,
-        defer: true,
-        afterBody: true,
+        id: process.env.GOOGLE_TAGMANAGER_ID,
       },
     },
     {
@@ -128,10 +125,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-robots-txt`,
     },
-    {
-      resolve: `gatsby-plugin-create-client-paths`,
-      options: { prefixes: [`/preview/*`] },
-    }, // "gatsby-plugin-webpack-bundle-analyser-v2",
+    `gatsby-plugin-loadable-components-ssr`,
+    // "gatsby-plugin-webpack-bundle-analyser-v2",
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,

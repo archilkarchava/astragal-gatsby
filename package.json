@@ -39,7 +39,6 @@
     "gatsby-plugin-typescript": "^2.4.3",
     "gatsby-plugin-webfonts": "^1.1.2",
     "gatsby-plugin-webpack-bundle-analyser-v2": "^1.1.9",
-    "gatsby-plugin-yandex-metrika": "^2.4.0",
     "gatsby-source-filesystem": "^2.3.8",
     "gatsby-source-sanity": "^5.0.6",
     "gatsby-source-sanity-transform-images": "^0.0.7",
