@@ -11,7 +11,7 @@ const ContactUs: React.FC = () => {
 
   const YandexMap = loadable(() => import("./YandexMap"))
 
-  const handleScroll = React.useCallback(() => {
+  const handleShowMap = React.useCallback(() => {
     if (
       window.pageYOffset > contentRef.current.getBoundingClientRect().height
     ) {
@@ -20,11 +20,15 @@ const ContactUs: React.FC = () => {
   }, [contentRef])
 
   React.useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
+    handleShowMap()
+  }, [handleShowMap])
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleShowMap)
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener("scroll", handleShowMap)
     }
-  }, [handleScroll])
+  }, [handleShowMap])
 
   React.useEffect(() => {
     if (preloadMap) {
