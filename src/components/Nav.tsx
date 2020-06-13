@@ -1,11 +1,15 @@
 import classNames from "classnames"
-import type { AnchorLinkProps } from "gatsby-plugin-anchor-links"
 import React from "react"
-import { useCartToggle, useCartTotalQuantity } from "../hooks/contextHooks"
+import {
+  useCartToggle,
+  useCartTotalQuantity,
+  usePreloadMap,
+} from "../hooks/contextHooks"
 import BagIcon from "./icons/BagIcon"
 import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
 
 const Nav: React.FC = () => {
+  const triggerMapPreload = usePreloadMap()
   return (
     <>
       <nav className="flex items-center w-auto md:flex-wrap">
@@ -13,7 +17,13 @@ const Nav: React.FC = () => {
           {/* <NavLink to="/">Главная</NavLink> */}
           <NavLink to="/#catalog">Каталог</NavLink>
           {/* <NavLink to="/">О нас</NavLink> */}
-          <NavLink to="/#contact">Контакты</NavLink>
+          <NavLink
+            to="/#contact"
+            onMouseOver={() => triggerMapPreload()}
+            onFocus={() => triggerMapPreload()}
+          >
+            Контакты
+          </NavLink>
         </ul>
         <CartButton />
       </nav>
@@ -21,9 +31,10 @@ const Nav: React.FC = () => {
   )
 }
 
-const NavLink: React.FC<AnchorLinkProps> = ({
+const NavLink: React.FC<JSX.IntrinsicElements["li"] & { to: string }> = ({
   className,
   children,
+  to,
   ...rest
 }) => {
   return (
@@ -32,11 +43,12 @@ const NavLink: React.FC<AnchorLinkProps> = ({
         { [className]: className },
         "block h-full leading-none mr-6 text-sm text-gray-900 md:mr-10"
       )}
+      {...rest}
     >
       <IsomorphicAnchorLink
         className="flex items-center justify-center block h-full"
         stripHash
-        {...rest}
+        to={to}
       >
         {children}
       </IsomorphicAnchorLink>

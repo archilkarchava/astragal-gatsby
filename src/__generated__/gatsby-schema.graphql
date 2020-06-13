@@ -4400,7 +4400,6 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___theme_color_in_head
   pluginCreator___pluginOptions___cacheDigest
   pluginCreator___pluginOptions___id
-  pluginCreator___pluginOptions___domains
   pluginCreator___pluginOptions___query
   pluginCreator___pluginOptions___pathCheck
   pluginCreator___nodeAPIs
@@ -4603,7 +4602,6 @@ enum SitePluginFieldsEnum {
   pluginOptions___theme_color_in_head
   pluginOptions___cacheDigest
   pluginOptions___id
-  pluginOptions___domains
   pluginOptions___query
   pluginOptions___pathCheck
   nodeAPIs
@@ -4741,7 +4739,6 @@ type SitePluginPluginOptions {
   theme_color_in_head: Boolean
   cacheDigest: String
   id: String
-  domains: [String]
   query: String
   pathCheck: Boolean
 }
@@ -4785,7 +4782,6 @@ input SitePluginPluginOptionsFilterInput {
   theme_color_in_head: BooleanQueryOperatorInput
   cacheDigest: StringQueryOperatorInput
   id: StringQueryOperatorInput
-  domains: StringQueryOperatorInput
   query: StringQueryOperatorInput
   pathCheck: BooleanQueryOperatorInput
 }

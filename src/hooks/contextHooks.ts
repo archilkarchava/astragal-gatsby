@@ -26,6 +26,20 @@ export const useStore = (): [
   return [store, setStore]
 }
 
+export const usePreloadMap = () => {
+  const { setStore } = React.useContext(StoreContext)
+
+  const triggerMapPreload = () => {
+    setStore((prevState) => {
+      return produce(prevState, (draftState) => {
+        draftState.preloadMap = true
+      })
+    })
+  }
+
+  return triggerMapPreload
+}
+
 export const useCustomer = (): [
   Store["customer"],
   React.Dispatch<React.SetStateAction<Store["customer"]>>
