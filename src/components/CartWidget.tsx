@@ -135,7 +135,10 @@ const OrderForm: React.FC = () => {
   const onSubmit = async (data: { name: string; phone: string }) => {
     setCustomer({ name: data.name, phoneNumber: data.phone })
     setOrderStatus("pending")
-    const order: Omit<Store, "isCartOpen" | "isNavOpen" | "orderStatus"> = {
+    const order: Omit<
+      Store,
+      "isCartOpen" | "isNavOpen" | "orderStatus" | "preloadMap"
+    > = {
       customer,
       cartItems,
     }
