@@ -8,8 +8,8 @@ type Customer @collection(name: "customers") {
 
 type Order @collection(name: "orders") {
   customer: Customer!
-  currentName: String!
-  currentPhone: String!
+  currentCustomerName: String!
+  currentCustomerPhone: String!
   items: [Product!]!
   totalSum: Float!
   creationDate: Time!

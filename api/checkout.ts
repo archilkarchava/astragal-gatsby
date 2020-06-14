@@ -58,8 +58,8 @@ interface OrderInput {
 
 interface OrderFromDB {
   _id: string
-  currentName: string
-  currentPhone: string
+  currentCustomerName: string
+  currentCustomerPhone: string
   items: {
     productId: string
     title: string
@@ -88,18 +88,18 @@ const sendEmail = async ({
   customer,
   items,
   totalSum,
-  currentName,
-  currentPhone,
+  currentCustomerName,
+  currentCustomerPhone,
 }: OrderFromDB) => {
   const idText = `ID: ${customer._id}`
   const nameText =
-    customer.name === currentName
+    customer.name === currentCustomerName
       ? `Имя: ${customer.name}`
-      : `Имя: ${currentName} (в прошлом ${customer.name})`
+      : `Имя: ${currentCustomerName} (в прошлом ${customer.name})`
   const phoneNumberText =
-    customer.phoneNumber === currentPhone
+    customer.phoneNumber === currentCustomerPhone
       ? `Номер телефона: ${customer.phoneNumber}`
-      : `Номер телефона: ${currentPhone} (в прошлом ${customer.phoneNumber})`
+      : `Номер телефона: ${currentCustomerPhone} (в прошлом ${customer.phoneNumber})`
   const receivingEmail = process.env.RECEIVER_EMAIL
   const sendingEmail = process.env.SENDER_EMAIL
 
@@ -186,22 +186,22 @@ const createOrFetchCustomerIdInDatabase = async (
 
 const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
   const createOrderQuery = `mutation($customerId: ID!,
-    $currentName: String!,
-    $currentPhone: String!,
+    $currentCustomerName: String!,
+    $currentCustomerPhone: String!,
     $items: [ProductInput!]!,
     $totalSum: Float!,
     $creationDate: Time!) {
     createOrder(data: {
       customer: {connect: $customerId},
-      currentName: $currentName
-      currentPhone: $currentPhone
+      currentCustomerName: $currentCustomerName
+      currentCustomerPhone: $currentCustomerPhone
       items: $items
       totalSum: $totalSum
       creationDate: $creationDate
     }) {
       _id
-      currentName
-      currentPhone
+      currentCustomerName
+      currentCustomerPhone
       items {
         productId
         title
@@ -225,8 +225,8 @@ const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
       query: createOrderQuery,
       variables: {
         customerId: order.customer.id,
-        currentName: order.customer.name,
-        currentPhone: order.customer.phoneNumber,
+        currentCustomerName: order.customer.name,
+        currentCustomerPhone: order.customer.phoneNumber,
         items: Object.entries(order.cartItems).map(([productId, val]) => ({
           ...val,
           productId,
