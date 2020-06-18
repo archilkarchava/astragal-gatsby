@@ -26,18 +26,24 @@ export const useStore = (): [
   return [store, setStore]
 }
 
-export const usePreloadMap = () => {
-  const { setStore } = React.useContext(StoreContext)
+export const useShowMap = (): [
+  boolean,
+  React.Dispatch<React.SetStateAction<boolean>>
+] => {
+  const {
+    store: { isShowMap },
+    setStore,
+  } = React.useContext(StoreContext)
 
-  const triggerMapPreload = () => {
+  const setIsCartOpen = (isShow: boolean) => {
     setStore((prevState) => {
       return produce(prevState, (draftState) => {
-        draftState.preloadMap = true
+        draftState.isShowMap = isShow
       })
     })
   }
 
-  return triggerMapPreload
+  return [isShowMap, setIsCartOpen]
 }
 
 export const useCustomer = (): [

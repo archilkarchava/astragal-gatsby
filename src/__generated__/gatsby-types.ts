@@ -5337,11 +5337,6 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type HeroQueryVariables = {};
-
-
-type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
-
 type YandexMapQueryVariables = {};
 
 
@@ -5352,6 +5347,11 @@ type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: Readon
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng'>> }
         )>>> }
       ) }> } };
+
+type HeroQueryVariables = {};
+
+
+type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type ProductsQueryVariables = {};
 

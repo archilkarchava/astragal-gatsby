@@ -3,13 +3,13 @@ import React from "react"
 import {
   useCartToggle,
   useCartTotalQuantity,
-  usePreloadMap,
+  useShowMap,
 } from "../hooks/contextHooks"
 import BagIcon from "./icons/BagIcon"
 import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
 
 const Nav: React.FC = () => {
-  const triggerMapPreload = usePreloadMap()
+  const setIsShowMap = useShowMap()[1]
   return (
     <>
       <nav className="flex items-center w-auto md:flex-wrap">
@@ -19,9 +19,9 @@ const Nav: React.FC = () => {
           {/* <NavLink to="/">О нас</NavLink> */}
           <NavLink
             to="/#contact"
-            onMouseOver={() => triggerMapPreload()}
-            onFocus={() => triggerMapPreload()}
-            onClick={() => triggerMapPreload()}
+            onMouseOver={() => setIsShowMap(true)}
+            onFocus={() => setIsShowMap(true)}
+            onClick={() => setIsShowMap(true)}
           >
             Контакты
           </NavLink>

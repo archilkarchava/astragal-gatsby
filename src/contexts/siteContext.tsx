@@ -5,7 +5,7 @@ import React from "react"
 export interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
-  preloadMap: boolean
+  isShowMap: boolean
   orderStatus: "idle" | "pending" | "success" | "failure"
   // page: undefined
   customer: {
@@ -24,7 +24,7 @@ export interface Store {
 const initialStoreState: Store = {
   isCartOpen: false,
   isNavOpen: false,
-  preloadMap: false,
+  isShowMap: false,
   orderStatus: "idle",
   // page: undefined,
   customer: {

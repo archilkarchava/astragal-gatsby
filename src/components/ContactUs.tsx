@@ -1,23 +1,22 @@
 import loadable from "@loadable/component"
 import React from "react"
-import { useStore } from "../hooks/contextHooks"
+import { useShowMap } from "../hooks/contextHooks"
 import useSiteMetadata from "../hooks/useSiteMetadata"
+
+const YandexMap = loadable(() => import("./YandexMap"))
 
 const ContactUs: React.FC = () => {
   const { addresses, emails, phoneNumbers } = useSiteMetadata()
-  const [showMap, setShowMap] = React.useState(false)
-  const [{ preloadMap }] = useStore()
+  const [isShowMap, setIsShowMap] = useShowMap()
   const contentRef = React.useRef<HTMLDivElement>()
-
-  const YandexMap = loadable(() => import("./YandexMap"))
 
   const handleShowMap = React.useCallback(() => {
     if (
       window.pageYOffset > contentRef.current.getBoundingClientRect().height
     ) {
-      setShowMap(true)
+      setIsShowMap(true)
     }
-  }, [contentRef])
+  }, [contentRef, setIsShowMap])
 
   React.useEffect(() => {
     handleShowMap()
@@ -29,13 +28,6 @@ const ContactUs: React.FC = () => {
       window.removeEventListener("scroll", handleShowMap)
     }
   }, [handleShowMap])
-
-  React.useEffect(() => {
-    if (preloadMap) {
-      YandexMap.preload()
-      setShowMap(true)
-    }
-  }, [preloadMap, YandexMap])
 
   return (
     <div
@@ -76,7 +68,7 @@ const ContactUs: React.FC = () => {
         </div>
       </div>
       <div className="w-full h-112 lg:h-128 md:w-1/2">
-        {showMap && <YandexMap />}
+        {isShowMap && <YandexMap />}
       </div>
     </div>
   )
