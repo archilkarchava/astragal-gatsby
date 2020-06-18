@@ -93,7 +93,7 @@ const ImageCarousel: React.FC<Pick<
         </div>
       )}
       {images.length > 1 && (
-        <div className="flex flex-row content-center justify-center h-10 my-5">
+        <div className="z-20 flex flex-row content-center justify-center h-10 my-5">
           {images.map(
             (
               {
