@@ -76,7 +76,7 @@ const ImageCarousel: React.FC<Pick<
               >
                 <div
                   className={classNames(
-                    activeImageIdx === i ? "opacity-1" : "opacity-0",
+                    activeImageIdx === i ? "opacity-1 z-10" : "opacity-0",
                     "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
                   )}
                 >

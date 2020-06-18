@@ -5337,6 +5337,11 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
+type HeroQueryVariables = {};
+
+
+type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
+
 type YandexMapQueryVariables = {};
 
 
@@ -5348,19 +5353,6 @@ type YandexMapQuery = { readonly allSanitySiteSettings: { readonly edges: Readon
         )>>> }
       ) }> } };
 
-type HeroQueryVariables = {};
-
-
-type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
-
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
-      ) }> } };
-
 type SiteMetadataQueryVariables = {};
 
 
@@ -5370,6 +5362,14 @@ type SiteMetadataQuery = { readonly allSanitySiteSettings: { readonly edges: Rea
           Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
           & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
         )>>> }
+      ) }> } };
+
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
       ) }> } };
 
 type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
