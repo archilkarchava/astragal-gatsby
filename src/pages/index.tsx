@@ -1,11 +1,11 @@
 import React from "react"
-import Anchor from "../components/Anchor"
-import ContactUs from "../components/ContactUs"
-import Hero from "../components/Hero"
-import Layout from "../components/Layout"
-import OurAdvantages from "../components/OurAdvantages"
-import ProductGrid from "../components/ProductGrid"
-import SEO from "../components/SEO"
+import Anchor from "../components/common/Anchor"
+import SEO from "../components/common/SEO"
+import ContactUs from "../components/index-page/contact-us"
+import Hero from "../components/index-page/Hero"
+import OurAdvantages from "../components/index-page/our-advantages"
+import ProductGrid from "../components/index-page/product-grid"
+import Layout from "../components/layout"
 
 const IndexPage: React.FC = () => {
   return (

@@ -1,7 +1,7 @@
 import loadable from "@loadable/component"
 import React from "react"
-import { useShowMap } from "../hooks/contextHooks"
-import useSiteMetadata from "../hooks/useSiteMetadata"
+import { useShowMap } from "../../../hooks/contextHooks"
+import useSiteMetadata from "../../../hooks/useSiteMetadata"
 
 const YandexMap = loadable(() => import("./YandexMap"))
 

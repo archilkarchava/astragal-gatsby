@@ -5,7 +5,7 @@ import {
   useCartItemQuantity,
   useCartItems,
   useCartToggle,
-} from "../hooks/contextHooks"
+} from "../../hooks/contextHooks"
 
 type Props = {
   _id: string

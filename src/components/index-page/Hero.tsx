@@ -1,7 +1,7 @@
 import { graphql, useStaticQuery } from "gatsby"
-import BackgroundImage from "gatsby-background-image"
+import BackgroundImage from "gatsby-background-image-es5"
 import React from "react"
-import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
+import IsomorphicAnchorLink from "../common/IsomorphicAnchorLink"
 
 const Hero = () => {
   const { ourServicesBgImg } = useStaticQuery<GatsbyTypes.HeroQuery>(graphql`

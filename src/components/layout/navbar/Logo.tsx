@@ -1,5 +1,5 @@
 import React from "react"
-import IsomorphicAnchorLink from "./IsomorphicAnchorLink"
+import IsomorphicAnchorLink from "../../common/IsomorphicAnchorLink"
 
 interface Props {
   siteTitle?: string

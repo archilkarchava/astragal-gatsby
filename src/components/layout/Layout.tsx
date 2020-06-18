@@ -1,16 +1,16 @@
 import React from "react"
-import useSiteMetadata from "../hooks/useSiteMetadata"
-import Anchor from "./Anchor"
-import CartWidget from "./CartWidget"
+import useSiteMetadata from "../../hooks/useSiteMetadata"
+import Anchor from "../common/Anchor"
+import CartWidget from "./cart-widget"
 import Footer from "./Footer"
-import Header from "./Header"
+import Navbar from "./navbar"
 
 const Layout: React.FC = ({ children }) => {
   const { title } = useSiteMetadata()
 
   return (
     <>
-      <Header siteTitle={title} />
+      <Navbar siteTitle={title} />
       <Anchor id="top" />
       <main className="overflow-hidden">{children}</main>
       <CartWidget />

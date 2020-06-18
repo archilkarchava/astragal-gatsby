@@ -1,12 +1,11 @@
 import classNames from "classnames"
 import { graphql } from "gatsby"
-import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
-import { Swipeable } from "react-swipeable"
-import AddToCartButton from "../components/AddToCartButton"
-import Layout from "../components/Layout"
-import ProductBody from "../components/ProductBody"
-import SEO from "../components/SEO"
+import SEO from "../components/common/SEO"
+import Layout from "../components/layout/Layout"
+import AddToCartButton from "../components/product-template/AddToCartButton"
+import ImageCarousel from "../components/product-template/ImageCarousel"
+import ProductBody from "../components/product-template/ProductBody"
 import formatPrice from "../utils/formatPrice"
 import getDiscountPercentStr from "../utils/getDiscountPercentStr"
 
@@ -41,97 +40,6 @@ export const pageQuery = graphql`
     }
   }
 `
-
-const ImageCarousel: React.FC<Pick<
-  GatsbyTypes.PostQuery["sanityProduct"],
-  "images"
->> = ({ images }) => {
-  const [activeImageIdx, setActiveImageIdx] = React.useState(0)
-  return (
-    <div className="flex flex-col justify-center w-full overflow-hidden h-96 md:h-136 lg:w-1/2 lg:h-full">
-      {images.length > 0 && (
-        <div className="relative h-96 md:h-136 lg:h-full">
-          {images.map(
-            (
-              {
-                _key,
-                asset: {
-                  localFile: {
-                    childImageSharp: { fluid },
-                  },
-                },
-              },
-              i
-            ) => (
-              <Swipeable
-                key={_key}
-                preventDefaultTouchmoveEvent
-                onSwipedLeft={() =>
-                  activeImageIdx < images.length - 1 &&
-                  setActiveImageIdx(activeImageIdx + 1)
-                }
-                onSwipedRight={() =>
-                  activeImageIdx > 0 && setActiveImageIdx(activeImageIdx - 1)
-                }
-              >
-                <div
-                  className={classNames(
-                    activeImageIdx === i ? "opacity-1 z-10" : "opacity-0",
-                    "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
-                  )}
-                >
-                  <Image
-                    fluid={fluid}
-                    style={{ position: "static" }}
-                    objectFit="contain"
-                    // alt={title}
-                  />
-                </div>
-              </Swipeable>
-            )
-          )}
-        </div>
-      )}
-      {images.length > 1 && (
-        <div className="z-20 flex flex-row content-center justify-center h-10 my-5">
-          {images.map(
-            (
-              {
-                _key,
-                asset: {
-                  localFile: {
-                    childImageSharp: { fluid },
-                  },
-                },
-              },
-              i
-            ) => (
-              <button
-                type="button"
-                aria-label={`Выбрать изображение ${i}`}
-                key={_key}
-                onMouseEnter={() => setActiveImageIdx(i)}
-                // onKeyDown={() => setActiveImageIdx(i)}
-                onClick={() => setActiveImageIdx(i)}
-                className="w-10 h-10 mx-2 rounded-full cursor-pointer focus:outline-none focus:shadow-outline-gray"
-              >
-                <Image
-                  fluid={fluid}
-                  className={classNames(
-                    activeImageIdx === i && "border-black",
-                    "w-full h-full rounded-full border-2 border-transparent"
-                  )}
-                  imgStyle={{ borderRadius: "9999px" }}
-                  // alt={}
-                />
-              </button>
-            )
-          )}
-        </div>
-      )}
-    </div>
-  )
-}
 
 interface Props {
   data: { sanityProduct: GatsbyTypes.SanityProduct }
@@ -177,7 +85,7 @@ const ProductTemplate: React.FC<Props> = ({
                 </span>
                 {oldPrice > price && (
                   <span className="text-base font-normal text-red-700 lg:text-lg">
-                    ({getDiscountPercentStr(oldPrice, price)})
+                    {getDiscountPercentStr(oldPrice, price)}
                   </span>
                 )}
               </div>
@@ -185,13 +93,6 @@ const ProductTemplate: React.FC<Props> = ({
           </div>
           <div className="mt-5">
             <AddToCartButton _id={_id} inverse size="big" />
-            {/* <button
-              onClick={() => addCartItem(_id, quantity + 1)}
-              type="button"
-              className="w-full px-16 py-3 text-gray-100 uppercase duration-300 ease-in-out bg-black border-2 border-white rounded-none lg:w-auto hover:bg-white hover:border-black focus:border-black hover:text-gray-900 focus:text-gray-900 focus:bg-white"
-            >
-              Купить
-            </button> */}
           </div>
           <ul className="list-inside my-7 lg:my-10">
             {materials.length > 0 && (
@@ -231,7 +132,6 @@ const ProductTemplate: React.FC<Props> = ({
             </div>
           )}
         </div>
-        {/* <Link to="/">Вернуться на главную</Link> */}
       </div>
     </Layout>
   )

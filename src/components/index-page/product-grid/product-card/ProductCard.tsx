@@ -1,67 +1,13 @@
 import classNames from "classnames"
 import { Link } from "gatsby"
-import type { IFluidObject } from "gatsby-background-image"
 import BackgroundImage from "gatsby-background-image-es5"
+import type { IFluidObject } from "gatsby-background-image-es5"
 import React from "react"
-import useProducts from "../hooks/useProducts"
-import formatPrice from "../utils/formatPrice"
-import getDiscountPercentStr from "../utils/getDiscountPercentStr"
+import formatPrice from "../../../../utils/formatPrice"
+import getDiscountPercentStr from "../../../../utils/getDiscountPercentStr"
+import DiscountChip from "./DiscountChip"
 
-const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
-  className,
-  ...rest
-}) => {
-  const products = useProducts()
-  return (
-    <div className="px-10 py-10 md:py-16 lg:py-20">
-      <h1
-        data-sal="slide-up"
-        data-sal-delay="300"
-        data-sal-easing="ease"
-        className="mb-10 text-3xl font-semibold leading-none text-center lg:text-4xl"
-      >
-        Наши изделия
-      </h1>
-      <div
-        className={classNames(
-          "flex flex-wrap max-w-screen-lg mx-auto",
-          className
-        )}
-        {...rest}
-      >
-        {Object.entries(products).flatMap(([productId, product]) => {
-          if (
-            !product ||
-            !product.slug ||
-            !product.images.length ||
-            !product.images[0].asset
-          )
-            return []
-          return [
-            <ProductCard
-              key={productId}
-              _id={productId}
-              title={product.title}
-              oldPrice={product.oldPrice ?? undefined}
-              price={product.price}
-              slugStr={product.slug.current}
-              imageFluid={
-                product.images[0].asset.localFile.childImageSharp.fluid
-              }
-              imageFluid2={
-                product.images[1]
-                  ? product.images[1].asset.localFile.childImageSharp.fluid
-                  : undefined
-              }
-            />,
-          ]
-        })}
-      </div>
-    </div>
-  )
-}
-
-interface ProductCardProps {
+interface Props {
   _id: string
   title: string
   price: number
@@ -71,15 +17,7 @@ interface ProductCardProps {
   slugStr: string
 }
 
-const DiscountChip: React.FC = ({ children }) => {
-  return (
-    <div className="absolute left-0 px-1 py-0.5 text-xs font-bold text-red-700 bg-white top-4 pointer-events-none">
-      {children}
-    </div>
-  )
-}
-
-const ProductCard: React.FC<ProductCardProps> = ({
+const ProductCard: React.FC<Props> = ({
   title,
   price,
   oldPrice,
@@ -138,7 +76,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             >
               {formatPrice(price)}
             </div>
-            {/* <AddToCartButton size="small" _id={_id} /> */}
           </div>
         </div>
       )}
@@ -146,4 +83,4 @@ const ProductCard: React.FC<ProductCardProps> = ({
   )
 }
 
-export default ProductGrid
+export default ProductCard
