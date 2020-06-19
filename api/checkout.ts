@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import sanityClient from "@sanity/client"
 import sgMail from "@sendgrid/mail"
-import type { NowRequest, NowResponse } from "@vercel/node"
+import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies
 import { serialize } from "cookie"
 import fetch from "isomorphic-fetch"
 import { Store } from "../src/contexts/siteContext"
@@ -10,6 +10,7 @@ import phoneRegex from "../src/utils/phoneRegex"
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
   projectId: process.env.SANITY_PROJECT_ID,
+  token: process.env.SANITY_TOKEN,
   useCdn: false,
 })
 
