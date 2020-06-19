@@ -5,6 +5,7 @@ import type { NowRequest, NowResponse } from "@vercel/node"
 import { serialize } from "cookie"
 import fetch from "isomorphic-fetch"
 import { Store } from "../src/contexts/siteContext"
+import phoneRegex from "../src/utils/phoneRegex"
 
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
@@ -236,15 +237,27 @@ const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
       },
     }),
   })
-  if (!res.ok) {
+  const json = await res.json()
+  if (!res.ok || json.errors) {
     throw new Error(`Не получилось добавить заказ.`)
   }
-  const { data } = await res.json()
-  return data.createOrder
+  return json.data.createOrder
 }
 
 export default async (req: NowRequest, res: NowResponse) => {
   const orderDto: OrderDto = req.body
+  if (
+    !orderDto.cartItems ||
+    Object.keys(orderDto.cartItems).length === 0 ||
+    !orderDto.customer ||
+    !orderDto.customer.name ||
+    orderDto.customer.name.length < 1 ||
+    !orderDto.customer.phoneNumber ||
+    !orderDto.customer.phoneNumber.match(phoneRegex)
+  ) {
+    res.status(422).json({ message: "Неверный запрос." })
+    return
+  }
   let cartItems: OrderInput["cartItems"]
   try {
     cartItems = await fetchOrderProducts(orderDto.cartItems)

@@ -11,6 +11,7 @@ import {
   useUpdateItemsFromCart,
 } from "../../../hooks/contextHooks"
 import formatPrice from "../../../utils/formatPrice"
+import phoneRegex from "../../../utils/phoneRegex"
 
 const OrderForm: React.FC = () => {
   const [isCartOpen] = useCartToggle()
@@ -100,7 +101,7 @@ const OrderForm: React.FC = () => {
             inputRef={register({
               required: { message: "Введите номер телефона.", value: true },
               pattern: {
-                value: /^(\+7) ((\(\d{3}\))|(\d{3}(-?))) ((\d{7})|(\d{3}-\d{2}-\d{2}))$/,
+                value: phoneRegex,
                 message: "Введите корректный номер телефона.",
               },
             })}
