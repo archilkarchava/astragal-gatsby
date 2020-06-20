@@ -2,7 +2,7 @@ const path = require("path")
 
 const createProductPages = async (graphql, actions) => {
   const result = await graphql(`
-    query Posts {
+    query Products {
       allSanityProduct(filter: { slug: { current: { ne: null } } }) {
         edges {
           node {
