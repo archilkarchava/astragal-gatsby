@@ -50,7 +50,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
       className={classNames(
         { [className]: className },
         isCartOpen ? "right-0" : "-right-full",
-        "fixed top-0 z-40 w-full min-h-0 h-full max-w-md text-gray-100 duration-500 bg-black border border-black"
+        "fixed top-0 z-50 w-full min-h-0 h-full max-w-md text-gray-100 duration-500 bg-black border border-black"
       )}
       {...rest}
     >

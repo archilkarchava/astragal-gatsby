@@ -17,7 +17,7 @@ const Overlay: React.FC<JSX.IntrinsicElements["div"]> = ({
         isCartOpen
           ? "opacity-50 select-all pointer-events-auto"
           : "select-none pointer-events-none opacity-0",
-        "fixed h-full w-full bg-white left-0 top-0 transition-opacity duration-300 ease-in-out z-30"
+        "fixed h-full w-full bg-white left-0 top-0 transition-opacity duration-300 ease-in-out z-40"
       )}
       {...rest}
     />
