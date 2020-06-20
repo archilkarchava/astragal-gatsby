@@ -9,7 +9,7 @@ const NavLink: React.FC<Props> = ({ className, children, to, ...rest }) => {
     <li
       className={classNames(
         { [className]: className },
-        "block h-full leading-none mr-6 text-sm text-gray-900 md:mr-10"
+        "block h-full leading-none text-sm text-gray-900"
       )}
       {...rest}
     >
