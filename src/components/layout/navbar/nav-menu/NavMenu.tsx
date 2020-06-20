@@ -1,8 +1,8 @@
 import React from "react"
 import { useShowMap } from "../../../../hooks/contextHooks"
-import IsomorphicAnchorLink from "../../../common/IsomorphicAnchorLink"
 import CartButton from "./cart-button"
 import NavItem from "./NavItem"
+import NavLink from "./NavLink"
 
 const NavMenu: React.FC = () => {
   const setIsShowMap = useShowMap()[1]
@@ -11,9 +11,7 @@ const NavMenu: React.FC = () => {
       <ul className="flex justify-between w-full">
         {/* <NavLink to="/">Главная</NavLink> */}
         <NavItem>
-          <IsomorphicAnchorLink stripHash to="/#catalog">
-            Каталог
-          </IsomorphicAnchorLink>
+          <NavLink to="/#catalog">Каталог</NavLink>
         </NavItem>
         {/* <NavLink to="/">О нас</NavLink> */}
         <NavItem
@@ -21,9 +19,7 @@ const NavMenu: React.FC = () => {
           onFocus={() => setIsShowMap(true)}
           onClick={() => setIsShowMap(true)}
         >
-          <IsomorphicAnchorLink stripHash to="/#contact">
-            Контакты
-          </IsomorphicAnchorLink>
+          <NavLink to="/#contact">Контакты</NavLink>
         </NavItem>
         <NavItem>
           <CartButton />
