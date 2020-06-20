@@ -99,7 +99,7 @@
   "license": "MIT",
   "scripts": {
     "build": "cross-env GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -H 0.0.0.0",
     "dev": "npm run develop",
     "lint:code": "eslint --fix \"src/**/*.{ts,tsx}\"",
     "lint:styles": "stylelint --fix \"src/**/*.{ts,tsx,css}\"",
