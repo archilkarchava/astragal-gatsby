@@ -30,7 +30,7 @@ const ContactUs: React.FC = () => {
   }, [handleShowMap])
 
   return (
-    <div
+    <section
       ref={contentRef}
       className="flex flex-col justify-between w-full overflow-hidden text-gray-900 bg-white md:flex-row"
     >
@@ -70,7 +70,7 @@ const ContactUs: React.FC = () => {
       <div className="w-full h-112 lg:h-128 md:w-1/2">
         {isShowMap && <YandexMap />}
       </div>
-    </div>
+    </section>
   )
 }
 

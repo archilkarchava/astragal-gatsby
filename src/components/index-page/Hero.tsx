@@ -17,7 +17,7 @@ const Hero = () => {
   `)
 
   return (
-    <>
+    <section>
       <BackgroundImage
         fluid={[
           `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8))`,
@@ -45,7 +45,7 @@ const Hero = () => {
           </IsomorphicAnchorLink>
         </div>
       </BackgroundImage>
-    </>
+    </section>
   )
 }
 

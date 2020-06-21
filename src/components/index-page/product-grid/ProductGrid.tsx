@@ -9,7 +9,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   const products = useProducts()
   return (
-    <div className="px-10 py-10 md:py-16 lg:py-20">
+    <section className="px-10 py-10 md:py-16 lg:py-20">
       <h1
         data-sal="slide-up"
         data-sal-delay="300"
@@ -50,7 +50,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
           ]
         })}
       </div>
-    </div>
+    </section>
   )
 }
 

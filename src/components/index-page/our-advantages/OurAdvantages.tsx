@@ -10,7 +10,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
   ...rest
 }) => {
   return (
-    <div
+    <section
       className={clsx(
         "box-border w-full px-5 py-10 md:py-16 lg:py-20 bg-orange-100 text-black",
         className
@@ -36,7 +36,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
           Подбёрем и покрасим в цвет, который подойдет к вашему интерьеру
         </AdvantageItem>
       </div>
-    </div>
+    </section>
   )
 }
 
