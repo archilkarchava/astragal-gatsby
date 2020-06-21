@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Swipeable } from "react-swipeable"
@@ -36,7 +36,7 @@ const ImageCarousel: React.FC<Pick<
                 }
               >
                 <div
-                  className={classNames(
+                  className={clsx(
                     activeImageIdx === i ? "opacity-1 z-10" : "opacity-0",
                     "absolute top-0 left-0 w-full h-full duration-500 ease-in-out"
                   )}
@@ -78,7 +78,7 @@ const ImageCarousel: React.FC<Pick<
               >
                 <Image
                   fluid={fluid}
-                  className={classNames(
+                  className={clsx(
                     activeImageIdx === i && "border-black",
                     "w-full h-full rounded-full border-2 border-transparent"
                   )}

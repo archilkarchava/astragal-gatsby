@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 import {
   useCartItems,
@@ -47,7 +47,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
 
   return (
     <div
-      className={classNames(
+      className={clsx(
         { [className]: className },
         isCartOpen ? "right-0" : "-right-full",
         "fixed top-0 z-50 w-full min-h-0 h-full max-w-md text-gray-100 duration-500 bg-black border border-black"

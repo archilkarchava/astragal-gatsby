@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import { Link } from "gatsby"
 import BackgroundImage from "gatsby-background-image-es5"
 import type { IFluidObject } from "gatsby-background-image-es5"
@@ -69,7 +69,7 @@ const ProductCard: React.FC<Props> = ({
               </div>
             )}
             <div
-              className={classNames(
+              className={clsx(
                 oldPrice > price ? "text-red-700" : "text-current",
                 "text-lg font-bold leading-none"
               )}

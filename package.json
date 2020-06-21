@@ -12,7 +12,7 @@
     "@sanity/image-url": "^0.140.19",
     "@sendgrid/mail": "^7.1.1",
     "@tailwindcss/ui": "^0.3.0",
-    "classnames": "^2.2.6",
+    "clsx": "^1.1.1",
     "cookie": "^0.4.1",
     "custom-event-polyfill": "^1.0.7",
     "dotenv": "^8.2.0",
@@ -62,7 +62,6 @@
     "tailwindcss": "^1.4.6"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.10",
     "@types/cookie": "^0.4.0",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/js-cookie": "^2.2.6",

@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 
 const Anchor: React.FC<JSX.IntrinsicElements["div"]> = ({
@@ -9,7 +9,7 @@ const Anchor: React.FC<JSX.IntrinsicElements["div"]> = ({
   return (
     <div
       id={id}
-      className={classNames("-translate-y-13 md:-translate-y-16", className)}
+      className={clsx("-translate-y-13 md:-translate-y-16", className)}
       {...rest}
     />
   )

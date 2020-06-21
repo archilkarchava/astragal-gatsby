@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 import AdvantageItem from "./AdvantageItem"
 import ColorPaletteIcon from "./ColorPaletteIcon"
@@ -11,7 +11,7 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   return (
     <div
-      className={classNames(
+      className={clsx(
         "box-border w-full px-5 py-10 md:py-16 lg:py-20 bg-orange-100 text-black",
         className
       )}

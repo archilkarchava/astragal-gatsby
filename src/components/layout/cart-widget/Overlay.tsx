@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 import { useCartToggle } from "../../../hooks/contextHooks"
 
@@ -12,7 +12,7 @@ const Overlay: React.FC<JSX.IntrinsicElements["div"]> = ({
   return (
     <div
       onClick={() => setIsCartOpen(false)}
-      className={classNames(
+      className={clsx(
         { [className]: className },
         isCartOpen
           ? "opacity-50 select-all pointer-events-auto"

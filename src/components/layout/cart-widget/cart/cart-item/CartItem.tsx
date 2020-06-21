@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import BackgroundImage from "gatsby-background-image-es5"
 import React from "react"
 import {
@@ -56,10 +56,7 @@ const CartItem: React.FC<{
             type="button"
             disabled={quantity <= 1}
             onClick={() => setQuantity(quantity - 1)}
-            className={classNames(
-              quantity <= 1 && "text-gray-700",
-              "outline-none"
-            )}
+            className={clsx(quantity <= 1 && "text-gray-700", "outline-none")}
           >
             <DecreaseIcon />
           </button>

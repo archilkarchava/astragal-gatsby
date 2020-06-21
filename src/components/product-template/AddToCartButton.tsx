@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 import {
   useAddItemToCart,
@@ -25,7 +25,7 @@ const AddToCartButton: React.FC<Props> = ({
   const addCartItem = useAddItemToCart()
   const setIsCartOpen = useCartToggle()[1]
   const cartItems = useCartItems()
-  const commonClassNames = classNames(
+  const commonClassNames = clsx(
     className,
     size === "small" && "w-full px-4 py-1.5 tracking-wide",
     size === "big" && "w-full px-16 py-4 lg:w-auto tracking-wider",
@@ -37,7 +37,7 @@ const AddToCartButton: React.FC<Props> = ({
         aria-label="Товар в корзине"
         onClick={() => setIsCartOpen(true)}
         type="button"
-        className={classNames(
+        className={clsx(
           commonClassNames,
           inverse ? "text-gray-900 bg-white" : "text-gray-100 bg-black"
         )}
@@ -52,7 +52,7 @@ const AddToCartButton: React.FC<Props> = ({
       aria-label="Купить"
       onClick={() => addCartItem(_id, quantity + 1)}
       type="button"
-      className={classNames(
+      className={clsx(
         commonClassNames,
         inverse
           ? "text-gray-100 bg-black hover:bg-white hover:border-black focus:border-black hover:text-gray-900 focus:text-gray-900 focus:bg-white"

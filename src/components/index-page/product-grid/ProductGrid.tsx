@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import React from "react"
 import useProducts from "../../../hooks/useProducts"
 import ProductCard from "./product-card"
@@ -19,10 +19,7 @@ const ProductGrid: React.FC<JSX.IntrinsicElements["div"]> = ({
         Наши изделия
       </h1>
       <div
-        className={classNames(
-          "flex flex-wrap max-w-screen-lg mx-auto",
-          className
-        )}
+        className={clsx("flex flex-wrap max-w-screen-lg mx-auto", className)}
         {...rest}
       >
         {Object.entries(products).flatMap(([productId, product]) => {

@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import clsx from "clsx"
 import { graphql } from "gatsby"
 import React from "react"
 import SEO from "../components/common/SEO"
@@ -76,7 +76,7 @@ const ProductTemplate: React.FC<Props> = ({
                   </span>
                 )}
                 <span
-                  className={classNames(
+                  className={clsx(
                     oldPrice > price ? "text-red-700" : "text-current",
                     "mr-1 text-3xl font-bold lg:text-4xl"
                   )}
