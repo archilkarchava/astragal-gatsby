@@ -57,6 +57,7 @@
     "react-hook-form": "^5.7.2",
     "react-input-mask": "^2.0.4",
     "react-swipeable": "^5.5.1",
+    "react-transition-group": "^4.4.1",
     "react-yandex-maps": "^4.4.0",
     "tailwindcss": "^1.4.6"
   },
@@ -70,6 +71,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-helmet": "^6.0.0",
     "@types/react-input-mask": "^2.0.5",
+    "@types/react-transition-group": "^4.4.0",
     "@vercel/node": "^1.6.1",
     "cross-env": "^7.0.2",
     "eslint": "^6.8.0",
