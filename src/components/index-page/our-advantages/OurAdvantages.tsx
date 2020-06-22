@@ -12,20 +12,20 @@ const OurAdvantages: React.FC<JSX.IntrinsicElements["div"]> = ({
   return (
     <section
       className={clsx(
-        "box-border w-full px-5 py-10 md:py-16 lg:py-20 bg-orange-100 text-black",
+        "box-border w-full py-10 md:py-16 lg:py-20 bg-orange-100 text-black",
         className
       )}
       {...rest}
     >
-      <h1
+      <h2
         data-sal="slide-up"
         data-sal-delay="300"
         data-sal-easing="ease"
         className="mb-20 text-3xl font-semibold leading-none text-center lg:text-4xl"
       >
         Наши преимущества
-      </h1>
-      <div className="container relative flex flex-col justify-center px-10 mx-auto my-0 md:flex-row">
+      </h2>
+      <div className="container relative flex flex-col justify-center px-4 mx-auto my-0 md:flex-row">
         <AdvantageItem title="Материалы" icon={WoodSvg}>
           Все наши изделия изготовлены из массива натурального дерева
         </AdvantageItem>
