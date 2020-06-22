@@ -29,11 +29,11 @@ ${message}
 export default async (req: NowRequest, res: NowResponse) => {
   const { body } = req
   if (!body.name || !body.email.match(emailRegex) || !body.message) {
-    await sendEmail(body)
     res.send(400).json({ message: "Данные введены неверно." })
     return
   }
   try {
+    await sendEmail(body)
     res.send(200).json({ message: "Сообщение успешно доставлено." })
     return
   } catch (e) {
