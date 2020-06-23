@@ -1,8 +1,8 @@
 import clsx from "clsx"
 import React from "react"
 import { useForm } from "react-hook-form"
-import emailRegex from "../../../utils/emailRegex"
-import Alert from "../../common/Alert"
+import emailRegex from "../../../../utils/emailRegex"
+import Alert from "./Alert"
 
 const ContactForm = () => {
   const [formStatus, setFormStatus] = React.useState<

@@ -1,5 +1,5 @@
 import React from "react"
-import ContactForm from "./ContactForm"
+import ContactForm from "./contact-form"
 import ContactInfo from "./ContactInfo"
 
 const ContactUs: React.FC = () => {
