@@ -4796,6 +4796,8 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy = 'pluginCreator.pluginOptions.legacy',
   pluginCreator___pluginOptions___theme_color_in_head = 'pluginCreator.pluginOptions.theme_color_in_head',
   pluginCreator___pluginOptions___cacheDigest = 'pluginCreator.pluginOptions.cacheDigest',
+  pluginCreator___pluginOptions___threshold = 'pluginCreator.pluginOptions.threshold',
+  pluginCreator___pluginOptions___once = 'pluginCreator.pluginOptions.once',
   pluginCreator___pluginOptions___id = 'pluginCreator.pluginOptions.id',
   pluginCreator___pluginOptions___query = 'pluginCreator.pluginOptions.query',
   pluginCreator___pluginOptions___pathCheck = 'pluginCreator.pluginOptions.pathCheck',
@@ -5096,6 +5098,8 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy = 'pluginOptions.legacy',
   pluginOptions___theme_color_in_head = 'pluginOptions.theme_color_in_head',
   pluginOptions___cacheDigest = 'pluginOptions.cacheDigest',
+  pluginOptions___threshold = 'pluginOptions.threshold',
+  pluginOptions___once = 'pluginOptions.once',
   pluginOptions___id = 'pluginOptions.id',
   pluginOptions___query = 'pluginOptions.query',
   pluginOptions___pathCheck = 'pluginOptions.pathCheck',
@@ -5233,6 +5237,8 @@ type SitePluginPluginOptions = {
   readonly legacy: Maybe<Scalars['Boolean']>;
   readonly theme_color_in_head: Maybe<Scalars['Boolean']>;
   readonly cacheDigest: Maybe<Scalars['String']>;
+  readonly threshold: Maybe<Scalars['Float']>;
+  readonly once: Maybe<Scalars['Boolean']>;
   readonly id: Maybe<Scalars['String']>;
   readonly query: Maybe<Scalars['String']>;
   readonly pathCheck: Maybe<Scalars['Boolean']>;
@@ -5276,6 +5282,8 @@ type SitePluginPluginOptionsFilterInput = {
   readonly legacy: Maybe<BooleanQueryOperatorInput>;
   readonly theme_color_in_head: Maybe<BooleanQueryOperatorInput>;
   readonly cacheDigest: Maybe<StringQueryOperatorInput>;
+  readonly threshold: Maybe<FloatQueryOperatorInput>;
+  readonly once: Maybe<BooleanQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly query: Maybe<StringQueryOperatorInput>;
   readonly pathCheck: Maybe<BooleanQueryOperatorInput>;
@@ -5337,6 +5345,19 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
+type HeroQueryVariables = {};
+
+
+type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
+
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
+      ) }> } };
+
 type SiteMetadataQueryVariables = {};
 
 
@@ -5347,11 +5368,6 @@ type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
       & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
     )>>> }
   )> };
-
-type HeroQueryVariables = {};
-
-
-type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
@@ -5367,14 +5383,6 @@ type PostQuery = { readonly sanityProduct: Maybe<(
       & { readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }
     )>>> }
   )> };
-
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
-      ) }> } };
 
 type GatsbySanityImageFixedFragment = Pick<SanityImageFixed, 'base64' | 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
 

@@ -4341,6 +4341,8 @@ enum SitePageFieldsEnum {
   pluginCreator___pluginOptions___legacy
   pluginCreator___pluginOptions___theme_color_in_head
   pluginCreator___pluginOptions___cacheDigest
+  pluginCreator___pluginOptions___threshold
+  pluginCreator___pluginOptions___once
   pluginCreator___pluginOptions___id
   pluginCreator___pluginOptions___query
   pluginCreator___pluginOptions___pathCheck
@@ -4629,6 +4631,8 @@ enum SitePluginFieldsEnum {
   pluginOptions___legacy
   pluginOptions___theme_color_in_head
   pluginOptions___cacheDigest
+  pluginOptions___threshold
+  pluginOptions___once
   pluginOptions___id
   pluginOptions___query
   pluginOptions___pathCheck
@@ -4766,6 +4770,8 @@ type SitePluginPluginOptions {
   legacy: Boolean
   theme_color_in_head: Boolean
   cacheDigest: String
+  threshold: Float
+  once: Boolean
   id: String
   query: String
   pathCheck: Boolean
@@ -4809,6 +4815,8 @@ input SitePluginPluginOptionsFilterInput {
   legacy: BooleanQueryOperatorInput
   theme_color_in_head: BooleanQueryOperatorInput
   cacheDigest: StringQueryOperatorInput
+  threshold: FloatQueryOperatorInput
+  once: BooleanQueryOperatorInput
   id: StringQueryOperatorInput
   query: StringQueryOperatorInput
   pathCheck: BooleanQueryOperatorInput
