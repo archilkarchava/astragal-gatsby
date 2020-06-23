@@ -65,6 +65,7 @@ const ContactForm = () => {
               errors.name ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
+            aria-label="Ваше имя"
             type="text"
           />
           <div className="h-6 text-sm text-red-500">
@@ -79,6 +80,7 @@ const ContactForm = () => {
               errors.email ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
+            aria-label="Email"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -110,6 +112,7 @@ const ContactForm = () => {
               errors.message ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
+            aria-label="Сообщение"
           />
           <div className="h-6 text-sm text-red-500">
             {errors.message && errors.message.message}

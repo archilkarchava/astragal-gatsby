@@ -86,6 +86,7 @@ const OrderForm: React.FC = () => {
             }}
             name="name"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+            aria-label="Ваше имя"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -99,6 +100,7 @@ const OrderForm: React.FC = () => {
           <InputMask
             type="tel"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+            aria-label="Номер телефона"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             name="phoneNumber"
