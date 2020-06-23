@@ -2,22 +2,31 @@ import clsx from "clsx"
 import React from "react"
 
 interface Props {
+  className?: React.HTMLAttributes<HTMLDivElement>["className"]
   title?: string
   message?: string
   type?: "error" | "success" | "neutral"
+  show: boolean
+  onClose: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
-const Alert: React.FC<Props> = ({ title, message, type = "neutral" }) => {
-  const [show, setShow] = React.useState(true)
-  if (!show) return null
+const Alert: React.FC<Props> = ({
+  className,
+  title,
+  message,
+  type = "neutral",
+  show = true,
+  onClose,
+}) => {
   return (
     <div
       className={clsx(
-        show ? "visible" : "invisible",
+        show ? "opacity-1 visible h-auto" : "opacity-0 invisible",
         type === "neutral" && "text-gray-700 bg-gray-100 border-gray-400",
         type === "success" && "text-green-700 bg-green-100 border-green-400",
         type === "error" && "text-red-700 bg-red-100 border-red-400",
-        "relative px-4 py-3 border rounded-none ease-in-out duration-500"
+        "relative px-4 py-3 border rounded-none duration-300 ease-in-out",
+        className
       )}
       role="alert"
     >
@@ -25,7 +34,7 @@ const Alert: React.FC<Props> = ({ title, message, type = "neutral" }) => {
       <span className="block sm:inline">{message}</span>
       <button
         type="button"
-        onClick={() => setShow(false)}
+        onClick={onClose}
         className="absolute top-0 bottom-0 right-0 px-4 py-3"
       >
         <svg

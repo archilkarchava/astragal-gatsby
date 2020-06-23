@@ -5,7 +5,7 @@ import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-li
 import { serialize } from "cookie"
 import fetch from "isomorphic-fetch"
 import { Store } from "../src/contexts/siteContext"
-import phoneRegex from "../src/utils/phoneRegex"
+import phoneNumberRegex from "../src/utils/phoneNumberRegex"
 
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
@@ -41,12 +41,19 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
 }
 
 interface OrderDto {
-  customer: Omit<Store["customer"], "id">
+  customer: {
+    name: string
+    phoneNumber: string
+  }
   cartItems: Store["cartItems"]
 }
 
 interface OrderInput {
-  customer: Store["customer"]
+  customer: {
+    id: string
+    name: string
+    phoneNumber: string
+  }
   cartItems: {
     [productId: string]: {
       title: GatsbyTypes.SanityProduct["title"]
@@ -254,7 +261,7 @@ export default async (req: NowRequest, res: NowResponse) => {
     !orderDto.customer.name ||
     orderDto.customer.name.length < 1 ||
     !orderDto.customer.phoneNumber ||
-    !orderDto.customer.phoneNumber.match(phoneRegex)
+    !orderDto.customer.phoneNumber.match(phoneNumberRegex)
   ) {
     res.status(422).json({ message: "Неверный запрос." })
     return

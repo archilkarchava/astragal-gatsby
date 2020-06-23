@@ -6,14 +6,8 @@ export interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
   isShowMap: boolean
-  orderStatus: "idle" | "pending" | "success" | "failure"
-  // page: undefined
-  customer: {
-    name?: string
-    id?: string
-    phoneNumber?: string
-    // email?: string
-  }
+  orderStatus: "idle" | "pending" | "failure" | "success"
+  customerId?: string
   cartItems: {
     [sanityProductId: string]: {
       quantity: number
@@ -26,11 +20,6 @@ const initialStoreState: Store = {
   isNavOpen: false,
   isShowMap: false,
   orderStatus: "idle",
-  // page: undefined,
-  customer: {
-    name: "",
-    phoneNumber: "",
-  },
   cartItems: {},
 }
 
@@ -47,22 +36,11 @@ const StoreContextProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     const customerId = Cookies.get("customerId")
-    const customer = JSON.parse(localStorage.getItem("customer"))
     const cartItems = JSON.parse(localStorage.getItem("cart"))
     if (customerId) {
       setStore((prevState) => {
         return produce(prevState, (draftState) => {
-          draftState.customer.id = customerId
-        })
-      })
-    }
-    if (customer) {
-      setStore((prevState) => {
-        return produce(prevState, (draftState) => {
-          draftState.customer = {
-            name: customer.name,
-            phoneNumber: customer.phoneNumber,
-          }
+          draftState.customerId = customerId
         })
       })
     }
@@ -77,7 +55,6 @@ const StoreContextProvider: React.FC = ({ children }) => {
 
   React.useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(store.cartItems))
-    localStorage.setItem("customer", JSON.stringify(store.customer))
   }, [store])
 
   return (

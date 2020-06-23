@@ -1,21 +1,30 @@
 import clsx from "clsx"
+// import { css } from "linaria"
 import React from "react"
 import { useForm } from "react-hook-form"
-import emailRegex from "../../../utils/emailRegex"
+import InputMask from "react-input-mask"
+import phoneRegex from "../../../utils/phoneNumberRegex"
 import Alert from "../../common/Alert"
 
 const ContactForm = () => {
-  const [formStatus, setFormStatus] = React.useState("idle")
+  const [name, setName] = React.useState("")
+  const [phoneNumber, setPhoneNumber] = React.useState("")
+  const [message, setMessage] = React.useState("")
+  const [formStatus, setFormStatus] = React.useState<
+    "idle" | "pending" | "failure" | "success"
+  >("idle")
 
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  })
 
   const onSubmit = async (data: {
     name: string
-    phone: string
+    phoneNumber: string
     message: string
   }) => {
     setFormStatus("pending")
-
     fetch("/api/contact", {
       method: "POST",
       headers: {
@@ -31,13 +40,16 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
+        setName("")
+        setPhoneNumber("")
+        setMessage("")
       })
       .catch(() => setFormStatus("failure"))
   }
 
   return (
-    <div className="p-8 md:p-12">
-      <h2 className="mb-5 text-3xl font-semibold leading-none text-center lg:text-4xl">
+    <div className="h-full px-10 pt-24 md:px-20">
+      <h2 className="mb-5 text-3xl font-semibold leading-none lg:text-4xl">
         Обратная связь
       </h2>
       <form
@@ -51,6 +63,8 @@ const ContactForm = () => {
               required: { message: "Введите ваше имя.", value: true },
             })}
             name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className={clsx(
               errors.name ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
@@ -62,27 +76,28 @@ const ContactForm = () => {
           </div>
         </div>
         <div>
-          <p className="mb-1 text-sm text-gray-900">Email</p>
-          <input
-            ref={register({
-              required: {
-                message: "Введите адрес электронной почты.",
-                value: true,
-              },
-              pattern: {
-                message: "Введите корректный адрес электронной почты.",
-                value: emailRegex,
-              },
-            })}
-            name="email"
+          <p className="mb-1 text-sm text-gray-900">Номер телефона</p>
+          <InputMask
+            type="tel"
             className={clsx(
-              errors.email ? "border-red-500" : "border-gray-900",
+              errors.name ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
-            type="text"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            name="phoneNumber"
+            inputRef={register({
+              required: { message: "Введите номер телефона.", value: true },
+              pattern: {
+                value: phoneRegex,
+                message: "Введите корректный номер телефона.",
+              },
+            })}
+            mask="+7 (999) 999-99-99"
+            maskChar={null}
           />
           <div className="h-6 text-sm text-red-500">
-            {errors.email && errors.email.message}
+            {errors.phoneNumber && errors.phoneNumber.message}
           </div>
         </div>
         <div>
@@ -92,6 +107,8 @@ const ContactForm = () => {
               required: { message: "Введите сообщение.", value: true },
             })}
             name="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             className={clsx(
               errors.message ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
@@ -104,29 +121,27 @@ const ContactForm = () => {
         <button
           type="submit"
           aria-label="Отправить"
-          className="block w-full py-3 mx-auto mt-6 font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-black px-15 hover:bg-white hover:text-black focus:bg-white focus:text-black"
+          className="block w-full py-3 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-black px-15 hover:bg-white hover:text-black focus:bg-white focus:text-black"
         >
           {formStatus === "pending" ? "Подождите..." : "Отправить"}
         </button>
+        <Alert
+          className="my-5"
+          show={formStatus === "success" || formStatus === "failure"}
+          onClose={() => setFormStatus("idle")}
+          title={
+            formStatus === "success"
+              ? "Сообщение успешно отправлено"
+              : "Ошибка отправки"
+          }
+          message={
+            formStatus === "success"
+              ? "Мы с вами свяжемся."
+              : "Попробуйте ещё раз."
+          }
+          type={formStatus === "success" ? "success" : "error"}
+        />
       </form>
-      {formStatus === "failure" && (
-        <div className="mt-5">
-          <Alert
-            title="Ошибка отправки"
-            message="Попробуйте ещё раз."
-            type="error"
-          />
-        </div>
-      )}
-      {formStatus === "success" && (
-        <div className="mt-5">
-          <Alert
-            title="Сообщение успешно отправлено"
-            message="Мы с вами свяжемся."
-            type="success"
-          />
-        </div>
-      )}
     </div>
   )
 }

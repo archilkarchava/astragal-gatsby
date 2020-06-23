@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
 import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies
-import emailRegex from "../src/utils/emailRegex"
+import phoneNumberRegex from "../src/utils/phoneNumberRegex"
 
-interface Body {
+interface MessageDto {
   name: string
-  email: string
+  phoneNumber: string
   message: string
 }
 
-const sendEmail = async ({ name, email, message }: Body) => {
+const sendEmail = async ({ name, phoneNumber, message }: MessageDto) => {
   const receivingEmail = process.env.RECEIVER_EMAIL
   const sendingEmail = process.env.SENDER_EMAIL
 
@@ -18,7 +18,7 @@ const sendEmail = async ({ name, email, message }: Body) => {
     from: sendingEmail,
     to: receivingEmail,
     subject: "Астрагал: Новое сообщение.",
-    text: `Пользователь (${name} ${email}) отправил сообщение.
+    text: `Пользователь (${name} ${phoneNumber}) отправил сообщение.
 Сообщение:
 ${message}
 `,
@@ -28,8 +28,12 @@ ${message}
 
 export default async (req: NowRequest, res: NowResponse) => {
   const { body } = req
-  if (!body.name || !body.email.match(emailRegex) || !body.message) {
-    res.status(400).json({ message: "Данные введены неверно." })
+  if (
+    !body.name ||
+    !body.phoneNumber.match(phoneNumberRegex) ||
+    !body.message
+  ) {
+    res.status(422).json({ message: "Данные введены неверно." })
     return
   }
   try {
