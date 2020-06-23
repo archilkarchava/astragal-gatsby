@@ -4,20 +4,6 @@ import { StoreContext } from "../contexts/siteContext"
 import type { Store } from "../contexts/siteContext"
 import useProducts from "./useProducts"
 
-// const initCustomer = (
-//   setStore
-// ) => {
-//   const customerEmail = cookie.get("customer_email")
-//   const customerToken = cookie.get("customer_token")
-//   const customerName = cookie.get("customer_firstName")
-
-//   if (customerEmail && customerToken && customerName) {
-//     setStore((prevState) => {
-//       return { ...prevState, customerEmail, customerToken, customerName }
-//     })
-//   }
-// }
-
 export const useStore = (): [
   Store,
   React.Dispatch<React.SetStateAction<Store>>
@@ -44,27 +30,6 @@ export const useShowMap = (): [
   }
 
   return [isShowMap, setIsCartOpen]
-}
-
-export const useCustomer = (): [
-  Store["customer"],
-  React.Dispatch<React.SetStateAction<Store["customer"]>>
-] => {
-  const {
-    store: { customer },
-    setStore,
-  } = React.useContext(StoreContext)
-  const setCustomer = (c: Store["customer"]) => {
-    // const cust: Store["customer"] = Cookies.getJSON("customer")
-
-    // const customer = Cookies.get("customer_phoneNumber")
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.customer = c
-      })
-    })
-  }
-  return [customer, setCustomer]
 }
 
 export const useCartToggle = (): [
@@ -162,12 +127,6 @@ export const useCartItemQuantity = (
           delete draftState.cartItems[productId]
         })
       }
-      // if (!prevState.cartItems.has(productId)) {
-      //   return produce(prevState, (draftState) => {
-      //     draftState.cartItems.set(productId, { quantity })
-      //     draftState.isCartOpen = true
-      //   })
-      // }
       return produce(prevState, (draftState) => {
         draftState.cartItems[productId].quantity = quantity
       })
@@ -198,7 +157,6 @@ export const useRemoveItemFromCart = () => {
   const removeItemFromCart = (productId: string) => {
     setStore((prevState) => {
       return produce(prevState, (draftState) => {
-        // draftState.cartItems.filter((item) => item.productId !== productId)
         delete draftState.cartItems[productId]
       })
     })

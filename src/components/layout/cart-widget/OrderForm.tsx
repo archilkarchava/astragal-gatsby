@@ -6,17 +6,17 @@ import {
   useCartItems,
   useCartToggle,
   useCartTotalPrice,
-  useCustomer,
   useOrderStatus,
   useUpdateItemsFromCart,
 } from "../../../hooks/contextHooks"
 import formatPrice from "../../../utils/formatPrice"
-import phoneRegex from "../../../utils/phoneRegex"
+import phoneNumberRegex from "../../../utils/phoneNumberRegex"
 
 const OrderForm: React.FC = () => {
   const [isCartOpen] = useCartToggle()
   const totalPrice = useCartTotalPrice()
-  const [customer, setCustomer] = useCustomer()
+  const [name, setName] = React.useState("")
+  const [phoneNumber, setPhoneNumber] = React.useState("")
   const cartItems = useCartItems()
   const updateCartItems = useUpdateItemsFromCart()
   const [orderStatus, setOrderStatus] = useOrderStatus()
@@ -33,11 +33,12 @@ const OrderForm: React.FC = () => {
     reValidateMode: "onSubmit",
   })
 
-  const onSubmit = async (data: { name: string; phone: string }) => {
-    setCustomer({ name: data.name, phoneNumber: data.phone })
+  const onSubmit = async (data: { name: string; phoneNumber: string }) => {
     setOrderStatus("pending")
-    const order: Pick<Store, "customer" | "cartItems"> = {
-      customer,
+    const order: Pick<Store, "cartItems"> & {
+      customer: { name: string; phoneNumber: string }
+    } = {
+      customer: data,
       cartItems,
     }
 
@@ -65,6 +66,8 @@ const OrderForm: React.FC = () => {
       .then(() => {
         setOrderStatus("success")
         updateCartItems({})
+        setName("")
+        setPhoneNumber("")
       })
       .catch(() => setOrderStatus("failure"))
   }
@@ -84,8 +87,8 @@ const OrderForm: React.FC = () => {
             name="name"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
             type="text"
-            value={customer.name}
-            onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <div className="h-6 text-sm text-red-500">
             {errors.name && errors.name.message}
@@ -96,24 +99,22 @@ const OrderForm: React.FC = () => {
           <InputMask
             type="tel"
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
-            value={customer.phoneNumber}
-            name="phone"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            name="phoneNumber"
             inputRef={register({
               required: { message: "Введите номер телефона.", value: true },
               pattern: {
-                value: phoneRegex,
+                value: phoneNumberRegex,
                 message: "Введите корректный номер телефона.",
               },
             })}
             mask="+7 (999) 999-99-99"
             maskChar={null}
-            onChange={(e) =>
-              setCustomer({ ...customer, phoneNumber: e.target.value })
-            }
           />
 
           <div className="h-6 text-sm text-red-500">
-            {errors.phone && errors.phone.message}
+            {errors.phoneNumber && errors.phoneNumber.message}
           </div>
         </div>
       </div>

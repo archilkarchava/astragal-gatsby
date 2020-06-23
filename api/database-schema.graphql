@@ -2,7 +2,8 @@
 
 type Customer @collection(name: "customers") {
   name: String!
-  phoneNumber: String!
+  phoneNumber: String
+  email: String
   orders: [Order!] @relation
 }
 

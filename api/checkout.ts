@@ -2,10 +2,15 @@
 import sanityClient from "@sanity/client"
 import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies
-import { serialize } from "cookie"
 import fetch from "isomorphic-fetch"
 import { Store } from "../src/contexts/siteContext"
-import phoneRegex from "../src/utils/phoneRegex"
+import {
+  faunaGraphqlFetchMethodAndHeaders,
+  faundaDbGraphQlEndpoint,
+  fetchCustomerById,
+} from "../src/utils/faunadbUtils"
+import phoneNumberRegex from "../src/utils/phoneNumberRegex"
+import serializeCustomerIdCookie from "../src/utils/serializeCustomerIdCookie"
 
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
@@ -13,8 +18,6 @@ const sanity = sanityClient({
   token: process.env.SANITY_TOKEN,
   useCdn: false,
 })
-
-const faundaDbGraphQlEndpoint = "https://graphql.fauna.com/graphql"
 
 const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
   const data = await sanity.fetch<
@@ -41,12 +44,19 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
 }
 
 interface OrderDto {
-  customer: Omit<Store["customer"], "id">
+  customer: {
+    name: string
+    phoneNumber: string
+  }
   cartItems: Store["cartItems"]
 }
 
 interface OrderInput {
-  customer: Store["customer"]
+  customer: {
+    id: string
+    name: string
+    phoneNumber: string
+  }
   cartItems: {
     [productId: string]: {
       title: GatsbyTypes.SanityProduct["title"]
@@ -110,7 +120,9 @@ const sendEmail = async ({
     from: sendingEmail,
     to: receivingEmail,
     subject: "Астрагал: Новый заказ.",
-    text: `Покупатель (${idText}, ${nameText}, ${phoneNumberText}) хочет сделать заказ на сумму ${totalSum} рублей.
+    text: `Покупатель (${[idText, nameText, phoneNumberText]
+      .filter((textStr) => textStr && textStr.length > 0)
+      .join(", ")}) хочет сделать заказ на сумму ${totalSum} рублей.
 Товары:
 ${items
   .map(
@@ -123,26 +135,9 @@ ${items
   return sgMail.send(msg)
 }
 
-const faunaGraphqlFetchMethodAndHeaders = {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${process.env.FAUNADB_SECRET}`,
-    "Content-type": "application/json",
-    Accept: "application/json",
-  },
-}
-
 const createOrFetchCustomerIdInDatabase = async (
   customer: Omit<OrderInput["customer"], "orders">
 ) => {
-  const fetchCustomerQuery = `query($customerId: ID!) {
-    findCustomerByID(id: $customerId) {
-      _id
-      name
-      phoneNumber
-    }
-  }`
-
   const createCustomerQuery = `mutation($customer: CustomerInput!) {
     createCustomer(data: $customer) {
       _id
@@ -150,18 +145,9 @@ const createOrFetchCustomerIdInDatabase = async (
   }`
   let customerId: string
   if (customer.id) {
-    const res = await fetch(faundaDbGraphQlEndpoint, {
-      ...faunaGraphqlFetchMethodAndHeaders,
-      body: JSON.stringify({
-        query: fetchCustomerQuery,
-        variables: {
-          customerId: customer.id,
-        },
-      }),
-    })
-    const { data } = await res.json()
-    if (data && data.findCustomerByID) {
-      customerId = data.findCustomerByID._id
+    const customerFromDb = await fetchCustomerById(customer.id)
+    if (customerFromDb) {
+      customerId = customerFromDb._id
     }
   }
   if (!customerId) {
@@ -254,7 +240,7 @@ export default async (req: NowRequest, res: NowResponse) => {
     !orderDto.customer.name ||
     orderDto.customer.name.length < 1 ||
     !orderDto.customer.phoneNumber ||
-    !orderDto.customer.phoneNumber.match(phoneRegex)
+    !orderDto.customer.phoneNumber.match(phoneNumberRegex)
   ) {
     res.status(422).json({ message: "Неверный запрос." })
     return
@@ -293,11 +279,7 @@ export default async (req: NowRequest, res: NowResponse) => {
     return
   }
   console.log(orderFromDB)
-  const customerIdCookie = serialize("customerId", order.customer.id, {
-    expires: new Date(new Date().getTime() + 10 * 365 * 24 * 60 * 60 * 1000),
-    path: "/",
-  })
-  res.setHeader("Set-Cookie", [customerIdCookie])
+  res.setHeader("Set-Cookie", [serializeCustomerIdCookie(order.customer.id)])
   try {
     await sendEmail(orderFromDB)
     res.status(200).json({ message: "Заказ успешно оформлен." })
