@@ -1,22 +1,21 @@
 import clsx from "clsx"
-// import { css } from "linaria"
 import React from "react"
 import { useForm } from "react-hook-form"
-import InputMask from "react-input-mask"
-import phoneRegex from "../../../utils/phoneNumberRegex"
+import emailRegex from "../../../utils/emailRegex"
 import Alert from "../../common/Alert"
 
 const ContactForm = () => {
-  const [name, setName] = React.useState("")
-  const [phoneNumber, setPhoneNumber] = React.useState("")
-  const [message, setMessage] = React.useState("")
   const [formStatus, setFormStatus] = React.useState<
     "idle" | "pending" | "failure" | "success"
   >("idle")
 
-  const { register, handleSubmit, errors } = useForm({
+  const [name, setName] = React.useState("")
+  const [email, setEmail] = React.useState("")
+  const [message, setMessage] = React.useState("")
+
+  const { register, reset, handleSubmit, errors } = useForm({
     mode: "onSubmit",
-    reValidateMode: "onSubmit",
+    reValidateMode: "onBlur",
   })
 
   const onSubmit = async (data: {
@@ -40,9 +39,7 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
-        setName("")
-        setPhoneNumber("")
-        setMessage("")
+        reset()
       })
       .catch(() => setFormStatus("failure"))
   }
@@ -76,39 +73,40 @@ const ContactForm = () => {
           </div>
         </div>
         <div>
-          <p className="mb-1 text-sm text-gray-900">Номер телефона</p>
-          <InputMask
-            type="tel"
+          <p className="mb-1 text-sm text-gray-900">Email</p>
+          <input
+            type="text"
             className={clsx(
-              errors.name ? "border-red-500" : "border-gray-900",
+              errors.email ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            name="phoneNumber"
-            inputRef={register({
-              required: { message: "Введите номер телефона.", value: true },
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            ref={register({
+              required: {
+                message: "Введите адрес электронной почты.",
+                value: true,
+              },
               pattern: {
-                value: phoneRegex,
-                message: "Введите корректный номер телефона.",
+                value: emailRegex,
+                message: "Введите адрес электронной почты.",
               },
             })}
-            mask="+7 (999) 999-99-99"
-            maskChar={null}
           />
           <div className="h-6 text-sm text-red-500">
-            {errors.phoneNumber && errors.phoneNumber.message}
+            {errors.email && errors.email.message}
           </div>
         </div>
         <div>
           <p className="mb-1 text-sm text-gray-900">Сообщение</p>
           <textarea
-            ref={register({
-              required: { message: "Введите сообщение.", value: true },
-            })}
             name="message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            ref={register({
+              required: { message: "Введите сообщение.", value: true },
+            })}
             className={clsx(
               errors.message ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
