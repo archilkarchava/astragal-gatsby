@@ -120,27 +120,31 @@ const ContactForm = () => {
         </div>
         <button
           type="submit"
-          aria-label="Отправить"
+          aria-label="Отправить сообщение"
           className="block w-full py-3 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-black px-15 hover:bg-white hover:text-black focus:bg-white focus:text-black"
         >
           {formStatus === "pending" ? "Подождите..." : "Отправить"}
         </button>
-        <Alert
-          className="my-5"
-          show={formStatus === "success" || formStatus === "failure"}
-          onClose={() => setFormStatus("idle")}
-          title={
-            formStatus === "success"
-              ? "Сообщение успешно отправлено"
-              : "Ошибка отправки"
-          }
-          message={
-            formStatus === "success"
-              ? "Мы с вами свяжемся."
-              : "Попробуйте ещё раз."
-          }
-          type={formStatus === "success" ? "success" : "error"}
-        />
+        <div className="relative w-full my-5 h-18.5">
+          <div className="absolute top-0 left-0 w-full">
+            <Alert
+              show={formStatus === "success"}
+              onClose={() => setFormStatus("idle")}
+              title="Сообщение успешно отправлено"
+              message="Мы с вами свяжемся."
+              type="success"
+            />
+          </div>
+          <div className="absolute top-0 left-0 w-full">
+            <Alert
+              show={formStatus === "failure"}
+              onClose={() => setFormStatus("idle")}
+              title="Ошибка отправки"
+              message="Попробуйте ещё раз."
+              type="error"
+            />
+          </div>
+        </div>
       </form>
     </div>
   )

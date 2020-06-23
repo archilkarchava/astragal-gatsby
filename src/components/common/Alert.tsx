@@ -2,7 +2,6 @@ import clsx from "clsx"
 import React from "react"
 
 interface Props {
-  className?: React.HTMLAttributes<HTMLDivElement>["className"]
   title?: string
   message?: string
   type?: "error" | "success" | "neutral"
@@ -11,7 +10,6 @@ interface Props {
 }
 
 const Alert: React.FC<Props> = ({
-  className,
   title,
   message,
   type = "neutral",
@@ -25,8 +23,7 @@ const Alert: React.FC<Props> = ({
         type === "neutral" && "text-gray-700 bg-gray-100 border-gray-400",
         type === "success" && "text-green-700 bg-green-100 border-green-400",
         type === "error" && "text-red-700 bg-red-100 border-red-400",
-        "relative px-4 py-3 border rounded-none duration-300 ease-in-out",
-        className
+        "relative px-4 py-3 border rounded-none duration-300 ease-in"
       )}
       role="alert"
     >
@@ -34,6 +31,7 @@ const Alert: React.FC<Props> = ({
       <span className="block sm:inline">{message}</span>
       <button
         type="button"
+        aria-label="Закрыть уведомление"
         onClick={onClose}
         className="absolute top-0 bottom-0 right-0 px-4 py-3"
       >
