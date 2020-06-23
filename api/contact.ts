@@ -29,15 +29,14 @@ ${message}
 export default async (req: NowRequest, res: NowResponse) => {
   const { body } = req
   if (!body.name || !body.email.match(emailRegex) || !body.message) {
-    res.send(400).json({ message: "Данные введены неверно." })
+    res.status(400).json({ message: "Данные введены неверно." })
     return
   }
   try {
     await sendEmail(body)
-    res.send(200).json({ message: "Сообщение успешно доставлено." })
-    return
+    res.status(200).json({ message: "Сообщение успешно доставлено." })
   } catch (e) {
-    res.send(400).json({ message: "Ошибка отправки сообщения." })
     console.error(e)
+    res.status(400).json({ message: "Ошибка отправки сообщения." })
   }
 }
