@@ -49,10 +49,7 @@ const ContactForm = () => {
       <h2 className="mb-5 text-3xl font-semibold leading-none lg:text-4xl">
         Обратная связь
       </h2>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="text-black border-t border-white"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="text-gray-900">
         <div>
           <p className="mb-1 text-sm text-gray-900">Ваше имя</p>
           <input
