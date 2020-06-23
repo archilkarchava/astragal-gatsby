@@ -15,7 +15,7 @@ const ContactInfo: React.FC = () => {
               <a className="mb-2 text-lg" href={`tel:${phoneNumber}`}>
                 {phoneNumber}
               </a>{" "}
-              <span className="text-sm text-gray-800">
+              <span className="inline-block text-sm text-gray-800">
                 (Viber, WhatsApp, Telegram, Звонок)
               </span>
             </React.Fragment>
