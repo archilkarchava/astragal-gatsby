@@ -66,6 +66,8 @@ const OrderForm: React.FC = () => {
       .then(() => {
         setOrderStatus("success")
         updateCartItems({})
+        setName("")
+        setPhoneNumber("")
       })
       .catch(() => setOrderStatus("failure"))
   }

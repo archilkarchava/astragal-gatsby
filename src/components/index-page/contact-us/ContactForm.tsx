@@ -13,7 +13,7 @@ const ContactForm = () => {
   const [email, setEmail] = React.useState("")
   const [message, setMessage] = React.useState("")
 
-  const { register, reset, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onBlur",
   })
@@ -39,7 +39,9 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
-        reset()
+        setName("")
+        setEmail("")
+        setMessage("")
       })
       .catch(() => setFormStatus("failure"))
   }
