@@ -27,7 +27,7 @@ const Map: React.FC = () => {
   }, [handleShowMap])
 
   return (
-    <section ref={sectionRef} className="w-full h-72 md:h-112">
+    <section ref={sectionRef} className="w-full h-72 md:h-149">
       {isShowMap && <YandexMap width="100%" height="100%" />}
     </section>
   )
