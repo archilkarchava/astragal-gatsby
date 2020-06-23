@@ -19,7 +19,7 @@ const Alert: React.FC<Props> = ({
   return (
     <div
       className={clsx(
-        show ? "opacity-1 visible h-auto" : "opacity-0 invisible",
+        show ? "opacity-1 z-10 visible h-auto" : "z-0 opacity-0 invisible",
         type === "neutral" && "text-gray-700 bg-gray-100 border-gray-400",
         type === "success" && "text-green-700 bg-green-100 border-green-400",
         type === "error" && "text-red-700 bg-red-100 border-red-400",
