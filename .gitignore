@@ -74,3 +74,6 @@ yarn-error.log
 
 # Hosting
 .vercel
+
+# GraphQL typegen
+src/__generated__/
