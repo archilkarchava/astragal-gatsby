@@ -48,7 +48,12 @@ const sendEmail = async ({
     from: sendingEmail,
     to: receivingEmail,
     subject: "Астрагал: Новое сообщение.",
-    text: `Пользователь (${[idText, nameText, phoneNumberText, emailText]
+    text: `${idText ? "Покупатель" : "Пользователь"} (${[
+      idText,
+      nameText,
+      phoneNumberText,
+      emailText,
+    ]
       .filter((textStr) => textStr && textStr.length > 0)
       .join(", ")}) отправил сообщение.
 Сообщение:
