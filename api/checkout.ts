@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import sanityClient from "@sanity/client"
 import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies

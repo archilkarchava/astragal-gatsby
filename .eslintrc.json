@@ -30,5 +30,13 @@
       }
     ]
   },
+  "overrides": [
+    {
+      "files": ["api/**/*.*"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["node_modules/**", "gatsby-*", "tailwind.config.js"]
 }
