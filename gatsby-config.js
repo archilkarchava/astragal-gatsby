@@ -85,13 +85,13 @@ module.exports = {
         icon: `src/images/favicon.png`, // This path is relative to the root of the site.
       },
     },
-    {
-      resolve: `gatsby-plugin-scroll-reveal`,
-      options: {
-        threshold: 0.2, // Percentage of an element's area that needs to be visible to launch animation
-        once: true, // Defines if animation needs to be launched once
-      },
-    },
+    // {
+    //   resolve: `gatsby-plugin-scroll-reveal`,
+    //   options: {
+    //     threshold: 0.05, // Percentage of an element's area that needs to be visible to launch animation
+    //     once: true, // Defines if animation needs to be launched once
+    //   },
+    // },
     {
       resolve: "gatsby-plugin-google-tagmanager",
       options: {
@@ -133,7 +133,7 @@ module.exports = {
     },
     `gatsby-plugin-loadable-components-ssr`,
     `gatsby-plugin-zeit-now`,
-    // "gatsby-plugin-webpack-bundle-analyser-v2",
+    "gatsby-plugin-webpack-bundle-analyser-v2",
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
