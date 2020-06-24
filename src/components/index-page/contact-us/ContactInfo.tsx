@@ -4,7 +4,7 @@ import useSiteMetadata from "../../../hooks/useSiteMetadata"
 const ContactInfo: React.FC = () => {
   const { addresses, emails, phoneNumbers } = useSiteMetadata()
   return (
-    <div className="flex flex-col items-center justify-center h-full p-10 md:p-20">
+    <div className="flex flex-col justify-center h-full p-10 lg:items-center md:p-20">
       <div>
         <h2 className="mb-10 text-3xl font-semibold leading-none lg:text-4xl">
           Контакты
