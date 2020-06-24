@@ -6,9 +6,9 @@ import {
   useOrderStatus,
 } from "../../../../hooks/contextHooks"
 import IsomorphicAnchorLink from "../../../common/IsomorphicAnchorLink"
-import OrderForm from "../OrderForm"
 import CartItem from "./cart-item"
 import GoBackIcon from "./GoBackIcon"
+import OrderForm from "./OrderForm"
 
 const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
   className,

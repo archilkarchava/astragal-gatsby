@@ -1,26 +1,25 @@
 import React from "react"
-import { useForm } from "react-hook-form"
-import InputMask from "react-input-mask"
-import { Store } from "../../../contexts/siteContext"
+import { Controller, useForm } from "react-hook-form"
+import ReactInputMask from "react-input-mask"
+import { Store } from "../../../../contexts/siteContext"
 import {
   useCartItems,
   useCartToggle,
   useCartTotalPrice,
   useOrderStatus,
   useUpdateItemsFromCart,
-} from "../../../hooks/contextHooks"
-import formatPrice from "../../../utils/formatPrice"
-import phoneNumberRegex from "../../../utils/phoneNumberRegex"
+} from "../../../../hooks/contextHooks"
+import formatPrice from "../../../../utils/formatPrice"
+import phoneNumberRegex from "../../../../utils/phoneNumberRegex"
 
 const OrderForm: React.FC = () => {
   const [isCartOpen] = useCartToggle()
   const totalPrice = useCartTotalPrice()
-  const [name, setName] = React.useState("")
-  const [phoneNumber, setPhoneNumber] = React.useState("")
   const cartItems = useCartItems()
   const updateCartItems = useUpdateItemsFromCart()
   const [orderStatus, setOrderStatus] = useOrderStatus()
   const nameInputRef = React.useRef<HTMLInputElement>()
+  const phoneInputRef = React.useRef<HTMLInputElement>()
 
   React.useEffect(() => {
     if (isCartOpen) {
@@ -28,10 +27,7 @@ const OrderForm: React.FC = () => {
     }
   }, [isCartOpen])
 
-  const { register, handleSubmit, errors } = useForm({
-    mode: "onSubmit",
-    reValidateMode: "onSubmit",
-  })
+  const { register, reset, control, handleSubmit, errors } = useForm()
 
   const onSubmit = async (data: { name: string; phoneNumber: string }) => {
     setOrderStatus("pending")
@@ -66,8 +62,7 @@ const OrderForm: React.FC = () => {
       .then(() => {
         setOrderStatus("success")
         updateCartItems({})
-        setName("")
-        setPhoneNumber("")
+        reset()
       })
       .catch(() => setOrderStatus("failure"))
   }
@@ -88,8 +83,7 @@ const OrderForm: React.FC = () => {
             className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
             aria-label="Ваше имя"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            defaultValue=""
           />
           <div className="h-6 text-sm text-red-500">
             {errors.name && errors.name.message}
@@ -97,24 +91,36 @@ const OrderForm: React.FC = () => {
         </div>
         <div>
           <p className="mb-1 text-sm">Номер телефона</p>
-          <InputMask
-            type="tel"
-            className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+          <Controller
+            onFocus={() => phoneInputRef.current.focus()}
             aria-label="Номер телефона"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
             name="phoneNumber"
-            inputRef={register({
-              required: { message: "Введите номер телефона.", value: true },
-              pattern: {
-                value: phoneNumberRegex,
-                message: "Введите корректный номер телефона.",
-              },
-            })}
-            mask="+7 (999) 999-99-99"
+            defaultValue=""
             maskChar={null}
+            rules={{
+              validate: {
+                validPhoneNumber: (phone: string) => {
+                  return !phoneNumberRegex.test(phone)
+                    ? "Введите номер телефона."
+                    : undefined
+                },
+              },
+            }}
+            as={
+              <ReactInputMask mask="+7 (999) 999-99-99">
+                {() => {
+                  return (
+                    <input
+                      ref={phoneInputRef}
+                      type="tel"
+                      className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+                    />
+                  )
+                }}
+              </ReactInputMask>
+            }
+            control={control}
           />
-
           <div className="h-6 text-sm text-red-500">
             {errors.phoneNumber && errors.phoneNumber.message}
           </div>

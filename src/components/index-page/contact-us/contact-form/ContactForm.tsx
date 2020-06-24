@@ -9,14 +9,7 @@ const ContactForm = () => {
     "idle" | "pending" | "failure" | "success"
   >("idle")
 
-  const [name, setName] = React.useState("")
-  const [email, setEmail] = React.useState("")
-  const [message, setMessage] = React.useState("")
-
-  const { register, handleSubmit, errors } = useForm({
-    mode: "onSubmit",
-    reValidateMode: "onBlur",
-  })
+  const { register, reset, handleSubmit, errors } = useForm()
 
   const onSubmit = async (data: {
     name: string
@@ -39,9 +32,7 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
-        setName("")
-        setEmail("")
-        setMessage("")
+        reset()
       })
       .catch(() => setFormStatus("failure"))
   }
@@ -59,14 +50,13 @@ const ContactForm = () => {
               required: { message: "Введите ваше имя.", value: true },
             })}
             name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
             className={clsx(
               errors.name ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
             aria-label="Ваше имя"
             type="text"
+            defaultValue=""
           />
           <div className="h-6 text-sm text-red-500">
             {errors.name && errors.name.message}
@@ -75,15 +65,13 @@ const ContactForm = () => {
         <div>
           <p className="mb-1 text-sm text-gray-900">Email</p>
           <input
-            type="text"
+            type="email"
             className={clsx(
               errors.email ? "border-red-500" : "border-gray-900",
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
             aria-label="Email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             ref={register({
               required: {
                 message: "Введите адрес электронной почты.",
@@ -94,6 +82,7 @@ const ContactForm = () => {
                 message: "Введите адрес электронной почты.",
               },
             })}
+            defaultValue=""
           />
           <div className="h-6 text-sm text-red-500">
             {errors.email && errors.email.message}
@@ -103,8 +92,6 @@ const ContactForm = () => {
           <p className="mb-1 text-sm text-gray-900">Сообщение</p>
           <textarea
             name="message"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
             ref={register({
               required: { message: "Введите сообщение.", value: true },
             })}
@@ -113,6 +100,7 @@ const ContactForm = () => {
               `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
             )}
             aria-label="Сообщение"
+            defaultValue=""
           />
           <div className="h-6 text-sm text-red-500">
             {errors.message && errors.message.message}
