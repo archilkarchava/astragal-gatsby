@@ -9,7 +9,8 @@ const ContactForm = () => {
     "idle" | "submitting" | "failure" | "success"
   >("idle")
 
-  const { register, reset, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors } = useForm()
+  const formRef = React.useRef<HTMLFormElement>()
 
   const onSubmit = async (data: {
     name: string
@@ -32,7 +33,7 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
-        reset()
+        formRef.current.reset()
       })
       .catch(() => setFormStatus("failure"))
   }
@@ -42,7 +43,11 @@ const ContactForm = () => {
       <h2 className="mb-5 text-3xl font-semibold leading-none lg:text-4xl">
         Обратная связь
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="text-gray-900">
+      <form
+        ref={formRef}
+        onSubmit={handleSubmit(onSubmit)}
+        className="text-gray-900"
+      >
         <div>
           <p className="mb-1 text-sm text-gray-900">Ваше имя</p>
           <input
