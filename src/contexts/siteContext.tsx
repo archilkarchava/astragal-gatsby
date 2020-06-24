@@ -6,7 +6,6 @@ export interface Store {
   isCartOpen: boolean
   isNavOpen: boolean
   isShowMap: boolean
-  orderStatus: "idle" | "pending" | "failure" | "success"
   customerId?: string
   cartItems: {
     [sanityProductId: string]: {
@@ -19,7 +18,6 @@ const initialStoreState: Store = {
   isCartOpen: false,
   isNavOpen: false,
   isShowMap: false,
-  orderStatus: "idle",
   cartItems: {},
 }
 

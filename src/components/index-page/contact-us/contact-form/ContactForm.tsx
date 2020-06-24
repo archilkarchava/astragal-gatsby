@@ -6,7 +6,7 @@ import Alert from "./Alert"
 
 const ContactForm = () => {
   const [formStatus, setFormStatus] = React.useState<
-    "idle" | "pending" | "failure" | "success"
+    "idle" | "submitting" | "failure" | "success"
   >("idle")
 
   const { register, reset, handleSubmit, errors } = useForm()
@@ -16,7 +16,7 @@ const ContactForm = () => {
     phoneNumber: string
     message: string
   }) => {
-    setFormStatus("pending")
+    setFormStatus("submitting")
     fetch("/api/contact", {
       method: "POST",
       headers: {
@@ -111,7 +111,7 @@ const ContactForm = () => {
           aria-label="Отправить сообщение"
           className="block w-full py-3 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-black px-15 hover:bg-white hover:text-black focus:bg-white focus:text-black"
         >
-          {formStatus === "pending" ? "Подождите..." : "Отправить"}
+          {formStatus === "submitting" ? "Подождите..." : "Отправить"}
         </button>
         <div className="relative w-full my-5 h-18.5">
           <div className="absolute top-0 left-0 w-full">

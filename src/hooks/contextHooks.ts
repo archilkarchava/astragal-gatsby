@@ -52,26 +52,6 @@ export const useCartToggle = (): [
   return [isCartOpen, setIsCartOpen]
 }
 
-export const useOrderStatus = (): [
-  Store["orderStatus"],
-  React.Dispatch<React.SetStateAction<Store["orderStatus"]>>
-] => {
-  const {
-    store: { orderStatus },
-    setStore,
-  } = React.useContext(StoreContext)
-
-  const setOrderStatus = (status: Store["orderStatus"]) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.orderStatus = status
-      })
-    })
-  }
-
-  return [orderStatus, setOrderStatus]
-}
-
 export const useCartTotalPrice = () => {
   const products = useProducts()
   const {

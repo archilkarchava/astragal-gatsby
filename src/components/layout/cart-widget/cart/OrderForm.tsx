@@ -1,23 +1,22 @@
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
+import type { OnSubmit } from "react-hook-form"
 import ReactInputMask from "react-input-mask"
-import { Store } from "../../../../contexts/siteContext"
 import {
-  useCartItems,
   useCartToggle,
   useCartTotalPrice,
-  useOrderStatus,
-  useUpdateItemsFromCart,
 } from "../../../../hooks/contextHooks"
 import formatPrice from "../../../../utils/formatPrice"
 import phoneNumberRegex from "../../../../utils/phoneNumberRegex"
 
-const OrderForm: React.FC = () => {
+interface Props {
+  onSubmit: OnSubmit<Record<string, string>>
+  isSubmitting: boolean
+}
+
+const OrderForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
   const [isCartOpen] = useCartToggle()
   const totalPrice = useCartTotalPrice()
-  const cartItems = useCartItems()
-  const updateCartItems = useUpdateItemsFromCart()
-  const [orderStatus, setOrderStatus] = useOrderStatus()
   const nameInputRef = React.useRef<HTMLInputElement>()
   const phoneInputRef = React.useRef<HTMLInputElement>()
 
@@ -27,45 +26,7 @@ const OrderForm: React.FC = () => {
     }
   }, [isCartOpen])
 
-  const { register, reset, control, handleSubmit, errors } = useForm()
-
-  const onSubmit = async (data: { name: string; phoneNumber: string }) => {
-    setOrderStatus("pending")
-    const order: Pick<Store, "cartItems"> & {
-      customer: { name: string; phoneNumber: string }
-    } = {
-      customer: data,
-      cartItems,
-    }
-
-    order.cartItems = Object.entries(order.cartItems).reduce(
-      (acc: typeof order.cartItems, [_id, val]) => {
-        const newId = _id.replace("drafts.", "")
-        return Object.assign(acc, { [newId]: val })
-      },
-      {}
-    )
-
-    fetch("/api/checkout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(order),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw res
-        }
-        return res.json()
-      })
-      .then(() => {
-        setOrderStatus("success")
-        updateCartItems({})
-        reset()
-      })
-      .catch(() => setOrderStatus("failure"))
-  }
+  const { register, control, handleSubmit, errors } = useForm()
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -137,7 +98,7 @@ const OrderForm: React.FC = () => {
             aria-label="Оформить заказ"
             className="block py-4 mx-auto font-semibold tracking-wider text-gray-100 uppercase duration-300 ease-out bg-black border-2 border-white px-15 hover:bg-white hover:text-gray-900 focus:bg-white focus:text-gray-900"
           >
-            {orderStatus === "pending" ? "Подождите..." : "Оформить заказ"}
+            {isSubmitting ? "Подождите..." : "Оформить заказ"}
           </button>
         </div>
       </div>

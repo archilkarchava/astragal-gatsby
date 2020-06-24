@@ -1,9 +1,10 @@
 import clsx from "clsx"
 import React from "react"
+import { Store } from "../../../../contexts/siteContext"
 import {
   useCartItems,
   useCartToggle,
-  useOrderStatus,
+  useUpdateItemsFromCart,
 } from "../../../../hooks/contextHooks"
 import IsomorphicAnchorLink from "../../../common/IsomorphicAnchorLink"
 import CartItem from "./cart-item"
@@ -16,8 +17,11 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
 }) => {
   const [isCartOpen, setIsCartOpen] = useCartToggle()
   const cartItems = useCartItems()
+  const updateCartItems = useUpdateItemsFromCart()
 
-  const [orderStatus, setOrderStatus] = useOrderStatus()
+  const [orderStatus, setOrderStatus] = React.useState<
+    "idle" | "submitting" | "failure" | "success"
+  >("idle")
 
   React.useEffect(() => {
     if (
@@ -45,6 +49,43 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
     }
   }, [escFunction])
 
+  const onOrderSubmit = async (data: { name: string; phoneNumber: string }) => {
+    setOrderStatus("submitting")
+    const order: Pick<Store, "cartItems"> & {
+      customer: { name: string; phoneNumber: string }
+    } = {
+      customer: data,
+      cartItems,
+    }
+
+    order.cartItems = Object.entries(order.cartItems).reduce(
+      (acc: typeof order.cartItems, [_id, val]) => {
+        const newId = _id.replace("drafts.", "")
+        return Object.assign(acc, { [newId]: val })
+      },
+      {}
+    )
+
+    fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(order),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw res
+        }
+        return res.json()
+      })
+      .then(() => {
+        setOrderStatus("success")
+        updateCartItems({})
+      })
+      .catch(() => setOrderStatus("failure"))
+  }
+
   return (
     <div
       className={clsx(
@@ -63,7 +104,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
         <GoBackIcon />
       </button>
       <div className="z-30 flex flex-col justify-between h-full max-h-full min-h-full py-7 px-7">
-        {orderStatus !== "idle" && orderStatus !== "pending" ? (
+        {orderStatus !== "idle" && orderStatus !== "submitting" ? (
           <div className="flex flex-col justify-center h-full">
             {orderStatus === "success" ? (
               <div className="w-full text-center">
@@ -96,7 +137,10 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
                     <CartItem key={productId} id={productId} />
                   ))}
                 </div>
-                <OrderForm />
+                <OrderForm
+                  onSubmit={onOrderSubmit}
+                  isSubmitting={orderStatus === "submitting"}
+                />
               </>
             ) : (
               <>

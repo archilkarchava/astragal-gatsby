@@ -1,3 +1,3 @@
-import CartInner from "./CartInner"
+import Cart from "./Cart"
 
-export default CartInner
+export default Cart
