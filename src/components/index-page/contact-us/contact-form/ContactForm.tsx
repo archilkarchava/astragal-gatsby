@@ -9,7 +9,7 @@ const ContactForm = () => {
     "idle" | "submitting" | "failure" | "success"
   >("idle")
 
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, reset, errors } = useForm()
   const formRef = React.useRef<HTMLFormElement>()
 
   const onSubmit = async (data: {
@@ -33,7 +33,9 @@ const ContactForm = () => {
       })
       .then(() => {
         setFormStatus("success")
+        // Resetting form using ref. IE workaround.
         formRef.current.reset()
+        reset()
       })
       .catch(() => setFormStatus("failure"))
   }
