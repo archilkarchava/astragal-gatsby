@@ -59,7 +59,7 @@ const ContactForm = () => {
             name="name"
             className={clsx(
               errors.name ? "border-red-500" : "border-gray-900",
-              `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
+              `w-full p-2 text-gray-900 bg-white border rounded-none`
             )}
             aria-label="Ваше имя"
             type="text"
@@ -75,7 +75,7 @@ const ContactForm = () => {
             type="email"
             className={clsx(
               errors.email ? "border-red-500" : "border-gray-900",
-              `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
+              `w-full p-2 text-gray-900 bg-white border rounded-none`
             )}
             aria-label="Email"
             name="email"
@@ -104,7 +104,7 @@ const ContactForm = () => {
             })}
             className={clsx(
               errors.message ? "border-red-500" : "border-gray-900",
-              `w-full p-2 text-gray-900 bg-white border border-gray-900 rounded-none`
+              `w-full p-2 text-gray-900 bg-white border rounded-none`
             )}
             aria-label="Сообщение"
             defaultValue=""
