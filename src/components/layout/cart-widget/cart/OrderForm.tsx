@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import React from "react"
 import { Controller, useForm } from "react-hook-form"
 import type { OnSubmit } from "react-hook-form"
@@ -41,7 +42,10 @@ const OrderForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
               nameInputRef.current = e
             }}
             name="name"
-            className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+            className={clsx(
+              errors.name ? "border-red-500" : "border-gray-100",
+              "w-full p-2 text-gray-900 border bg-gray-100 rounded-none"
+            )}
             aria-label="Ваше имя"
             type="text"
             defaultValue=""
@@ -74,7 +78,12 @@ const OrderForm: React.FC<Props> = ({ onSubmit, isSubmitting }) => {
                     <input
                       ref={phoneInputRef}
                       type="tel"
-                      className="w-full p-2 text-gray-900 bg-gray-100 rounded-none"
+                      className={clsx(
+                        errors.phoneNumber
+                          ? "border-red-500"
+                          : "border-gray-100",
+                        "w-full p-2 text-gray-900 bg-gray-100 border rounded-none"
+                      )}
                     />
                   )
                 }}

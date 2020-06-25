@@ -1515,7 +1515,7 @@ type Query_allSitePageArgs = {
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  port: Maybe<StringQueryOperatorInput>;
+  port: Maybe<DateQueryOperatorInput>;
   host: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
@@ -4349,7 +4349,7 @@ enum SanityTransformImagesImageFormat {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
-  readonly port: Maybe<Scalars['String']>;
+  readonly port: Maybe<Scalars['Date']>;
   readonly host: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
@@ -4361,6 +4361,14 @@ type Site = Node & {
 
 
 type Site_buildTimeArgs = {
+  formatString: Maybe<Scalars['String']>;
+  fromNow: Maybe<Scalars['Boolean']>;
+  difference: Maybe<Scalars['String']>;
+  locale: Maybe<Scalars['String']>;
+};
+
+
+type Site_portArgs = {
   formatString: Maybe<Scalars['String']>;
   fromNow: Maybe<Scalars['Boolean']>;
   difference: Maybe<Scalars['String']>;
@@ -4647,7 +4655,7 @@ enum SiteFieldsEnum {
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  readonly port: Maybe<StringQueryOperatorInput>;
+  readonly port: Maybe<DateQueryOperatorInput>;
   readonly host: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
@@ -5334,6 +5342,14 @@ type HeroQueryVariables = {};
 
 type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
+type ProductsQueryVariables = {};
+
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
+      ) }> } };
+
 type SiteMetadataQueryVariables = {};
 
 
@@ -5344,14 +5360,6 @@ type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
       & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
     )>>> }
   )> };
-
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
-      ) }> } };
 
 type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
