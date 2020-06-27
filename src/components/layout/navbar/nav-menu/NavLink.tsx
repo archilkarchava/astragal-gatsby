@@ -8,7 +8,7 @@ interface Props {
 const NavLink: React.FC<Props> = ({ children, to }) => {
   return (
     <IsomorphicAnchorLink
-      className="flex flex-col justify-center block h-full"
+      className="flex flex-col justify-center h-full"
       stripHash
       to={to}
     >

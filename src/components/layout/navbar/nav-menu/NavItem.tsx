@@ -10,7 +10,7 @@ const NavItem: React.FC<JSX.IntrinsicElements["li"]> = ({
     <li
       className={clsx(
         { [className]: className },
-        "block h-full leading-none text-sm text-gray-900 flex items-center justify-center"
+        "h-full leading-none text-sm text-gray-900 flex items-center justify-center"
       )}
       {...rest}
     >
