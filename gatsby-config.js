@@ -16,7 +16,7 @@ module.exports = {
     siteUrl: `https://astragal74.ru`,
   },
   plugins: [
-    // `gatsby-plugin-preact`,
+    `gatsby-plugin-preact`,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-typegen`,
