@@ -45,7 +45,7 @@ const ImageCarousel: React.FC<Pick<
                     fluid={fluid}
                     style={{ position: "static" }}
                     objectFit="contain"
-                    // alt={title}
+                    objectPosition="50% 50%"
                   />
                 </div>
               </Swipeable>

@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import BackgroundImage from "gatsby-background-image-es5"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import {
   useCartItemQuantity,
@@ -28,10 +28,11 @@ const CartItem: React.FC<{
     <div className="flex w-full py-4 border-b border-white">
       <div className="flex flex-col justify-evenly mr-2.5">
         <div className="w-20 h-20">
-          <BackgroundImage
+          <Image
             className="w-full h-full"
             fluid={imageFluid}
-            style={{ backgroundSize: "contain" }}
+            objectFit="contain"
+            objectPosition="50% 50%"
           />
         </div>
       </div>

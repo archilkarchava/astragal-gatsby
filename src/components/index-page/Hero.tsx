@@ -1,7 +1,13 @@
+import clsx from "clsx"
 import { graphql, useStaticQuery } from "gatsby"
-import BackgroundImage from "gatsby-background-image-es5"
+import Image from "gatsby-image/withIEPolyfill"
+import { css } from "linaria"
 import React from "react"
 import IsomorphicAnchorLink from "../common/IsomorphicAnchorLink"
+
+const gradient = css`
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8));
+`
 
 const Hero = () => {
   const { ourServicesBgImg } = useStaticQuery<GatsbyTypes.HeroQuery>(graphql`
@@ -18,33 +24,25 @@ const Hero = () => {
 
   return (
     <section>
-      <BackgroundImage
-        fluid={[
-          `linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8))`,
-          ourServicesBgImg.childImageSharp.fluid,
-        ]}
-        className="w-full min-h-screen"
+      <div
+        className={clsx(
+          gradient,
+          "w-full h-screen absolute top-0 pointer-events-none left-0 z-10"
+        )}
+      />
+      <Image
+        fluid={ourServicesBgImg.childImageSharp.fluid}
+        className="absolute top-0 left-0 z-0 w-full h-screen pointer-events-none"
+        objectFit="cover"
+        objectPosition="50% 50%"
+      />
+      <IsomorphicAnchorLink
+        to="/#catalog"
+        stripHash
+        className="absolute bottom-0 z-10 px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase whitespace-no-wrap -translate-x-1/2 bg-black border-2 border-black rounded-none mb-28 left-1/2"
       >
-        {/* <div className="relative text-white -translate-y-1/2 top-1/2">
-        <h1 className="text-3xl font-semibold leading-none text-center mb-15 md:text-4xl">
-          Делаем на заказ
-        </h1>
-        <ul className="text-center list-none">
-          <li className="mb-3 text-xl">Столы</li>
-          <li className="mb-3 text-xl">Стулья</li>
-          <li className="text-xl">Лестницы</li>
-        </ul>
-      </div> */}
-        <div className="container absolute bottom-0 flex text-gray-100 -translate-x-1/2 mb-28 left-1/2">
-          <IsomorphicAnchorLink
-            to="/#catalog"
-            stripHash
-            className="px-20 py-4 m-auto font-semibold text-center text-gray-100 uppercase bg-black border-2 border-black rounded-none"
-          >
-            Наши изделия
-          </IsomorphicAnchorLink>
-        </div>
-      </BackgroundImage>
+        Наши изделия
+      </IsomorphicAnchorLink>
     </section>
   )
 }

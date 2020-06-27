@@ -28,4 +28,5 @@ const ProductBody: React.FC<BlockContentProps> = ({ blocks }) => {
     </div>
   )
 }
+
 export default ProductBody

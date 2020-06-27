@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { Link } from "gatsby"
-import BackgroundImage from "gatsby-background-image-es5"
-import type { IFluidObject } from "gatsby-background-image-es5"
+import type { FluidObject } from "gatsby-image"
+import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import formatPrice from "../../../../utils/formatPrice"
 import getDiscountPercentStr from "../../../../utils/getDiscountPercentStr"
@@ -12,8 +12,8 @@ interface Props {
   title: string
   price: number
   oldPrice?: number
-  imageFluid: IFluidObject
-  imageFluid2?: IFluidObject
+  imageFluid: FluidObject
+  imageFluid2?: FluidObject
   slugStr: string
 }
 
@@ -32,21 +32,25 @@ const ProductCard: React.FC<Props> = ({
     >
       <div className="h-full text-gray-900 no-underline">
         <div className="relative block">
-          <BackgroundImage
+          <Image
             className="mb-1 h-60"
-            style={{ backgroundSize: "contain", backgroundPosition: "center" }}
+            // style={{ backgroundSize: "contain", backgroundPosition: "center" }}
+            objectFit="contain"
+            objectPosition="50% 50%"
             fluid={imageFluid}
             alt={title}
           />
           {imageFluid2 && (
-            <BackgroundImage
+            <Image
               className="top-0 left-0 block w-full duration-500 ease-in-out bg-white opacity-0 h-60 hover:opacity-99"
               style={{
-                backgroundSize: "contain",
+                // backgroundSize: "contain",
                 position: "absolute",
-                backgroundPosition: "center",
+                // backgroundPosition: "center",
               }}
-              preserveStackingContext
+              objectFit="contain"
+              objectPosition="50% 50%"
+              // preserveStackingContext
               fluid={imageFluid2}
               alt={title}
             />
