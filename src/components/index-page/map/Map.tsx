@@ -1,28 +1,36 @@
 import loadable from "@loadable/component"
-import throttle from "lodash/throttle"
+import debounce from "lodash/debounce"
 import React from "react"
 import { useShowMap } from "../../../hooks/contextHooks"
 
 const YandexMap = loadable(() => import("./YandexMap"))
 
 const Map: React.FC = () => {
-  const sectionRef = React.useRef<HTMLDivElement>()
+  const sectionRef = React.useRef<HTMLElement>()
   const [isShowMap, setIsShowMap] = useShowMap()
 
-  React.useEffect(() => {
-    const handleShowMap = throttle(() => {
+  const handleShowMap = React.useCallback(
+    debounce(() => {
       if (
         window.pageYOffset > sectionRef.current.getBoundingClientRect().height
       ) {
         setIsShowMap(true)
         window.removeEventListener("scroll", handleShowMap)
       }
-    }, 5)
+    }, 5),
+    []
+  )
+
+  React.useEffect(() => {
+    handleShowMap()
+  }, [handleShowMap])
+
+  React.useEffect(() => {
     window.addEventListener("scroll", handleShowMap)
     return () => {
       window.removeEventListener("scroll", handleShowMap)
     }
-  }, [])
+  }, [handleShowMap])
 
   return (
     <section ref={sectionRef} className="w-full h-72 md:h-149">
