@@ -1,4 +1,3 @@
-import produce from "immer"
 import React from "react"
 import { StoreContext } from "../contexts/siteContext"
 import type { Store } from "../contexts/siteContext"
@@ -21,15 +20,11 @@ export const useShowMap = (): [
     setStore,
   } = React.useContext(StoreContext)
 
-  const setIsCartOpen = (isShow: boolean) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.isShowMap = isShow
-      })
-    })
+  const setIsShowMap = (isShow: boolean) => {
+    return setStore((prev) => ({ ...prev, isShowMap: isShow }))
   }
 
-  return [isShowMap, setIsCartOpen]
+  return [isShowMap, setIsShowMap]
 }
 
 export const useCartToggle = (): [
@@ -41,13 +36,8 @@ export const useCartToggle = (): [
     setStore,
   } = React.useContext(StoreContext)
 
-  const setIsCartOpen = (isOpen: boolean) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.isCartOpen = isOpen
-      })
-    })
-  }
+  const setIsCartOpen = (isOpen: boolean) =>
+    setStore((prev) => ({ ...prev, isCartOpen: isOpen }))
 
   return [isCartOpen, setIsCartOpen]
 }
@@ -58,11 +48,12 @@ export const useCartTotalPrice = () => {
     store: { cartItems },
   } = React.useContext(StoreContext)
 
-  if (!cartItems) return 0
+  if (Object.keys(cartItems).length === 0) return 0
 
-  const totalPrice = Object.entries(cartItems).reduce((acc, [id, item]) => {
-    return acc + products[id].price * item.quantity
-  }, 0)
+  const totalPrice = Object.entries(cartItems).reduce(
+    (acc, [id, item]) => acc + products[id].price * item.quantity,
+    0
+  )
 
   return totalPrice
 }
@@ -74,9 +65,10 @@ export const useCartTotalQuantity = () => {
 
   if (!cartItems) return 0
 
-  const totalQuantity = Object.values(cartItems).reduce((acc, item) => {
-    return acc + item.quantity
-  }, 0)
+  const totalQuantity = Object.values(cartItems).reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  )
 
   return totalQuantity
 }
@@ -97,21 +89,18 @@ export const useCartItemQuantity = (
     setStore,
   } = React.useContext(StoreContext)
 
-  // const cartItem = cartItems.find((item) => item.productId === productId)
   const qtty = productId in cartItems ? cartItems[productId].quantity : 0
 
-  const setCartItemQuantity = (quantity: number) => {
-    setStore((prevState) => {
+  const setCartItemQuantity = (quantity: number) =>
+    setStore((prev) => {
+      const newCartItems = { ...prev.cartItems }
       if (quantity < 1) {
-        return produce(prevState, (draftState) => {
-          delete draftState.cartItems[productId]
-        })
+        delete newCartItems[productId]
+        return { ...prev, cartItems: newCartItems }
       }
-      return produce(prevState, (draftState) => {
-        draftState.cartItems[productId].quantity = quantity
-      })
+      newCartItems[productId].quantity = quantity
+      return { ...prev, cartItems: newCartItems }
     })
-  }
 
   return [qtty, setCartItemQuantity]
 }
@@ -119,14 +108,12 @@ export const useCartItemQuantity = (
 export const useAddItemToCart = () => {
   const { setStore } = React.useContext(StoreContext)
 
-  const addItemToCart = (productId: string, quantity: number) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.cartItems[productId] = { quantity }
-        draftState.isCartOpen = true
-      })
+  const addItemToCart = (productId: string, quantity: number) =>
+    setStore((prev) => {
+      const newCartItems = { ...prev.cartItems }
+      newCartItems[productId] = { quantity }
+      return { ...prev, isCartOpen: true, cartItems: newCartItems }
     })
-  }
 
   return addItemToCart
 }
@@ -134,13 +121,12 @@ export const useAddItemToCart = () => {
 export const useRemoveItemFromCart = () => {
   const { setStore } = React.useContext(StoreContext)
 
-  const removeItemFromCart = (productId: string) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        delete draftState.cartItems[productId]
-      })
+  const removeItemFromCart = (productId: string) =>
+    setStore((prev) => {
+      const newCartItems = { ...prev.cartItems }
+      delete newCartItems[productId]
+      return { ...prev, cartItems: newCartItems }
     })
-  }
 
   return removeItemFromCart
 }
@@ -148,13 +134,8 @@ export const useRemoveItemFromCart = () => {
 export const useUpdateItemsFromCart = () => {
   const { setStore } = React.useContext(StoreContext)
 
-  const updateCartItem = (items: Store["cartItems"]) => {
-    setStore((prevState) => {
-      return produce(prevState, (draftState) => {
-        draftState.cartItems = items
-      })
-    })
-  }
+  const updateCartItem = (items: Store["cartItems"]) =>
+    setStore((prev) => ({ ...prev, cartItems: items }))
 
   return updateCartItem
 }

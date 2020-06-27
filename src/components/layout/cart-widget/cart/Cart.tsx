@@ -30,24 +30,20 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
     ) {
       setOrderStatus("idle")
     }
-  }, [isCartOpen, orderStatus, setOrderStatus])
-
-  const escFunction = React.useCallback(
-    (event) => {
-      if (event.keyCode === 27) {
-        setIsCartOpen(false)
-      }
-    },
-    [setIsCartOpen]
-  )
+  }, [isCartOpen, orderStatus])
 
   React.useEffect(() => {
+    const escFunction = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsCartOpen(false)
+      }
+    }
     document.addEventListener("keydown", escFunction, false)
 
     return () => {
       document.removeEventListener("keydown", escFunction, false)
     }
-  }, [escFunction])
+  }, [])
 
   const onOrderSubmit = async (data: { name: string; phoneNumber: string }) => {
     setOrderStatus("submitting")

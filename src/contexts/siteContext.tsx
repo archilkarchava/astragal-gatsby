@@ -1,4 +1,3 @@
-import produce from "immer"
 import Cookies from "js-cookie"
 import React from "react"
 
@@ -36,18 +35,10 @@ const StoreContextProvider: React.FC = ({ children }) => {
     const customerId = Cookies.get("customerId")
     const cartItems = JSON.parse(localStorage.getItem("cart"))
     if (customerId) {
-      setStore((prevState) => {
-        return produce(prevState, (draftState) => {
-          draftState.customerId = customerId
-        })
-      })
+      setStore((prev) => ({ ...prev, customerId }))
     }
     if (cartItems) {
-      setStore((prevState) => {
-        return produce(prevState, (draftState) => {
-          draftState.cartItems = cartItems
-        })
-      })
+      setStore((prev) => ({ ...prev, cartItems }))
     }
   }, [])
 
