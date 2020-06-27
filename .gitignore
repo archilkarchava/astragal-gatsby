@@ -74,3 +74,6 @@ yarn-error.log
 
 # Hosting
 .vercel
+
+# Other
+snipsnap.code-snippets
