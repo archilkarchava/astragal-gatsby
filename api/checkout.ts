@@ -1,18 +1,32 @@
 import sanityClient from "@sanity/client"
 import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies
 import fetch from "isomorphic-fetch"
-import composeOrderMessageText from "../api-modules/composeOrderMessageText"
-import emailSendMessage from "../api-modules/emailSendMessage"
+import notify from "../api-modules/notify"
+import type { CustomerFromDB } from "../api-modules/types/api-types"
 import {
   faunaGraphqlFetchMethodAndHeaders,
   faundaDbGraphQlEndpoint,
   fetchCustomerById,
-} from "../api-modules/faunadb"
-import serializeCustomerIdCookie from "../api-modules/serializeCustomerIdCookie"
-import telegramSendMessage from "../api-modules/telegramSendMessage"
-import type { Customer, OrderFromDB } from "../api-types"
+} from "../api-modules/utils/faunadb"
+import serializeCustomerIdCookie from "../api-modules/utils/serializeCustomerIdCookie"
 import { Store } from "../src/contexts/siteContext"
 import phoneNumberRegex from "../src/utils/phoneNumberRegex"
+
+interface OrderFromDB {
+  _id: string
+  currentCustomerName: string
+  currentCustomerPhone: string
+  items: {
+    productId: string
+    title: string
+    price: number
+    oldPrice: number
+    quantity: number
+  }[]
+  customer: CustomerFromDB
+  totalSum: number
+  creationDate: string
+}
 
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
@@ -46,12 +60,12 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
 }
 
 interface OrderDto {
-  customer: Omit<Customer, "id">
+  customer: Omit<CustomerFromDB, "_id">
   cartItems: Store["cartItems"]
 }
 
 interface OrderInput {
-  customer: Customer
+  customer: CustomerFromDB
   cartItems: {
     [productId: string]: {
       title: GatsbyTypes.SanityProduct["title"]
@@ -71,29 +85,15 @@ const countOrderPrice = (cartItems: OrderInput["cartItems"]) => {
   return totalPrice
 }
 
-const notifyEmail = async (orderMessage: OrderFromDB) => {
-  return emailSendMessage(
-    "Астрагал: Новый заказ.",
-    composeOrderMessageText(orderMessage)
-  )
-}
-
-const notifyTelegram = async (orderMessage: OrderFromDB) => {
-  return telegramSendMessage(
-    "Новый заказ",
-    composeOrderMessageText(orderMessage)
-  )
-}
-
-const createOrFetchCustomerIdInDatabase = async (customer: Customer) => {
+const createOrFetchCustomerIdInDatabase = async (customer: CustomerFromDB) => {
   const createCustomerQuery = `mutation($customer: CustomerInput!) {
     createCustomer(data: $customer) {
       _id
     }
   }`
   let customerId: string
-  if (customer.id) {
-    const customerFromDb = await fetchCustomerById(customer.id)
+  if (customer._id) {
+    const customerFromDb = await fetchCustomerById(customer._id)
     if (customerFromDb) {
       customerId = customerFromDb._id
     }
@@ -160,7 +160,7 @@ const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
     body: JSON.stringify({
       query: createOrderQuery,
       variables: {
-        customerId: order.customer.id,
+        customerId: order.customer._id,
         currentCustomerName: order.customer.name,
         currentCustomerPhone: order.customer.phoneNumber,
         items: Object.entries(order.cartItems).map(([productId, val]) => ({
@@ -177,6 +177,35 @@ const addOrderToDatabase = async (order: OrderInput): Promise<OrderFromDB> => {
     throw new Error(`Не получилось добавить заказ.`)
   }
   return json.data.createOrder
+}
+
+const composeOrderMessageText = ({
+  customer,
+  items,
+  totalSum,
+  currentCustomerName,
+  currentCustomerPhone,
+}: OrderFromDB) => {
+  const idText = `ID: ${customer._id}`
+  const nameText =
+    customer.name === currentCustomerName
+      ? `Имя: ${customer.name}`
+      : `Имя: ${currentCustomerName} (в прошлом ${customer.name})`
+  const phoneNumberText =
+    customer.phoneNumber === currentCustomerPhone
+      ? `Номер телефона: ${customer.phoneNumber}`
+      : `Номер телефона: ${currentCustomerPhone} (в прошлом ${customer.phoneNumber})`
+  return `Покупатель (${[idText, nameText, phoneNumberText]
+    .filter((textStr) => textStr && textStr.length > 0)
+    .join(", ")}) хочет сделать заказ на сумму ${totalSum} рублей.
+Товары:
+${items
+  .map(
+    ({ title, price, quantity }) =>
+      `    ${title} - ${price} руб. в количестве ${quantity} шт.`
+  )
+  .join(",\n")}
+`
 }
 
 export default async (req: NowRequest, res: NowResponse) => {
@@ -207,17 +236,18 @@ export default async (req: NowRequest, res: NowResponse) => {
   const { customerId: customerIdFromCookie } = req.cookies
   const customerId = await createOrFetchCustomerIdInDatabase({
     ...orderDto.customer,
-    id: customerIdFromCookie,
+    _id: customerIdFromCookie,
   })
   const order: OrderInput = {
     customer: {
-      id: customerId,
+      _id: customerId,
       ...orderDto.customer,
     },
     cartItems,
     totalSum: countOrderPrice(cartItems),
   }
 
+  res.setHeader("Set-Cookie", [serializeCustomerIdCookie(order.customer._id)])
   let orderFromDB: OrderFromDB
   try {
     orderFromDB = await addOrderToDatabase(order)
@@ -227,21 +257,26 @@ export default async (req: NowRequest, res: NowResponse) => {
     return
   }
   console.log(orderFromDB)
-  res.setHeader("Set-Cookie", [serializeCustomerIdCookie(order.customer.id)])
   try {
     if (Number(process.env.NOTIFY_EMAIL)) {
-      await notifyEmail(orderFromDB)
+      await notify.email(
+        "Астрагал: Новый заказ.",
+        composeOrderMessageText(orderFromDB)
+      )
     }
   } catch (e) {
+    if (!Number(process.env.NOTIFY_TELEGRAM)) {
+      res.status(400).json({ message: "Ошибка оформления заказа." })
+    }
     console.error(e)
   }
   try {
     if (Number(process.env.NOTIFY_TELEGRAM)) {
-      await notifyTelegram(orderFromDB)
+      await notify.telegram("Новый заказ", composeOrderMessageText(orderFromDB))
     }
-    res.status(200).json({ message: "Заказ успешно оформлен." })
   } catch (e) {
     console.error(e)
     res.status(400).json({ message: "Ошибка оформления заказа." })
   }
+  res.status(200).json({ message: "Заказ успешно оформлен." })
 }
