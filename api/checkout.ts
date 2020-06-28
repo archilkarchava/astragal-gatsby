@@ -1,15 +1,18 @@
 import sanityClient from "@sanity/client"
-import sgMail from "@sendgrid/mail"
 import type { NowRequest, NowResponse } from "@vercel/node" // eslint-disable-line import/no-extraneous-dependencies
 import fetch from "isomorphic-fetch"
-import { Store } from "../src/contexts/siteContext"
+import composeOrderMessageText from "../api-modules/composeOrderMessageText"
+import emailSendMessage from "../api-modules/emailSendMessage"
 import {
   faunaGraphqlFetchMethodAndHeaders,
   faundaDbGraphQlEndpoint,
   fetchCustomerById,
-} from "../src/utils/faunadbUtils"
+} from "../api-modules/faunadb"
+import serializeCustomerIdCookie from "../api-modules/serializeCustomerIdCookie"
+import telegramSendMessage from "../api-modules/telegramSendMessage"
+import type { Customer, OrderFromDB } from "../api-types"
+import { Store } from "../src/contexts/siteContext"
 import phoneNumberRegex from "../src/utils/phoneNumberRegex"
-import serializeCustomerIdCookie from "../src/utils/serializeCustomerIdCookie"
 
 const sanity = sanityClient({
   dataset: process.env.SANITY_PROJECT_DATASET,
@@ -43,19 +46,12 @@ const fetchOrderProducts = async (cartItemsDto: OrderDto["cartItems"]) => {
 }
 
 interface OrderDto {
-  customer: {
-    name: string
-    phoneNumber: string
-  }
+  customer: Omit<Customer, "id">
   cartItems: Store["cartItems"]
 }
 
 interface OrderInput {
-  customer: {
-    id: string
-    name: string
-    phoneNumber: string
-  }
+  customer: Customer
   cartItems: {
     [productId: string]: {
       title: GatsbyTypes.SanityProduct["title"]
@@ -67,26 +63,6 @@ interface OrderInput {
   totalSum: number
 }
 
-interface OrderFromDB {
-  _id: string
-  currentCustomerName: string
-  currentCustomerPhone: string
-  items: {
-    productId: string
-    title: string
-    price: number
-    oldPrice: number
-    quantity: number
-  }[]
-  customer: {
-    _id: string
-    name: string
-    phoneNumber: string
-  }
-  totalSum: number
-  creationDate: string
-}
-
 const countOrderPrice = (cartItems: OrderInput["cartItems"]) => {
   const totalPrice = Object.values(cartItems).reduce((acc, item) => {
     return acc + item.price * item.quantity
@@ -95,48 +71,21 @@ const countOrderPrice = (cartItems: OrderInput["cartItems"]) => {
   return totalPrice
 }
 
-const sendEmail = async ({
-  customer,
-  items,
-  totalSum,
-  currentCustomerName,
-  currentCustomerPhone,
-}: OrderFromDB) => {
-  const idText = `ID: ${customer._id}`
-  const nameText =
-    customer.name === currentCustomerName
-      ? `Имя: ${customer.name}`
-      : `Имя: ${currentCustomerName} (в прошлом ${customer.name})`
-  const phoneNumberText =
-    customer.phoneNumber === currentCustomerPhone
-      ? `Номер телефона: ${customer.phoneNumber}`
-      : `Номер телефона: ${currentCustomerPhone} (в прошлом ${customer.phoneNumber})`
-  const receivingEmail = process.env.RECEIVER_EMAIL
-  const sendingEmail = process.env.SENDER_EMAIL
-
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-  const msg = {
-    from: sendingEmail,
-    to: receivingEmail,
-    subject: "Астрагал: Новый заказ.",
-    text: `Покупатель (${[idText, nameText, phoneNumberText]
-      .filter((textStr) => textStr && textStr.length > 0)
-      .join(", ")}) хочет сделать заказ на сумму ${totalSum} рублей.
-Товары:
-${items
-  .map(
-    ({ title, price, quantity }) =>
-      `    ${title} - ${price} руб. в количестве ${quantity} шт.`
+const notifyEmail = async (orderMessage: OrderFromDB) => {
+  return emailSendMessage(
+    "Астрагал: Новый заказ.",
+    composeOrderMessageText(orderMessage)
   )
-  .join(",\n")}
-`,
-  }
-  return sgMail.send(msg)
 }
 
-const createOrFetchCustomerIdInDatabase = async (
-  customer: Omit<OrderInput["customer"], "orders">
-) => {
+const notifyTelegram = async (orderMessage: OrderFromDB) => {
+  return telegramSendMessage(
+    "Новый заказ",
+    composeOrderMessageText(orderMessage)
+  )
+}
+
+const createOrFetchCustomerIdInDatabase = async (customer: Customer) => {
   const createCustomerQuery = `mutation($customer: CustomerInput!) {
     createCustomer(data: $customer) {
       _id
@@ -280,7 +229,16 @@ export default async (req: NowRequest, res: NowResponse) => {
   console.log(orderFromDB)
   res.setHeader("Set-Cookie", [serializeCustomerIdCookie(order.customer.id)])
   try {
-    await sendEmail(orderFromDB)
+    if (Number(process.env.NOTIFY_EMAIL)) {
+      await notifyEmail(orderFromDB)
+    }
+  } catch (e) {
+    console.error(e)
+  }
+  try {
+    if (Number(process.env.NOTIFY_TELEGRAM)) {
+      await notifyTelegram(orderFromDB)
+    }
     res.status(200).json({ message: "Заказ успешно оформлен." })
   } catch (e) {
     console.error(e)
