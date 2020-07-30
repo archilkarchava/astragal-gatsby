@@ -38,5 +38,5 @@
       }
     }
   ],
-  "ignorePatterns": ["node_modules/**", "gatsby-*", "tailwind.config.js"]
+  "ignorePatterns": ["node_modules/**", "gatsby-*", "tailwind.config.js", "_this_is_virtual_fs_path_/**"]
 }

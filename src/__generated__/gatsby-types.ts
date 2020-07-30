@@ -2,6 +2,7 @@
 
 declare namespace GatsbyTypes {
 type Maybe<T> = T | undefined;
+type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 type Scalars = {
   ID: string;
@@ -385,7 +386,6 @@ type File = Node & {
   readonly birthtimeMs: Maybe<Scalars['Float']>;
   readonly blksize: Maybe<Scalars['Int']>;
   readonly blocks: Maybe<Scalars['Int']>;
-  readonly url: Maybe<Scalars['String']>;
   /** Copy file to static directory and return public url to it */
   readonly publicURL: Maybe<Scalars['String']>;
   readonly childImageSharp: Maybe<ImageSharp>;
@@ -512,7 +512,6 @@ enum FileFieldsEnum {
   birthtimeMs = 'birthtimeMs',
   blksize = 'blksize',
   blocks = 'blocks',
-  url = 'url',
   publicURL = 'publicURL',
   childImageSharp___fixed___base64 = 'childImageSharp.fixed.base64',
   childImageSharp___fixed___tracedSVG = 'childImageSharp.fixed.tracedSVG',
@@ -727,7 +726,6 @@ type FileFilterInput = {
   readonly birthtimeMs: Maybe<FloatQueryOperatorInput>;
   readonly blksize: Maybe<IntQueryOperatorInput>;
   readonly blocks: Maybe<IntQueryOperatorInput>;
-  readonly url: Maybe<StringQueryOperatorInput>;
   readonly publicURL: Maybe<StringQueryOperatorInput>;
   readonly childImageSharp: Maybe<ImageSharpFilterInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
@@ -1364,8 +1362,6 @@ type Query = {
   readonly allSitePage: SitePageConnection;
   readonly site: Maybe<Site>;
   readonly allSite: SiteConnection;
-  readonly imageSharp: Maybe<ImageSharp>;
-  readonly allImageSharp: ImageSharpConnection;
   readonly sanityCategory: Maybe<SanityCategory>;
   readonly allSanityCategory: SanityCategoryConnection;
   readonly sanityMaterial: Maybe<SanityMaterial>;
@@ -1378,6 +1374,8 @@ type Query = {
   readonly allSanityImageAsset: SanityImageAssetConnection;
   readonly sanitySiteSettings: Maybe<SanitySiteSettings>;
   readonly allSanitySiteSettings: SanitySiteSettingsConnection;
+  readonly imageSharp: Maybe<ImageSharp>;
+  readonly allImageSharp: ImageSharpConnection;
   readonly siteBuildMetadata: Maybe<SiteBuildMetadata>;
   readonly allSiteBuildMetadata: SiteBuildMetadataConnection;
   readonly sitePlugin: Maybe<SitePlugin>;
@@ -1419,7 +1417,6 @@ type Query_fileArgs = {
   birthtimeMs: Maybe<FloatQueryOperatorInput>;
   blksize: Maybe<IntQueryOperatorInput>;
   blocks: Maybe<IntQueryOperatorInput>;
-  url: Maybe<StringQueryOperatorInput>;
   publicURL: Maybe<StringQueryOperatorInput>;
   childImageSharp: Maybe<ImageSharpFilterInput>;
   id: Maybe<StringQueryOperatorInput>;
@@ -1492,15 +1489,15 @@ type Query_sitePageArgs = {
   internalComponentName: Maybe<StringQueryOperatorInput>;
   componentChunkName: Maybe<StringQueryOperatorInput>;
   matchPath: Maybe<StringQueryOperatorInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
   isCreatedByStatefulCreatePages: Maybe<BooleanQueryOperatorInput>;
   context: Maybe<SitePageContextFilterInput>;
   pluginCreator: Maybe<SitePluginFilterInput>;
   pluginCreatorId: Maybe<StringQueryOperatorInput>;
   componentPath: Maybe<StringQueryOperatorInput>;
-  id: Maybe<StringQueryOperatorInput>;
-  parent: Maybe<NodeFilterInput>;
-  children: Maybe<NodeFilterListInput>;
-  internal: Maybe<InternalFilterInput>;
 };
 
 
@@ -1515,8 +1512,6 @@ type Query_allSitePageArgs = {
 type Query_siteArgs = {
   buildTime: Maybe<DateQueryOperatorInput>;
   siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  port: Maybe<StringQueryOperatorInput>;
-  host: Maybe<StringQueryOperatorInput>;
   polyfill: Maybe<BooleanQueryOperatorInput>;
   pathPrefix: Maybe<StringQueryOperatorInput>;
   id: Maybe<StringQueryOperatorInput>;
@@ -1529,28 +1524,6 @@ type Query_siteArgs = {
 type Query_allSiteArgs = {
   filter: Maybe<SiteFilterInput>;
   sort: Maybe<SiteSortInput>;
-  skip: Maybe<Scalars['Int']>;
-  limit: Maybe<Scalars['Int']>;
-};
-
-
-type Query_imageSharpArgs = {
-  fixed: Maybe<ImageSharpFixedFilterInput>;
-  resolutions: Maybe<ImageSharpResolutionsFilterInput>;
-  fluid: Maybe<ImageSharpFluidFilterInput>;
-  sizes: Maybe<ImageSharpSizesFilterInput>;
-  original: Maybe<ImageSharpOriginalFilterInput>;
-  resize: Maybe<ImageSharpResizeFilterInput>;
-  id: Maybe<StringQueryOperatorInput>;
-  parent: Maybe<NodeFilterInput>;
-  children: Maybe<NodeFilterListInput>;
-  internal: Maybe<InternalFilterInput>;
-};
-
-
-type Query_allImageSharpArgs = {
-  filter: Maybe<ImageSharpFilterInput>;
-  sort: Maybe<ImageSharpSortInput>;
   skip: Maybe<Scalars['Int']>;
   limit: Maybe<Scalars['Int']>;
 };
@@ -1701,10 +1674,10 @@ type Query_sanityImageAssetArgs = {
   url: Maybe<StringQueryOperatorInput>;
   metadata: Maybe<SanityImageMetadataFilterInput>;
   source: Maybe<SanityAssetSourceDataFilterInput>;
-  fixed: Maybe<SanityImageFixedFilterInput>;
-  fluid: Maybe<SanityImageFluidFilterInput>;
   _rawMetadata: Maybe<JSONQueryOperatorInput>;
   _rawSource: Maybe<JSONQueryOperatorInput>;
+  fixed: Maybe<SanityImageFixedFilterInput>;
+  fluid: Maybe<SanityImageFluidFilterInput>;
   localFile: Maybe<FileFilterInput>;
   id: Maybe<StringQueryOperatorInput>;
   parent: Maybe<NodeFilterInput>;
@@ -1746,6 +1719,28 @@ type Query_sanitySiteSettingsArgs = {
 type Query_allSanitySiteSettingsArgs = {
   filter: Maybe<SanitySiteSettingsFilterInput>;
   sort: Maybe<SanitySiteSettingsSortInput>;
+  skip: Maybe<Scalars['Int']>;
+  limit: Maybe<Scalars['Int']>;
+};
+
+
+type Query_imageSharpArgs = {
+  fixed: Maybe<ImageSharpFixedFilterInput>;
+  resolutions: Maybe<ImageSharpResolutionsFilterInput>;
+  fluid: Maybe<ImageSharpFluidFilterInput>;
+  sizes: Maybe<ImageSharpSizesFilterInput>;
+  original: Maybe<ImageSharpOriginalFilterInput>;
+  resize: Maybe<ImageSharpResizeFilterInput>;
+  id: Maybe<StringQueryOperatorInput>;
+  parent: Maybe<NodeFilterInput>;
+  children: Maybe<NodeFilterListInput>;
+  internal: Maybe<InternalFilterInput>;
+};
+
+
+type Query_allImageSharpArgs = {
+  filter: Maybe<ImageSharpFilterInput>;
+  sort: Maybe<ImageSharpSortInput>;
   skip: Maybe<Scalars['Int']>;
   limit: Maybe<Scalars['Int']>;
 };
@@ -1799,6 +1794,12 @@ type SanityAddress = {
   readonly streetNo: Maybe<Scalars['String']>;
   readonly city: Maybe<Scalars['String']>;
   readonly location: Maybe<SanityGeopoint>;
+  readonly _rawLocation: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityAddress__rawLocationArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityAddressFilterInput = {
@@ -1808,6 +1809,7 @@ type SanityAddressFilterInput = {
   readonly streetNo: Maybe<StringQueryOperatorInput>;
   readonly city: Maybe<StringQueryOperatorInput>;
   readonly location: Maybe<SanityGeopointFilterInput>;
+  readonly _rawLocation: Maybe<JSONQueryOperatorInput>;
 };
 
 type SanityAddressFilterListInput = {
@@ -1818,7 +1820,7 @@ type SanityAssetSourceData = {
   readonly _key: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
   readonly name: Maybe<Scalars['String']>;
-  readonly sanityId: Maybe<Scalars['String']>;
+  readonly id: Maybe<Scalars['String']>;
   readonly url: Maybe<Scalars['String']>;
 };
 
@@ -1826,24 +1828,31 @@ type SanityAssetSourceDataFilterInput = {
   readonly _key: Maybe<StringQueryOperatorInput>;
   readonly _type: Maybe<StringQueryOperatorInput>;
   readonly name: Maybe<StringQueryOperatorInput>;
-  readonly sanityId: Maybe<StringQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
   readonly url: Maybe<StringQueryOperatorInput>;
 };
 
 type SanityBlock = {
   readonly _key: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
-  readonly sanityChildren: Maybe<ReadonlyArray<Maybe<SanitySpan>>>;
+  readonly children: Maybe<ReadonlyArray<Maybe<SanitySpan>>>;
   readonly style: Maybe<Scalars['String']>;
   readonly list: Maybe<Scalars['String']>;
+  readonly _rawChildren: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityBlock__rawChildrenArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityBlockFilterInput = {
   readonly _key: Maybe<StringQueryOperatorInput>;
   readonly _type: Maybe<StringQueryOperatorInput>;
-  readonly sanityChildren: Maybe<SanitySpanFilterListInput>;
+  readonly children: Maybe<SanitySpanFilterListInput>;
   readonly style: Maybe<StringQueryOperatorInput>;
   readonly list: Maybe<StringQueryOperatorInput>;
+  readonly _rawChildren: Maybe<JSONQueryOperatorInput>;
 };
 
 type SanityBlockFilterListInput = {
@@ -1984,6 +1993,9 @@ enum SanityCategoryFieldsEnum {
   parents___parents___parents___children = 'parents.parents.parents.children',
   parents___parents___image____key = 'parents.parents.image._key',
   parents___parents___image____type = 'parents.parents.image._type',
+  parents___parents___image____rawAsset = 'parents.parents.image._rawAsset',
+  parents___parents___image____rawHotspot = 'parents.parents.image._rawHotspot',
+  parents___parents___image____rawCrop = 'parents.parents.image._rawCrop',
   parents___parents____rawSlug = 'parents.parents._rawSlug',
   parents___parents____rawParents = 'parents.parents._rawParents',
   parents___parents____rawImage = 'parents.parents._rawImage',
@@ -2036,6 +2048,9 @@ enum SanityCategoryFieldsEnum {
   parents___image___crop___bottom = 'parents.image.crop.bottom',
   parents___image___crop___left = 'parents.image.crop.left',
   parents___image___crop___right = 'parents.image.crop.right',
+  parents___image____rawAsset = 'parents.image._rawAsset',
+  parents___image____rawHotspot = 'parents.image._rawHotspot',
+  parents___image____rawCrop = 'parents.image._rawCrop',
   parents____rawSlug = 'parents._rawSlug',
   parents____rawParents = 'parents._rawParents',
   parents____rawImage = 'parents._rawImage',
@@ -2101,28 +2116,30 @@ enum SanityCategoryFieldsEnum {
   image___asset___metadata___lqip = 'image.asset.metadata.lqip',
   image___asset___metadata___hasAlpha = 'image.asset.metadata.hasAlpha',
   image___asset___metadata___isOpaque = 'image.asset.metadata.isOpaque',
+  image___asset___metadata____rawLocation = 'image.asset.metadata._rawLocation',
+  image___asset___metadata____rawDimensions = 'image.asset.metadata._rawDimensions',
+  image___asset___metadata____rawPalette = 'image.asset.metadata._rawPalette',
   image___asset___source____key = 'image.asset.source._key',
   image___asset___source____type = 'image.asset.source._type',
   image___asset___source___name = 'image.asset.source.name',
-  image___asset___source___sanityId = 'image.asset.source.sanityId',
+  image___asset___source___id = 'image.asset.source.id',
   image___asset___source___url = 'image.asset.source.url',
-  image___asset___fixed___base64 = 'image.asset.fixed.base64',
-  image___asset___fixed___aspectRatio = 'image.asset.fixed.aspectRatio',
+  image___asset____rawMetadata = 'image.asset._rawMetadata',
+  image___asset____rawSource = 'image.asset._rawSource',
   image___asset___fixed___width = 'image.asset.fixed.width',
   image___asset___fixed___height = 'image.asset.fixed.height',
   image___asset___fixed___src = 'image.asset.fixed.src',
   image___asset___fixed___srcSet = 'image.asset.fixed.srcSet',
+  image___asset___fixed___base64 = 'image.asset.fixed.base64',
   image___asset___fixed___srcWebp = 'image.asset.fixed.srcWebp',
   image___asset___fixed___srcSetWebp = 'image.asset.fixed.srcSetWebp',
-  image___asset___fluid___base64 = 'image.asset.fluid.base64',
   image___asset___fluid___aspectRatio = 'image.asset.fluid.aspectRatio',
   image___asset___fluid___src = 'image.asset.fluid.src',
   image___asset___fluid___srcSet = 'image.asset.fluid.srcSet',
+  image___asset___fluid___sizes = 'image.asset.fluid.sizes',
+  image___asset___fluid___base64 = 'image.asset.fluid.base64',
   image___asset___fluid___srcWebp = 'image.asset.fluid.srcWebp',
   image___asset___fluid___srcSetWebp = 'image.asset.fluid.srcSetWebp',
-  image___asset___fluid___sizes = 'image.asset.fluid.sizes',
-  image___asset____rawMetadata = 'image.asset._rawMetadata',
-  image___asset____rawSource = 'image.asset._rawSource',
   image___asset___localFile___sourceInstanceName = 'image.asset.localFile.sourceInstanceName',
   image___asset___localFile___absolutePath = 'image.asset.localFile.absolutePath',
   image___asset___localFile___relativePath = 'image.asset.localFile.relativePath',
@@ -2156,7 +2173,6 @@ enum SanityCategoryFieldsEnum {
   image___asset___localFile___birthtimeMs = 'image.asset.localFile.birthtimeMs',
   image___asset___localFile___blksize = 'image.asset.localFile.blksize',
   image___asset___localFile___blocks = 'image.asset.localFile.blocks',
-  image___asset___localFile___url = 'image.asset.localFile.url',
   image___asset___localFile___publicURL = 'image.asset.localFile.publicURL',
   image___asset___localFile___id = 'image.asset.localFile.id',
   image___asset___localFile___children = 'image.asset.localFile.children',
@@ -2188,6 +2204,9 @@ enum SanityCategoryFieldsEnum {
   image___crop___bottom = 'image.crop.bottom',
   image___crop___left = 'image.crop.left',
   image___crop___right = 'image.crop.right',
+  image____rawAsset = 'image._rawAsset',
+  image____rawHotspot = 'image._rawHotspot',
+  image____rawCrop = 'image._rawCrop',
   _rawSlug = '_rawSlug',
   _rawParents = '_rawParents',
   _rawImage = '_rawImage',
@@ -2331,6 +2350,12 @@ type SanityFile = {
   readonly _key: Maybe<Scalars['String']>;
   readonly _type: Maybe<Scalars['String']>;
   readonly asset: Maybe<SanityFileAsset>;
+  readonly _rawAsset: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityFile__rawAssetArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityFileAsset = SanityDocument & Node & {
@@ -2428,7 +2453,7 @@ enum SanityFileAssetFieldsEnum {
   source____key = 'source._key',
   source____type = 'source._type',
   source___name = 'source.name',
-  source___sanityId = 'source.sanityId',
+  source___id = 'source.id',
   source___url = 'source.url',
   _rawSource = '_rawSource',
   id = 'id',
@@ -2581,6 +2606,24 @@ type SanityImage = {
   readonly asset: Maybe<SanityImageAsset>;
   readonly hotspot: Maybe<SanityImageHotspot>;
   readonly crop: Maybe<SanityImageCrop>;
+  readonly _rawAsset: Maybe<Scalars['JSON']>;
+  readonly _rawHotspot: Maybe<Scalars['JSON']>;
+  readonly _rawCrop: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityImage__rawAssetArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImage__rawHotspotArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImage__rawCropArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityImageAsset = SanityDocument & Node & {
@@ -2603,10 +2646,10 @@ type SanityImageAsset = SanityDocument & Node & {
   readonly url: Maybe<Scalars['String']>;
   readonly metadata: Maybe<SanityImageMetadata>;
   readonly source: Maybe<SanityAssetSourceData>;
-  readonly fixed: Maybe<SanityImageFixed>;
-  readonly fluid: Maybe<SanityImageFluid>;
   readonly _rawMetadata: Maybe<Scalars['JSON']>;
   readonly _rawSource: Maybe<Scalars['JSON']>;
+  readonly fixed: Maybe<SanityImageFixed>;
+  readonly fluid: Maybe<SanityImageFluid>;
   readonly localFile: Maybe<File>;
   readonly id: Scalars['ID'];
   readonly parent: Maybe<Node>;
@@ -2632,6 +2675,16 @@ type SanityImageAsset__updatedAtArgs = {
 };
 
 
+type SanityImageAsset__rawMetadataArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImageAsset__rawSourceArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
 type SanityImageAsset_fixedArgs = {
   width?: Maybe<Scalars['Int']>;
   height: Maybe<Scalars['Int']>;
@@ -2644,16 +2697,6 @@ type SanityImageAsset_fluidArgs = {
   maxHeight: Maybe<Scalars['Int']>;
   sizes: Maybe<Scalars['String']>;
   toFormat?: Maybe<SanityImageFormat>;
-};
-
-
-type SanityImageAsset__rawMetadataArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
-};
-
-
-type SanityImageAsset__rawSourceArgs = {
-  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 
@@ -2765,31 +2808,40 @@ enum SanityImageAssetFieldsEnum {
   metadata___palette___muted___foreground = 'metadata.palette.muted.foreground',
   metadata___palette___muted___population = 'metadata.palette.muted.population',
   metadata___palette___muted___title = 'metadata.palette.muted.title',
+  metadata___palette____rawDarkMuted = 'metadata.palette._rawDarkMuted',
+  metadata___palette____rawLightVibrant = 'metadata.palette._rawLightVibrant',
+  metadata___palette____rawDarkVibrant = 'metadata.palette._rawDarkVibrant',
+  metadata___palette____rawVibrant = 'metadata.palette._rawVibrant',
+  metadata___palette____rawDominant = 'metadata.palette._rawDominant',
+  metadata___palette____rawLightMuted = 'metadata.palette._rawLightMuted',
+  metadata___palette____rawMuted = 'metadata.palette._rawMuted',
   metadata___lqip = 'metadata.lqip',
   metadata___hasAlpha = 'metadata.hasAlpha',
   metadata___isOpaque = 'metadata.isOpaque',
+  metadata____rawLocation = 'metadata._rawLocation',
+  metadata____rawDimensions = 'metadata._rawDimensions',
+  metadata____rawPalette = 'metadata._rawPalette',
   source____key = 'source._key',
   source____type = 'source._type',
   source___name = 'source.name',
-  source___sanityId = 'source.sanityId',
+  source___id = 'source.id',
   source___url = 'source.url',
-  fixed___base64 = 'fixed.base64',
-  fixed___aspectRatio = 'fixed.aspectRatio',
+  _rawMetadata = '_rawMetadata',
+  _rawSource = '_rawSource',
   fixed___width = 'fixed.width',
   fixed___height = 'fixed.height',
   fixed___src = 'fixed.src',
   fixed___srcSet = 'fixed.srcSet',
+  fixed___base64 = 'fixed.base64',
   fixed___srcWebp = 'fixed.srcWebp',
   fixed___srcSetWebp = 'fixed.srcSetWebp',
-  fluid___base64 = 'fluid.base64',
   fluid___aspectRatio = 'fluid.aspectRatio',
   fluid___src = 'fluid.src',
   fluid___srcSet = 'fluid.srcSet',
+  fluid___sizes = 'fluid.sizes',
+  fluid___base64 = 'fluid.base64',
   fluid___srcWebp = 'fluid.srcWebp',
   fluid___srcSetWebp = 'fluid.srcSetWebp',
-  fluid___sizes = 'fluid.sizes',
-  _rawMetadata = '_rawMetadata',
-  _rawSource = '_rawSource',
   localFile___sourceInstanceName = 'localFile.sourceInstanceName',
   localFile___absolutePath = 'localFile.absolutePath',
   localFile___relativePath = 'localFile.relativePath',
@@ -2823,7 +2875,6 @@ enum SanityImageAssetFieldsEnum {
   localFile___birthtimeMs = 'localFile.birthtimeMs',
   localFile___blksize = 'localFile.blksize',
   localFile___blocks = 'localFile.blocks',
-  localFile___url = 'localFile.url',
   localFile___publicURL = 'localFile.publicURL',
   localFile___childImageSharp___fixed___base64 = 'localFile.childImageSharp.fixed.base64',
   localFile___childImageSharp___fixed___tracedSVG = 'localFile.childImageSharp.fixed.tracedSVG',
@@ -3129,10 +3180,10 @@ type SanityImageAssetFilterInput = {
   readonly url: Maybe<StringQueryOperatorInput>;
   readonly metadata: Maybe<SanityImageMetadataFilterInput>;
   readonly source: Maybe<SanityAssetSourceDataFilterInput>;
-  readonly fixed: Maybe<SanityImageFixedFilterInput>;
-  readonly fluid: Maybe<SanityImageFluidFilterInput>;
   readonly _rawMetadata: Maybe<JSONQueryOperatorInput>;
   readonly _rawSource: Maybe<JSONQueryOperatorInput>;
+  readonly fixed: Maybe<SanityImageFixedFilterInput>;
+  readonly fluid: Maybe<SanityImageFluidFilterInput>;
   readonly localFile: Maybe<FileFilterInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
   readonly parent: Maybe<NodeFilterInput>;
@@ -3195,6 +3246,9 @@ type SanityImageFilterInput = {
   readonly asset: Maybe<SanityImageAssetFilterInput>;
   readonly hotspot: Maybe<SanityImageHotspotFilterInput>;
   readonly crop: Maybe<SanityImageCropFilterInput>;
+  readonly _rawAsset: Maybe<JSONQueryOperatorInput>;
+  readonly _rawHotspot: Maybe<JSONQueryOperatorInput>;
+  readonly _rawCrop: Maybe<JSONQueryOperatorInput>;
 };
 
 type SanityImageFilterListInput = {
@@ -3202,45 +3256,43 @@ type SanityImageFilterListInput = {
 };
 
 type SanityImageFixed = {
+  readonly width: Scalars['Float'];
+  readonly height: Scalars['Float'];
+  readonly src: Scalars['String'];
+  readonly srcSet: Scalars['String'];
   readonly base64: Maybe<Scalars['String']>;
-  readonly aspectRatio: Maybe<Scalars['Float']>;
-  readonly width: Maybe<Scalars['Float']>;
-  readonly height: Maybe<Scalars['Float']>;
-  readonly src: Maybe<Scalars['String']>;
-  readonly srcSet: Maybe<Scalars['String']>;
   readonly srcWebp: Maybe<Scalars['String']>;
   readonly srcSetWebp: Maybe<Scalars['String']>;
 };
 
 type SanityImageFixedFilterInput = {
-  readonly base64: Maybe<StringQueryOperatorInput>;
-  readonly aspectRatio: Maybe<FloatQueryOperatorInput>;
   readonly width: Maybe<FloatQueryOperatorInput>;
   readonly height: Maybe<FloatQueryOperatorInput>;
   readonly src: Maybe<StringQueryOperatorInput>;
   readonly srcSet: Maybe<StringQueryOperatorInput>;
+  readonly base64: Maybe<StringQueryOperatorInput>;
   readonly srcWebp: Maybe<StringQueryOperatorInput>;
   readonly srcSetWebp: Maybe<StringQueryOperatorInput>;
 };
 
 type SanityImageFluid = {
+  readonly aspectRatio: Scalars['Float'];
+  readonly src: Scalars['String'];
+  readonly srcSet: Scalars['String'];
+  readonly sizes: Scalars['String'];
   readonly base64: Maybe<Scalars['String']>;
-  readonly aspectRatio: Maybe<Scalars['Float']>;
-  readonly src: Maybe<Scalars['String']>;
-  readonly srcSet: Maybe<Scalars['String']>;
   readonly srcWebp: Maybe<Scalars['String']>;
   readonly srcSetWebp: Maybe<Scalars['String']>;
-  readonly sizes: Maybe<Scalars['String']>;
 };
 
 type SanityImageFluidFilterInput = {
-  readonly base64: Maybe<StringQueryOperatorInput>;
   readonly aspectRatio: Maybe<FloatQueryOperatorInput>;
   readonly src: Maybe<StringQueryOperatorInput>;
   readonly srcSet: Maybe<StringQueryOperatorInput>;
+  readonly sizes: Maybe<StringQueryOperatorInput>;
+  readonly base64: Maybe<StringQueryOperatorInput>;
   readonly srcWebp: Maybe<StringQueryOperatorInput>;
   readonly srcSetWebp: Maybe<StringQueryOperatorInput>;
-  readonly sizes: Maybe<StringQueryOperatorInput>;
 };
 
 enum SanityImageFormat {
@@ -3277,6 +3329,24 @@ type SanityImageMetadata = {
   readonly lqip: Maybe<Scalars['String']>;
   readonly hasAlpha: Maybe<Scalars['Boolean']>;
   readonly isOpaque: Maybe<Scalars['Boolean']>;
+  readonly _rawLocation: Maybe<Scalars['JSON']>;
+  readonly _rawDimensions: Maybe<Scalars['JSON']>;
+  readonly _rawPalette: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityImageMetadata__rawLocationArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImageMetadata__rawDimensionsArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImageMetadata__rawPaletteArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityImageMetadataFilterInput = {
@@ -3288,6 +3358,9 @@ type SanityImageMetadataFilterInput = {
   readonly lqip: Maybe<StringQueryOperatorInput>;
   readonly hasAlpha: Maybe<BooleanQueryOperatorInput>;
   readonly isOpaque: Maybe<BooleanQueryOperatorInput>;
+  readonly _rawLocation: Maybe<JSONQueryOperatorInput>;
+  readonly _rawDimensions: Maybe<JSONQueryOperatorInput>;
+  readonly _rawPalette: Maybe<JSONQueryOperatorInput>;
 };
 
 type SanityImagePalette = {
@@ -3300,6 +3373,48 @@ type SanityImagePalette = {
   readonly dominant: Maybe<SanityImagePaletteSwatch>;
   readonly lightMuted: Maybe<SanityImagePaletteSwatch>;
   readonly muted: Maybe<SanityImagePaletteSwatch>;
+  readonly _rawDarkMuted: Maybe<Scalars['JSON']>;
+  readonly _rawLightVibrant: Maybe<Scalars['JSON']>;
+  readonly _rawDarkVibrant: Maybe<Scalars['JSON']>;
+  readonly _rawVibrant: Maybe<Scalars['JSON']>;
+  readonly _rawDominant: Maybe<Scalars['JSON']>;
+  readonly _rawLightMuted: Maybe<Scalars['JSON']>;
+  readonly _rawMuted: Maybe<Scalars['JSON']>;
+};
+
+
+type SanityImagePalette__rawDarkMutedArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawLightVibrantArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawDarkVibrantArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawVibrantArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawDominantArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawLightMutedArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
+};
+
+
+type SanityImagePalette__rawMutedArgs = {
+  resolveReferences: Maybe<SanityResolveReferencesConfiguration>;
 };
 
 type SanityImagePaletteFilterInput = {
@@ -3312,6 +3427,13 @@ type SanityImagePaletteFilterInput = {
   readonly dominant: Maybe<SanityImagePaletteSwatchFilterInput>;
   readonly lightMuted: Maybe<SanityImagePaletteSwatchFilterInput>;
   readonly muted: Maybe<SanityImagePaletteSwatchFilterInput>;
+  readonly _rawDarkMuted: Maybe<JSONQueryOperatorInput>;
+  readonly _rawLightVibrant: Maybe<JSONQueryOperatorInput>;
+  readonly _rawDarkVibrant: Maybe<JSONQueryOperatorInput>;
+  readonly _rawVibrant: Maybe<JSONQueryOperatorInput>;
+  readonly _rawDominant: Maybe<JSONQueryOperatorInput>;
+  readonly _rawLightMuted: Maybe<JSONQueryOperatorInput>;
+  readonly _rawMuted: Maybe<JSONQueryOperatorInput>;
 };
 
 type SanityImagePaletteSwatch = {
@@ -3656,28 +3778,30 @@ enum SanityProductFieldsEnum {
   images___asset___metadata___lqip = 'images.asset.metadata.lqip',
   images___asset___metadata___hasAlpha = 'images.asset.metadata.hasAlpha',
   images___asset___metadata___isOpaque = 'images.asset.metadata.isOpaque',
+  images___asset___metadata____rawLocation = 'images.asset.metadata._rawLocation',
+  images___asset___metadata____rawDimensions = 'images.asset.metadata._rawDimensions',
+  images___asset___metadata____rawPalette = 'images.asset.metadata._rawPalette',
   images___asset___source____key = 'images.asset.source._key',
   images___asset___source____type = 'images.asset.source._type',
   images___asset___source___name = 'images.asset.source.name',
-  images___asset___source___sanityId = 'images.asset.source.sanityId',
+  images___asset___source___id = 'images.asset.source.id',
   images___asset___source___url = 'images.asset.source.url',
-  images___asset___fixed___base64 = 'images.asset.fixed.base64',
-  images___asset___fixed___aspectRatio = 'images.asset.fixed.aspectRatio',
+  images___asset____rawMetadata = 'images.asset._rawMetadata',
+  images___asset____rawSource = 'images.asset._rawSource',
   images___asset___fixed___width = 'images.asset.fixed.width',
   images___asset___fixed___height = 'images.asset.fixed.height',
   images___asset___fixed___src = 'images.asset.fixed.src',
   images___asset___fixed___srcSet = 'images.asset.fixed.srcSet',
+  images___asset___fixed___base64 = 'images.asset.fixed.base64',
   images___asset___fixed___srcWebp = 'images.asset.fixed.srcWebp',
   images___asset___fixed___srcSetWebp = 'images.asset.fixed.srcSetWebp',
-  images___asset___fluid___base64 = 'images.asset.fluid.base64',
   images___asset___fluid___aspectRatio = 'images.asset.fluid.aspectRatio',
   images___asset___fluid___src = 'images.asset.fluid.src',
   images___asset___fluid___srcSet = 'images.asset.fluid.srcSet',
+  images___asset___fluid___sizes = 'images.asset.fluid.sizes',
+  images___asset___fluid___base64 = 'images.asset.fluid.base64',
   images___asset___fluid___srcWebp = 'images.asset.fluid.srcWebp',
   images___asset___fluid___srcSetWebp = 'images.asset.fluid.srcSetWebp',
-  images___asset___fluid___sizes = 'images.asset.fluid.sizes',
-  images___asset____rawMetadata = 'images.asset._rawMetadata',
-  images___asset____rawSource = 'images.asset._rawSource',
   images___asset___localFile___sourceInstanceName = 'images.asset.localFile.sourceInstanceName',
   images___asset___localFile___absolutePath = 'images.asset.localFile.absolutePath',
   images___asset___localFile___relativePath = 'images.asset.localFile.relativePath',
@@ -3711,7 +3835,6 @@ enum SanityProductFieldsEnum {
   images___asset___localFile___birthtimeMs = 'images.asset.localFile.birthtimeMs',
   images___asset___localFile___blksize = 'images.asset.localFile.blksize',
   images___asset___localFile___blocks = 'images.asset.localFile.blocks',
-  images___asset___localFile___url = 'images.asset.localFile.url',
   images___asset___localFile___publicURL = 'images.asset.localFile.publicURL',
   images___asset___localFile___id = 'images.asset.localFile.id',
   images___asset___localFile___children = 'images.asset.localFile.children',
@@ -3743,6 +3866,9 @@ enum SanityProductFieldsEnum {
   images___crop___bottom = 'images.crop.bottom',
   images___crop___left = 'images.crop.left',
   images___crop___right = 'images.crop.right',
+  images____rawAsset = 'images._rawAsset',
+  images____rawHotspot = 'images._rawHotspot',
+  images____rawCrop = 'images._rawCrop',
   sizes____key = 'sizes._key',
   sizes____type = 'sizes._type',
   sizes___length = 'sizes.length',
@@ -3835,6 +3961,9 @@ enum SanityProductFieldsEnum {
   categories___parents___parents___children = 'categories.parents.parents.children',
   categories___parents___image____key = 'categories.parents.image._key',
   categories___parents___image____type = 'categories.parents.image._type',
+  categories___parents___image____rawAsset = 'categories.parents.image._rawAsset',
+  categories___parents___image____rawHotspot = 'categories.parents.image._rawHotspot',
+  categories___parents___image____rawCrop = 'categories.parents.image._rawCrop',
   categories___parents____rawSlug = 'categories.parents._rawSlug',
   categories___parents____rawParents = 'categories.parents._rawParents',
   categories___parents____rawImage = 'categories.parents._rawImage',
@@ -3887,6 +4016,9 @@ enum SanityProductFieldsEnum {
   categories___image___crop___bottom = 'categories.image.crop.bottom',
   categories___image___crop___left = 'categories.image.crop.left',
   categories___image___crop___right = 'categories.image.crop.right',
+  categories___image____rawAsset = 'categories.image._rawAsset',
+  categories___image____rawHotspot = 'categories.image._rawHotspot',
+  categories___image____rawCrop = 'categories.image._rawCrop',
   categories____rawSlug = 'categories._rawSlug',
   categories____rawParents = 'categories._rawParents',
   categories____rawImage = 'categories._rawImage',
@@ -3931,13 +4063,14 @@ enum SanityProductFieldsEnum {
   body = 'body',
   body____key = 'body._key',
   body____type = 'body._type',
-  body___sanityChildren = 'body.sanityChildren',
-  body___sanityChildren____key = 'body.sanityChildren._key',
-  body___sanityChildren____type = 'body.sanityChildren._type',
-  body___sanityChildren___marks = 'body.sanityChildren.marks',
-  body___sanityChildren___text = 'body.sanityChildren.text',
+  body___children = 'body.children',
+  body___children____key = 'body.children._key',
+  body___children____type = 'body.children._type',
+  body___children___marks = 'body.children.marks',
+  body___children___text = 'body.children.text',
   body___style = 'body.style',
   body___list = 'body.list',
+  body____rawChildren = 'body._rawChildren',
   _rawSlug = '_rawSlug',
   _rawImages = '_rawImages',
   _rawSizes = '_rawSizes',
@@ -4186,6 +4319,7 @@ enum SanitySiteSettingsFieldsEnum {
   addresses___location___lat = 'addresses.location.lat',
   addresses___location___lng = 'addresses.location.lng',
   addresses___location___alt = 'addresses.location.alt',
+  addresses____rawLocation = 'addresses._rawLocation',
   _rawAddresses = '_rawAddresses',
   id = 'id',
   parent___id = 'parent.id',
@@ -4349,8 +4483,6 @@ enum SanityTransformImagesImageFormat {
 type Site = Node & {
   readonly buildTime: Maybe<Scalars['Date']>;
   readonly siteMetadata: Maybe<SiteSiteMetadata>;
-  readonly port: Maybe<Scalars['String']>;
-  readonly host: Maybe<Scalars['String']>;
   readonly polyfill: Maybe<Scalars['Boolean']>;
   readonly pathPrefix: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -4552,8 +4684,6 @@ type SiteEdge = {
 enum SiteFieldsEnum {
   buildTime = 'buildTime',
   siteMetadata___siteUrl = 'siteMetadata.siteUrl',
-  port = 'port',
-  host = 'host',
   polyfill = 'polyfill',
   pathPrefix = 'pathPrefix',
   id = 'id',
@@ -4647,8 +4777,6 @@ enum SiteFieldsEnum {
 type SiteFilterInput = {
   readonly buildTime: Maybe<DateQueryOperatorInput>;
   readonly siteMetadata: Maybe<SiteSiteMetadataFilterInput>;
-  readonly port: Maybe<StringQueryOperatorInput>;
-  readonly host: Maybe<StringQueryOperatorInput>;
   readonly polyfill: Maybe<BooleanQueryOperatorInput>;
   readonly pathPrefix: Maybe<StringQueryOperatorInput>;
   readonly id: Maybe<StringQueryOperatorInput>;
@@ -4672,15 +4800,15 @@ type SitePage = Node & {
   readonly internalComponentName: Scalars['String'];
   readonly componentChunkName: Scalars['String'];
   readonly matchPath: Maybe<Scalars['String']>;
+  readonly id: Scalars['ID'];
+  readonly parent: Maybe<Node>;
+  readonly children: ReadonlyArray<Node>;
+  readonly internal: Internal;
   readonly isCreatedByStatefulCreatePages: Maybe<Scalars['Boolean']>;
   readonly context: Maybe<SitePageContext>;
   readonly pluginCreator: Maybe<SitePlugin>;
   readonly pluginCreatorId: Maybe<Scalars['String']>;
   readonly componentPath: Maybe<Scalars['String']>;
-  readonly id: Scalars['ID'];
-  readonly parent: Maybe<Node>;
-  readonly children: ReadonlyArray<Node>;
-  readonly internal: Internal;
 };
 
 type SitePageConnection = {
@@ -4724,6 +4852,92 @@ enum SitePageFieldsEnum {
   internalComponentName = 'internalComponentName',
   componentChunkName = 'componentChunkName',
   matchPath = 'matchPath',
+  id = 'id',
+  parent___id = 'parent.id',
+  parent___parent___id = 'parent.parent.id',
+  parent___parent___parent___id = 'parent.parent.parent.id',
+  parent___parent___parent___children = 'parent.parent.parent.children',
+  parent___parent___children = 'parent.parent.children',
+  parent___parent___children___id = 'parent.parent.children.id',
+  parent___parent___children___children = 'parent.parent.children.children',
+  parent___parent___internal___content = 'parent.parent.internal.content',
+  parent___parent___internal___contentDigest = 'parent.parent.internal.contentDigest',
+  parent___parent___internal___description = 'parent.parent.internal.description',
+  parent___parent___internal___fieldOwners = 'parent.parent.internal.fieldOwners',
+  parent___parent___internal___ignoreType = 'parent.parent.internal.ignoreType',
+  parent___parent___internal___mediaType = 'parent.parent.internal.mediaType',
+  parent___parent___internal___owner = 'parent.parent.internal.owner',
+  parent___parent___internal___type = 'parent.parent.internal.type',
+  parent___children = 'parent.children',
+  parent___children___id = 'parent.children.id',
+  parent___children___parent___id = 'parent.children.parent.id',
+  parent___children___parent___children = 'parent.children.parent.children',
+  parent___children___children = 'parent.children.children',
+  parent___children___children___id = 'parent.children.children.id',
+  parent___children___children___children = 'parent.children.children.children',
+  parent___children___internal___content = 'parent.children.internal.content',
+  parent___children___internal___contentDigest = 'parent.children.internal.contentDigest',
+  parent___children___internal___description = 'parent.children.internal.description',
+  parent___children___internal___fieldOwners = 'parent.children.internal.fieldOwners',
+  parent___children___internal___ignoreType = 'parent.children.internal.ignoreType',
+  parent___children___internal___mediaType = 'parent.children.internal.mediaType',
+  parent___children___internal___owner = 'parent.children.internal.owner',
+  parent___children___internal___type = 'parent.children.internal.type',
+  parent___internal___content = 'parent.internal.content',
+  parent___internal___contentDigest = 'parent.internal.contentDigest',
+  parent___internal___description = 'parent.internal.description',
+  parent___internal___fieldOwners = 'parent.internal.fieldOwners',
+  parent___internal___ignoreType = 'parent.internal.ignoreType',
+  parent___internal___mediaType = 'parent.internal.mediaType',
+  parent___internal___owner = 'parent.internal.owner',
+  parent___internal___type = 'parent.internal.type',
+  children = 'children',
+  children___id = 'children.id',
+  children___parent___id = 'children.parent.id',
+  children___parent___parent___id = 'children.parent.parent.id',
+  children___parent___parent___children = 'children.parent.parent.children',
+  children___parent___children = 'children.parent.children',
+  children___parent___children___id = 'children.parent.children.id',
+  children___parent___children___children = 'children.parent.children.children',
+  children___parent___internal___content = 'children.parent.internal.content',
+  children___parent___internal___contentDigest = 'children.parent.internal.contentDigest',
+  children___parent___internal___description = 'children.parent.internal.description',
+  children___parent___internal___fieldOwners = 'children.parent.internal.fieldOwners',
+  children___parent___internal___ignoreType = 'children.parent.internal.ignoreType',
+  children___parent___internal___mediaType = 'children.parent.internal.mediaType',
+  children___parent___internal___owner = 'children.parent.internal.owner',
+  children___parent___internal___type = 'children.parent.internal.type',
+  children___children = 'children.children',
+  children___children___id = 'children.children.id',
+  children___children___parent___id = 'children.children.parent.id',
+  children___children___parent___children = 'children.children.parent.children',
+  children___children___children = 'children.children.children',
+  children___children___children___id = 'children.children.children.id',
+  children___children___children___children = 'children.children.children.children',
+  children___children___internal___content = 'children.children.internal.content',
+  children___children___internal___contentDigest = 'children.children.internal.contentDigest',
+  children___children___internal___description = 'children.children.internal.description',
+  children___children___internal___fieldOwners = 'children.children.internal.fieldOwners',
+  children___children___internal___ignoreType = 'children.children.internal.ignoreType',
+  children___children___internal___mediaType = 'children.children.internal.mediaType',
+  children___children___internal___owner = 'children.children.internal.owner',
+  children___children___internal___type = 'children.children.internal.type',
+  children___internal___content = 'children.internal.content',
+  children___internal___contentDigest = 'children.internal.contentDigest',
+  children___internal___description = 'children.internal.description',
+  children___internal___fieldOwners = 'children.internal.fieldOwners',
+  children___internal___ignoreType = 'children.internal.ignoreType',
+  children___internal___mediaType = 'children.internal.mediaType',
+  children___internal___owner = 'children.internal.owner',
+  children___internal___type = 'children.internal.type',
+  internal___content = 'internal.content',
+  internal___contentDigest = 'internal.contentDigest',
+  internal___description = 'internal.description',
+  internal___fieldOwners = 'internal.fieldOwners',
+  internal___ignoreType = 'internal.ignoreType',
+  internal___mediaType = 'internal.mediaType',
+  internal___owner = 'internal.owner',
+  internal___type = 'internal.type',
   isCreatedByStatefulCreatePages = 'isCreatedByStatefulCreatePages',
   context___slug = 'context.slug',
   pluginCreator___id = 'pluginCreator.id',
@@ -4811,93 +5025,7 @@ enum SitePageFieldsEnum {
   pluginCreator___packageJson___peerDependencies___version = 'pluginCreator.packageJson.peerDependencies.version',
   pluginCreator___packageJson___keywords = 'pluginCreator.packageJson.keywords',
   pluginCreatorId = 'pluginCreatorId',
-  componentPath = 'componentPath',
-  id = 'id',
-  parent___id = 'parent.id',
-  parent___parent___id = 'parent.parent.id',
-  parent___parent___parent___id = 'parent.parent.parent.id',
-  parent___parent___parent___children = 'parent.parent.parent.children',
-  parent___parent___children = 'parent.parent.children',
-  parent___parent___children___id = 'parent.parent.children.id',
-  parent___parent___children___children = 'parent.parent.children.children',
-  parent___parent___internal___content = 'parent.parent.internal.content',
-  parent___parent___internal___contentDigest = 'parent.parent.internal.contentDigest',
-  parent___parent___internal___description = 'parent.parent.internal.description',
-  parent___parent___internal___fieldOwners = 'parent.parent.internal.fieldOwners',
-  parent___parent___internal___ignoreType = 'parent.parent.internal.ignoreType',
-  parent___parent___internal___mediaType = 'parent.parent.internal.mediaType',
-  parent___parent___internal___owner = 'parent.parent.internal.owner',
-  parent___parent___internal___type = 'parent.parent.internal.type',
-  parent___children = 'parent.children',
-  parent___children___id = 'parent.children.id',
-  parent___children___parent___id = 'parent.children.parent.id',
-  parent___children___parent___children = 'parent.children.parent.children',
-  parent___children___children = 'parent.children.children',
-  parent___children___children___id = 'parent.children.children.id',
-  parent___children___children___children = 'parent.children.children.children',
-  parent___children___internal___content = 'parent.children.internal.content',
-  parent___children___internal___contentDigest = 'parent.children.internal.contentDigest',
-  parent___children___internal___description = 'parent.children.internal.description',
-  parent___children___internal___fieldOwners = 'parent.children.internal.fieldOwners',
-  parent___children___internal___ignoreType = 'parent.children.internal.ignoreType',
-  parent___children___internal___mediaType = 'parent.children.internal.mediaType',
-  parent___children___internal___owner = 'parent.children.internal.owner',
-  parent___children___internal___type = 'parent.children.internal.type',
-  parent___internal___content = 'parent.internal.content',
-  parent___internal___contentDigest = 'parent.internal.contentDigest',
-  parent___internal___description = 'parent.internal.description',
-  parent___internal___fieldOwners = 'parent.internal.fieldOwners',
-  parent___internal___ignoreType = 'parent.internal.ignoreType',
-  parent___internal___mediaType = 'parent.internal.mediaType',
-  parent___internal___owner = 'parent.internal.owner',
-  parent___internal___type = 'parent.internal.type',
-  children = 'children',
-  children___id = 'children.id',
-  children___parent___id = 'children.parent.id',
-  children___parent___parent___id = 'children.parent.parent.id',
-  children___parent___parent___children = 'children.parent.parent.children',
-  children___parent___children = 'children.parent.children',
-  children___parent___children___id = 'children.parent.children.id',
-  children___parent___children___children = 'children.parent.children.children',
-  children___parent___internal___content = 'children.parent.internal.content',
-  children___parent___internal___contentDigest = 'children.parent.internal.contentDigest',
-  children___parent___internal___description = 'children.parent.internal.description',
-  children___parent___internal___fieldOwners = 'children.parent.internal.fieldOwners',
-  children___parent___internal___ignoreType = 'children.parent.internal.ignoreType',
-  children___parent___internal___mediaType = 'children.parent.internal.mediaType',
-  children___parent___internal___owner = 'children.parent.internal.owner',
-  children___parent___internal___type = 'children.parent.internal.type',
-  children___children = 'children.children',
-  children___children___id = 'children.children.id',
-  children___children___parent___id = 'children.children.parent.id',
-  children___children___parent___children = 'children.children.parent.children',
-  children___children___children = 'children.children.children',
-  children___children___children___id = 'children.children.children.id',
-  children___children___children___children = 'children.children.children.children',
-  children___children___internal___content = 'children.children.internal.content',
-  children___children___internal___contentDigest = 'children.children.internal.contentDigest',
-  children___children___internal___description = 'children.children.internal.description',
-  children___children___internal___fieldOwners = 'children.children.internal.fieldOwners',
-  children___children___internal___ignoreType = 'children.children.internal.ignoreType',
-  children___children___internal___mediaType = 'children.children.internal.mediaType',
-  children___children___internal___owner = 'children.children.internal.owner',
-  children___children___internal___type = 'children.children.internal.type',
-  children___internal___content = 'children.internal.content',
-  children___internal___contentDigest = 'children.internal.contentDigest',
-  children___internal___description = 'children.internal.description',
-  children___internal___fieldOwners = 'children.internal.fieldOwners',
-  children___internal___ignoreType = 'children.internal.ignoreType',
-  children___internal___mediaType = 'children.internal.mediaType',
-  children___internal___owner = 'children.internal.owner',
-  children___internal___type = 'children.internal.type',
-  internal___content = 'internal.content',
-  internal___contentDigest = 'internal.contentDigest',
-  internal___description = 'internal.description',
-  internal___fieldOwners = 'internal.fieldOwners',
-  internal___ignoreType = 'internal.ignoreType',
-  internal___mediaType = 'internal.mediaType',
-  internal___owner = 'internal.owner',
-  internal___type = 'internal.type'
+  componentPath = 'componentPath'
 }
 
 type SitePageFilterInput = {
@@ -4906,15 +5034,15 @@ type SitePageFilterInput = {
   readonly internalComponentName: Maybe<StringQueryOperatorInput>;
   readonly componentChunkName: Maybe<StringQueryOperatorInput>;
   readonly matchPath: Maybe<StringQueryOperatorInput>;
+  readonly id: Maybe<StringQueryOperatorInput>;
+  readonly parent: Maybe<NodeFilterInput>;
+  readonly children: Maybe<NodeFilterListInput>;
+  readonly internal: Maybe<InternalFilterInput>;
   readonly isCreatedByStatefulCreatePages: Maybe<BooleanQueryOperatorInput>;
   readonly context: Maybe<SitePageContextFilterInput>;
   readonly pluginCreator: Maybe<SitePluginFilterInput>;
   readonly pluginCreatorId: Maybe<StringQueryOperatorInput>;
   readonly componentPath: Maybe<StringQueryOperatorInput>;
-  readonly id: Maybe<StringQueryOperatorInput>;
-  readonly parent: Maybe<NodeFilterInput>;
-  readonly children: Maybe<NodeFilterListInput>;
-  readonly internal: Maybe<InternalFilterInput>;
 };
 
 type SitePageGroupConnection = {
@@ -5329,20 +5457,12 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type HeroQueryVariables = {};
+type HeroQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
-type ProductsQueryVariables = {};
-
-
-type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
-        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
-        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
-      ) }> } };
-
-type SiteMetadataQueryVariables = {};
+type SiteMetadataQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
@@ -5353,11 +5473,17 @@ type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
     )>>> }
   )> };
 
-type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
+type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
-type PostQueryVariables = {
+
+type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArray<{ readonly node: (
+        Pick<SanityProduct, '_id' | 'title' | 'price' | 'oldPrice'>
+        & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
+      ) }> } };
+
+type PostQueryVariables = Exact<{
   slug: Maybe<Scalars['String']>;
-};
+}>;
 
 
 type PostQuery = { readonly sanityProduct: Maybe<(
@@ -5396,6 +5522,8 @@ type GatsbyImageSharpFixed_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'h
 
 type GatsbyImageSharpFixed_withWebp_noBase64Fragment = Pick<ImageSharpFixed, 'width' | 'height' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp'>;
 
+type GatsbyImageSharpFluidFragment = Pick<ImageSharpFluid, 'base64' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
+
 type GatsbyImageSharpFluidLimitPresentationSizeFragment = { maxHeight: ImageSharpFluid['presentationHeight'], maxWidth: ImageSharpFluid['presentationWidth'] };
 
 type GatsbyImageSharpFluid_tracedSVGFragment = Pick<ImageSharpFluid, 'tracedSVG' | 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
@@ -5431,10 +5559,5 @@ type GatsbyImageSharpSizes_withWebp_tracedSVGFragment = Pick<ImageSharpSizes, 't
 type GatsbyImageSharpSizes_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'sizes'>;
 
 type GatsbyImageSharpSizes_withWebp_noBase64Fragment = Pick<ImageSharpSizes, 'aspectRatio' | 'src' | 'srcSet' | 'srcWebp' | 'srcSetWebp' | 'sizes'>;
-
-type PagesQueryQueryVariables = {};
-
-
-type PagesQueryQuery = { readonly allSitePage: { readonly nodes: ReadonlyArray<Pick<SitePage, 'path'>> } };
 
 }
