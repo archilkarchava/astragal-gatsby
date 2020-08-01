@@ -1,7 +1,7 @@
-import React from "react"
-import { YMaps } from "react-yandex-maps"
-import { StoreContextProvider } from "./src/contexts/siteContext"
-import "./src/styles/global.css"
+const React = require("react")
+const { YMaps } = require("react-yandex-maps")
+const { StoreContextProvider } = require("./src/contexts/siteContext")
+require("./src/styles/global.css")
 
 export const wrapRootElement = ({ element }) => {
   return (

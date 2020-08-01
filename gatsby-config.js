@@ -24,7 +24,6 @@ module.exports = {
         emitSchema: {
           "src/__generated__/gatsby-schema.graphql": true,
         },
-        // Workaround: temporarily disable graphql fragment generation, since it outputs duplicates
         emitPluginDocuments: {
           "src/__generated__/gatsby-plugin-documents.graphql": true,
         },
