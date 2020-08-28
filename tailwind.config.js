@@ -108,8 +108,22 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/ui"), require("@tailwindcss/typography")],
   purge: {
+    mode: "all",
     content: ["./src/**/*.{tsx,jsx,js}"],
     css: ["./src/styles/global.css"],
+    options: {
+      whitelist: [
+        "html",
+        "h1",
+        "h2",
+        "h3",
+        "p",
+        "ul",
+        "ol",
+        "blockquote",
+        "strong",
+      ],
+    },
   },
   // corePlugins: {
   //   backgroundOpacity: false,
