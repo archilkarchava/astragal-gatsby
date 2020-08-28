@@ -9,7 +9,7 @@ const gradient = css`
   background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8));
 `
 
-const Hero = () => {
+const Hero: React.FC = () => {
   const { ourServicesBgImg } = useStaticQuery<GatsbyTypes.HeroQuery>(graphql`
     query Hero {
       ourServicesBgImg: file(relativePath: { eq: "our-services-bg.jpg" }) {

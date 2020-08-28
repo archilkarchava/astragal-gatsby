@@ -33,7 +33,7 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
   }, [isCartOpen, orderStatus])
 
   React.useEffect(() => {
-    const escFunction = (event: KeyboardEvent) => {
+    const escFunction = (event: KeyboardEvent): void => {
       if (event.key === "Escape") {
         setIsCartOpen(false)
       }
@@ -45,7 +45,10 @@ const Cart: React.FC<JSX.IntrinsicElements["div"]> = ({
     }
   }, [])
 
-  const onOrderSubmit = async (data: { name: string; phoneNumber: string }) => {
+  const onOrderSubmit = async (data: {
+    name: string
+    phoneNumber: string
+  }): Promise<void> => {
     setOrderStatus("submitting")
     const order: Pick<Store, "cartItems"> & {
       customer: { name: string; phoneNumber: string }

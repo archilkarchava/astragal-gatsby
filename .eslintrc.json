@@ -10,20 +10,23 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "prettier/prettier": "warn",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "off",
+    "prettier/prettier": [1],
+    "react-hooks/rules-of-hooks": [2],
+    "react-hooks/exhaustive-deps": [0],
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-    "react/jsx-props-no-spreading": 0,
-    // "react/jsx-curly-brace-presence" ["error", { "props" "always" }],
-    "react/prop-types": 0,
-    "import/extensions": 0,
-    "jsx-a11y/anchor-is-valid": 0,
-    "@typescript-eslint/explicit-function-return-type": 0,
-    "@typescript-eslint/member-delimiter-style": 0,
-    "no-underscore-dangle": 0,
+    "react/jsx-props-no-spreading": [0],
+    "react/prop-types": [0],
+    "import/extensions": [0],
+    "jsx-a11y/anchor-is-valid": [0],
+    "@typescript-eslint/explicit-function-return-type": [
+      2,
+      { "allowExpressions": true }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": [2],
+    "@typescript-eslint/member-delimiter-style": [0],
+    "no-underscore-dangle": [0],
     "no-param-reassign": [
-      "error",
+      2,
       {
         "props": true,
         "ignorePropertyModificationsFor": ["draft", "draftState"]
@@ -34,9 +37,14 @@
     {
       "files": ["api/**/*.*"],
       "rules": {
-        "no-console": "off"
+        "no-console": [0]
       }
     }
   ],
-  "ignorePatterns": ["node_modules/**", "gatsby-*", "tailwind.config.js", "_this_is_virtual_fs_path_/**"]
+  "ignorePatterns": [
+    "node_modules/**",
+    "gatsby-*",
+    "tailwind.config.js",
+    "_this_is_virtual_fs_path_/**"
+  ]
 }

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form"
 import emailRegex from "../../../../utils/emailRegex"
 import Alert from "./Alert"
 
-const ContactForm = () => {
+const ContactForm: React.FC = () => {
   const [formStatus, setFormStatus] = React.useState<
     "idle" | "submitting" | "failure" | "success"
   >("idle")
@@ -16,7 +16,7 @@ const ContactForm = () => {
     name: string
     phoneNumber: string
     message: string
-  }) => {
+  }): Promise<void> => {
     setFormStatus("submitting")
     fetch("/api/contact", {
       method: "POST",

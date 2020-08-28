@@ -1,4 +1,4 @@
-const getDiscountPercentStr = (oldPrice: number, newPrice: number) => {
+const getDiscountPercentStr = (oldPrice: number, newPrice: number): string => {
   return `-${Math.round(((oldPrice - newPrice) / oldPrice) * 100)}%`
 }
 

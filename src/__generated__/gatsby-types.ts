@@ -5457,11 +5457,6 @@ type StringQueryOperatorInput = {
   readonly glob: Maybe<Scalars['String']>;
 };
 
-type HeroQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
-
 type ProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5470,16 +5465,10 @@ type ProductsQuery = { readonly allSanityProduct: { readonly edges: ReadonlyArra
         & { readonly slug: Maybe<Pick<SanitySlug, 'current'>>, readonly images: Maybe<ReadonlyArray<Maybe<{ readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }>>> }
       ) }> } };
 
-type SiteMetadataQueryVariables = Exact<{ [key: string]: never; }>;
+type HeroQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
-    Pick<SanitySiteSettings, 'title' | 'description' | 'keywords' | 'emails' | 'phoneNumbers'>
-    & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
-      Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
-      & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
-    )>>> }
-  )> };
+type HeroQuery = { readonly ourServicesBgImg: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> };
 
 type PostQueryVariables = Exact<{
   slug: Maybe<Scalars['String']>;
@@ -5491,6 +5480,17 @@ type PostQuery = { readonly sanityProduct: Maybe<(
     & { readonly sizes: Maybe<Pick<SanityProductSizes, 'depth' | 'height' | 'length'>>, readonly materials: Maybe<ReadonlyArray<Maybe<Pick<SanityMaterial, 'title'>>>>, readonly images: Maybe<ReadonlyArray<Maybe<(
       Pick<SanityImage, '_key'>
       & { readonly asset: Maybe<{ readonly localFile: Maybe<{ readonly childImageSharp: Maybe<{ readonly fluid: Maybe<GatsbyImageSharpFluidFragment> }> }> }> }
+    )>>> }
+  )> };
+
+type SiteMetadataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type SiteMetadataQuery = { readonly sanitySiteSettings: Maybe<(
+    Pick<SanitySiteSettings, 'title' | 'description' | 'keywords' | 'emails' | 'phoneNumbers'>
+    & { readonly addresses: Maybe<ReadonlyArray<Maybe<(
+      Pick<SanityAddress, 'street' | 'streetNo' | 'city'>
+      & { readonly location: Maybe<Pick<SanityGeopoint, 'lat' | 'lng' | 'alt'>> }
     )>>> }
   )> };
 

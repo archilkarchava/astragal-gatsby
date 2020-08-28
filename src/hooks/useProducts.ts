@@ -1,6 +1,8 @@
 import { graphql, useStaticQuery } from "gatsby"
 
-const useProducts = () => {
+const useProducts = (): {
+  [_id: string]: Omit<GatsbyTypes.SanityProduct, "_id">
+} => {
   const { allSanityProduct } = useStaticQuery<
     GatsbyTypes.ProductsQuery
   >(graphql`
@@ -32,14 +34,10 @@ const useProducts = () => {
     }
   `)
 
-  const result: {
-    [_id: string]: Omit<GatsbyTypes.SanityProduct, "_id">
-  } = allSanityProduct.edges.reduce(
+  return allSanityProduct.edges.reduce(
     (acc, { node: { _id, ...rest } }) => Object.assign(acc, { [_id]: rest }),
     {}
   )
-
-  return result
 }
 
 export default useProducts
