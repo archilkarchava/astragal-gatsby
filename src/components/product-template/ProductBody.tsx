@@ -1,30 +1,10 @@
 import BlockContent from "@sanity/block-content-to-react"
 import type { BlockContentProps } from "@sanity/block-content-to-react"
-import { css } from "linaria"
 import React from "react"
-
-const markdownStyles = css`
-  @apply text-base leading-relaxed;
-
-  p,
-  ul,
-  ol,
-  blockquote {
-    @apply my-4;
-  }
-
-  h2 {
-    @apply mt-12 mb-4 text-2xl leading-snug;
-  }
-
-  h3 {
-    @apply mt-8 mb-4 text-xl leading-snug;
-  }
-`
 
 const ProductBody: React.FC<BlockContentProps> = ({ blocks }) => {
   return (
-    <div className={markdownStyles}>
+    <div className="prose lg:prose-xl max-w-none">
       <BlockContent blocks={blocks} />
     </div>
   )

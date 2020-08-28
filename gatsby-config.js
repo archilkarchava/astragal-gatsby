@@ -50,7 +50,6 @@ module.exports = {
     },
     `gatsby-plugin-react-svg`,
     `gatsby-plugin-postcss`,
-    `gatsby-plugin-linaria`,
     `gatsby-plugin-eslint`,
     `gatsby-plugin-react-helmet`,
     {

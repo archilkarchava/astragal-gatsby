@@ -71,7 +71,14 @@ module.exports = {
         "-full": "-100%",
       },
       opacity: {
-        "99": ".99",
+        99: ".99",
+      },
+      typography: {
+        default: {
+          css: {
+            color: "#000000",
+          },
+        },
       },
     },
     fontFamily: {
@@ -99,7 +106,7 @@ module.exports = {
     padding: ["responsive", "first", "last", "hover", "focus"],
     backgroundColor: ["responsive", "first", "last", "hover", "focus"],
   },
-  plugins: [require("@tailwindcss/ui")],
+  plugins: [require("@tailwindcss/ui"), require("@tailwindcss/typography")],
   purge: {
     content: ["./src/**/*.{tsx,jsx,js}"],
     css: ["./src/styles/global.css"],

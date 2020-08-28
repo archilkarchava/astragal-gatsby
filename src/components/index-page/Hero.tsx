@@ -1,13 +1,7 @@
-import clsx from "clsx"
 import { graphql, useStaticQuery } from "gatsby"
 import Image from "gatsby-image/withIEPolyfill"
-import { css } from "linaria"
 import React from "react"
 import IsomorphicAnchorLink from "../common/IsomorphicAnchorLink"
-
-const gradient = css`
-  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8));
-`
 
 const Hero: React.FC = () => {
   const { ourServicesBgImg } = useStaticQuery<GatsbyTypes.HeroQuery>(graphql`
@@ -25,10 +19,11 @@ const Hero: React.FC = () => {
   return (
     <section>
       <div
-        className={clsx(
-          gradient,
-          "w-full h-screen absolute top-0 pointer-events-none left-0 z-10"
-        )}
+        style={{
+          background:
+            "linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.8))",
+        }}
+        className="absolute top-0 left-0 z-10 w-full h-screen pointer-events-none"
       />
       <Image
         fluid={ourServicesBgImg.childImageSharp.fluid}
