@@ -68,9 +68,7 @@ const ProductTemplate: React.FC<Props> = ({
           className="flex flex-col justify-start w-full overflow-hidden lg:h-screen lg:w-1/2 lg:pt-32 h-96 md:h-136"
         />
         <div className="w-full pl-3 mb-10 lg:pl-24 lg:w-1/2 lg:pt-32">
-          <h1 className="font-serif text-4xl leading-none lg:text-5xl">
-            {title}
-          </h1>
+          <h1 className="font-serif text-4xl lg:text-5xl">{title}</h1>
           <div className="w-10 my-6 ml-2 border-t border-black" />
           <div className="flex flex-col">
             {price > 0 && (
