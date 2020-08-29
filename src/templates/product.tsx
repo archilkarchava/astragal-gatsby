@@ -62,10 +62,15 @@ const ProductTemplate: React.FC<Props> = ({
   return (
     <Layout>
       <SEO title={title} />
-      <div className="box-border flex flex-col justify-between w-full h-full pt-12 lg:h-screen lg:flex-row md:pt-16">
-        <ImageCarousel images={images} />
-        <div className="flex flex-col justify-center w-full p-3 mb-10 lg:m-0 lg:p-0 lg:pl-12 h-1/2 lg:w-1/2 lg:h-full">
-          <h1 className="font-serif text-4xl lg:text-5xl">{title}</h1>
+      <div className="box-border flex flex-col justify-between w-full h-full lg:h-full lg:flex-row">
+        <ImageCarousel
+          images={images}
+          className="flex flex-col justify-start w-full overflow-hidden lg:h-screen lg:w-1/2 lg:pt-32 h-96 md:h-136"
+        />
+        <div className="w-full pl-3 mb-10 lg:pl-24 lg:w-1/2 lg:pt-32">
+          <h1 className="font-serif text-4xl leading-none lg:text-5xl">
+            {title}
+          </h1>
           <div className="w-10 my-6 ml-2 border-t border-black" />
           <div className="flex flex-col">
             {price > 0 && (
@@ -126,11 +131,7 @@ const ProductTemplate: React.FC<Props> = ({
               </li>
             )}
           </ul>
-          {_rawBody && (
-            <div>
-              <ProductBody blocks={_rawBody} />
-            </div>
-          )}
+          {_rawBody && <ProductBody blocks={_rawBody} />}
         </div>
       </div>
     </Layout>

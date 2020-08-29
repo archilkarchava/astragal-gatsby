@@ -3,13 +3,13 @@ import Image from "gatsby-image/withIEPolyfill"
 import React from "react"
 import { Swipeable } from "react-swipeable"
 
-const ImageCarousel: React.FC<Pick<
-  GatsbyTypes.PostQuery["sanityProduct"],
-  "images"
->> = ({ images }) => {
+const ImageCarousel: React.FC<
+  Pick<GatsbyTypes.PostQuery["sanityProduct"], "images"> &
+    JSX.IntrinsicElements["div"]
+> = ({ images, ...rest }) => {
   const [activeImageIdx, setActiveImageIdx] = React.useState(0)
   return (
-    <div className="flex flex-col justify-center w-full overflow-hidden h-96 md:h-136 lg:w-1/2 lg:h-full">
+    <div {...rest}>
       {images.length > 0 && (
         <div className="relative h-96 md:h-136 lg:h-full">
           {images.map(
@@ -43,9 +43,9 @@ const ImageCarousel: React.FC<Pick<
                 >
                   <Image
                     fluid={fluid}
-                    style={{ position: "static" }}
+                    style={{ position: "static", height: "100%" }}
                     objectFit="contain"
-                    objectPosition="50% 50%"
+                    objectPosition="50% 0%"
                   />
                 </div>
               </Swipeable>
