@@ -4,7 +4,7 @@ import React from "react"
 
 const ProductBody: React.FC<BlockContentProps> = ({ blocks }) => {
   return (
-    <div className="prose lg:prose-xl max-w-none">
+    <div className="prose lg:prose-lg max-w-none">
       <BlockContent blocks={blocks} />
     </div>
   )
