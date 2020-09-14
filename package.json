@@ -100,7 +100,7 @@
     "develop": "gatsby develop -H 0.0.0.0",
     "dev": "npm run develop",
     "lint:code": "eslint --fix \"src/**/*.{ts,tsx}\"",
-    "lint:styles": "stylelint --fix \"src/**/*.{ts,tsx,css}\"",
+    "lint:styles": "stylelint --fix \"src/**/*.css\"",
     "lint:format": "prettier --write \"**/*.{ts,tsx}\"",
     "lint": "npm run lint:code && npm run lint:styles && npm run lint:format",
     "start": "npm run develop",
@@ -125,6 +125,6 @@
       "npm run lint:code",
       "npm run lint:format"
     ],
-    "*.{css,ts,tsx}": "npm run lint:styles"
+    "*.css": "npm run lint:styles"
   }
 }
