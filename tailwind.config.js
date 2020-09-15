@@ -3,6 +3,7 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
   },
   target: "ie11",
   theme: {
@@ -108,22 +109,8 @@ module.exports = {
   },
   plugins: [require("@tailwindcss/ui"), require("@tailwindcss/typography")],
   purge: {
-    mode: "all",
     content: ["./src/**/*.{tsx,jsx,js}"],
     css: ["./src/styles/global.css"],
-    options: {
-      whitelist: [
-        "html",
-        "h1",
-        "h2",
-        "h3",
-        "p",
-        "ul",
-        "ol",
-        "blockquote",
-        "strong",
-      ],
-    },
   },
   // corePlugins: {
   //   backgroundOpacity: false,

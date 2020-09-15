@@ -1,7 +1,7 @@
 import { useLocation } from "@reach/router"
 import { Link } from "gatsby"
-import { AnchorLink } from "gatsby-plugin-anchor-links"
 import type { AnchorLinkProps } from "gatsby-plugin-anchor-links"
+import { AnchorLink } from "gatsby-plugin-anchor-links"
 import React from "react"
 
 const IsomorphicAnchorLink: React.FC<AnchorLinkProps> = ({
