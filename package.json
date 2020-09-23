@@ -48,6 +48,7 @@
     "node-telegram-bot-api": "^0.50.0",
     "postcss-preset-env": "^6.7.0",
     "preact": "^10.4.8",
+    "preact-render-to-string": "^5.1.10",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
