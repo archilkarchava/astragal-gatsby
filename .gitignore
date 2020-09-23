@@ -73,4 +73,5 @@ yarn-error.log
 .vercel
 
 # Other
+__generated__/
 snipsnap.code-snippets
