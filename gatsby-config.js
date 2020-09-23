@@ -1,5 +1,11 @@
 require("dotenv").config()
 
+const productionPlugins = []
+
+if (process.env.NODE_ENV === `production`) {
+  productionPlugins.push(`gatsby-plugin-preact`)
+}
+
 const overlayDrafts =
   process.env.OVERLAY_DRAFTS !== null &&
   process.env.OVERLAY_DRAFTS !== undefined
@@ -16,7 +22,7 @@ module.exports = {
     siteUrl: `https://astragal74.ru`,
   },
   plugins: [
-    ...(process.env.NODE_ENV === `production` ? `gatsby-plugin-preact` : ``),
+    ...productionPlugins,
     `gatsby-plugin-typescript`,
     {
       resolve: `gatsby-plugin-typegen`,
