@@ -18,7 +18,6 @@ const notify = {
       `<strong>${title}</strong>\n${body}`,
       {
         ...options,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         parse_mode:
           options && "parse_mode" in options ? options.parse_mode : "HTML",
       }
